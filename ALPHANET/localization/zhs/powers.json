@@ -1,0 +1,31 @@
+{
+  "ALPHANET_POWER_CRITICAL_STATE.title": "临界状态",
+  "ALPHANET_POWER_CRITICAL_STATE.description":"在敌人的下个回合结束后，你将在你的出牌阶段开始时[red]死亡[/red]。\n[purple]临界状态[/purple]期间有敌人死亡则退出[purple]临界状态[/purple]。\n如果在[purple]临界状态[/purple]下再次触发进入[purple]临界状态[/purple]的效果，则[red]失去1点最大生命值[/red]。",
+  "ALPHANET_POWER_CRITICAL_STATE.smartDescription":"在敌人的下个回合结束后，你将在你的出牌阶段开始时[red]死亡[/red]。\n[purple]临界状态[/purple]期间有敌人死亡则退出[purple]临界状态[/purple]。\n如果在[purple]临界状态[/purple]下再次触发进入[purple]临界状态[/purple]的效果，则[red]失去1点最大生命值[/red]。",
+
+  "ALPHANET_POWER_ABSENT_MINDED_POWER.title": "失神",
+  "ALPHANET_POWER_ABSENT_MINDED_POWER.description": "角色无法抽牌，无法获得能量。不会触发佩尔之眼。出牌阶段开始时强制结束回合。",
+  "ALPHANET_POWER_ABSENT_MINDED_POWER.smartDescription": "角色无法抽牌，无法获得能量。不会触发佩尔之眼。出牌阶段开始时强制结束回合。",
+
+  "ALPHANET_POWER_CHAOS_COST_MODIFIER_POWER.title": "混沌渗透",
+  "ALPHANET_POWER_CHAOS_COST_MODIFIER_POWER.description": "所有[gold]混沌[/gold]的耗能增加1。",
+  "ALPHANET_POWER_CHAOS_COST_MODIFIER_POWER.smartDescription": "所有[gold]混沌[/gold]的耗能增加[blue]{Amount}[/blue]。",
+
+  "ALPHANET_POWER_ABSENT_MINDED_NEXT_TURN_POWER.title": "下回合失神",
+  "ALPHANET_POWER_ABSENT_MINDED_NEXT_TURN_POWER.description": "下回合开始时，角色无法抽牌，无法获得能量。不会触发佩尔之眼。出牌阶段开始时强制结束回合。",
+  "ALPHANET_POWER_ABSENT_MINDED_NEXT_TURN_POWER.smartDescription": "下回合开始时，角色无法抽牌，无法获得能量。不会触发佩尔之眼。出牌阶段开始时强制结束回合。",
+
+  "ALPHANET_POWER_BLUDGEON_POWER.title": "钝击能力（隐藏）",
+  "ALPHANET_POWER_BLUDGEON_POWER.description": "不出意外的话，这个能力应该是隐藏的。",
+  "ALPHANET_POWER_BLUDGEON_POWER.smartDescription": "不出意外的话，这个能力应该是隐藏的。",
+  
+
+  "ALPHANET_POWER_ACCUMULATE_POWER.title": "积少成多",
+  "ALPHANET_POWER_ACCUMULATE_POWER.description":"当你抽到一张带有[gold]保留[/gold]的牌时，抽1张牌。",
+  "ALPHANET_POWER_ACCUMULATE_POWER.smartDescription":"当你抽到一张带有[gold]保留[/gold]的牌时，抽[blue]{Amount}[/blue]张牌。",
+
+  "ALPHANET_POWER_OUTSIDERS_SLUMBER_POWER.title": "千年黄粱",
+  "ALPHANET_POWER_OUTSIDERS_SLUMBER_POWER.description": "你连续进行[blue]{Amount}[/blue]个额外回合。在这些回合内你[red]失神[/red]。",
+  "ALPHANET_POWER_OUTSIDERS_SLUMBER_POWER.smartDescription": "你连续进行[blue]{Amount}[/blue]个额外回合。在这些回合内你[red]失神[/red]。"
+
+}

@@ -1,0 +1,21 @@
+{
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.aromaPrinciple": "[sine][blue]网络已连接，H-ARCHITECTURE 启动。[/blue][/sine]",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.banter.alive.endTurnPing": "回合结束。",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.banter.dead.endTurnPing": "诺奥瑟离线。",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.cardsModifierDescription": "诺奥瑟的卡牌现在会出现在奖励和商店中。",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.cardsModifierTitle": "诺奥瑟卡牌",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.defeatMessage": "没办法，尽力了。",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.description": "H-ARCHITECTURE, BY NOC@ALPHANET。",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.eventDeathPrevention": "备用电源启动。",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.flavor": "一个游荡在尖塔网络边界的幽灵。",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.goldMonologue": "资源已获取。",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.possessiveAdjective": "它的",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.pronounObject": "它",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.pronounPossessive": "它的",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.pronounSubject": "它",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.selectMessage": "系统上线。",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.title": "诺奥瑟",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.titleObject": "诺奥瑟",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.unlockText": "用[pink]{Prerequisite}[/pink]进行一局游戏来解锁这个角色。",
+  "ALPHANET_CHARACTER_ALPHANET_CHARACTER.victoryMessage": "顺手的事。"
+}

@@ -1,0 +1,22 @@
+{
+  "ALPHANET_RELIC_ALPHANET_STARTER_RELIC.title": "节点核心",
+  "ALPHANET_RELIC_ALPHANET_STARTER_RELIC.description": "每回合开始时，额外抽 {Cards:diff()} 张牌。",
+  "ALPHANET_RELIC_ALPHANET_STARTER_RELIC.flavor": "测试用的遗物。",
+
+  "ALPHANET_RELIC_MIRACLE_RESIDUE.title": "奇迹残渣",
+  "ALPHANET_RELIC_MIRACLE_RESIDUE.description": "战斗开始时，将一张[gold]未来[/gold]加入你的手牌。战斗胜利时，回复生命值到10点。\n每场战斗中仅一次，受到致命伤害时保留1生命值并进入[purple]临界状态[/purple]。触发此效果后你[gold]无敌[/gold]直至你的下一个出牌阶段正式开始。",
+  "ALPHANET_RELIC_MIRACLE_RESIDUE.flavor": "哪怕只有一个人愿意相信，妄想也能化为现实。",
+
+  "ALPHANET_RELIC_LOGIC_GATE_A1.title": "逻辑器A1",
+  "ALPHANET_RELIC_LOGIC_GATE_A1.description": "每当你进入[purple]临界状态[/purple]时，获得6点[gold]格挡[/gold]。",
+  "ALPHANET_RELIC_LOGIC_GATE_A1.flavor": "哪怕只有一个人愿意相信，妄想也能化为现实……\n……而这妄想化为现实的过程，其名为“奇迹”。\n西格蒙德·阿尔法，曾经的你毁掉了那个奇迹——我在过去的七十年间朝思暮想的那个奇迹。\n你残损的人格虽难以发出光与热，却还有妄想的本能。即使是行尸走肉也仍有不得不坚持下去的道理，只为见证每一个属于人类意志的平凡未来。\n我不怨你。四处看看吧，我已经用开发网络/ALPHANET的力量让你获得了新生。",
+
+  "ALPHANET_RELIC_SILK_POUCH.title": "锦囊",
+  "ALPHANET_RELIC_SILK_POUCH.description": "[purple]临界状态[/purple]下，你额外拥有2点力量和2点敏捷。",
+  "ALPHANET_RELIC_SILK_POUCH.flavor": "潘特莱蒙继承了一座属于自己和“过去的自己”的记忆库，但许多年过去，那些记忆飞快地褪色，无论是曾经的见闻还是旧友西格蒙德，在文字记录下一切之前就已真假难辨。\n环顾四周，这灰暗、疲弊且肮脏的地方，曾经又怎么可能诞生过那些美好与奇迹呢？\n一切都已经固化了，他这样想，不再奢求改变，也不再妄想奇迹。但是看着日记中略显荒诞的叙述，他仍然感觉自己曾经活过。",
+
+  "ALPHANET_RELIC_ARCHITECTURE_AMPLIFIER.title": "架构增幅器",
+  "ALPHANET_RELIC_ARCHITECTURE_AMPLIFIER.description": "每当你进入[purple]临界状态[/purple]时，你获得1层[gold]缓冲[/gold]。",
+  "ALPHANET_RELIC_ARCHITECTURE_AMPLIFIER.flavor": "某个瞬间，数十亿艾薇星人做了一个有关共同体的梦。\n那是一个人类互相理解，心灵相通，交换着真诚走向共同目标的世界。\n时间似乎停顿片刻，但稍后又恢复流动。只有一种温暖消散的感觉，而后梦的记忆褪色，人们继续做自己的事情。\n但他们不知道，这将是人们最后一次在梦中感受到共同体的波动。别无选择的架构师们东拼西凑，将仅存的资源尽数押给了一场失败的赌局。\n这个故事是真的。一切欢乐与骄傲都是真的，而一切悲痛与落寞也都是真的。记载在日志中的血与泪是真的，而无从考究的传说更是真的。\n仿佛从梦中醒来。你不记得梦的内容，能回忆起的只有纯粹的忧伤。"
+
+}

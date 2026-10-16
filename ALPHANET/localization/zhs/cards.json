@@ -1,0 +1,96 @@
+{
+  "ALPHANET_CARD_TEMPLATE_STRIKE.title": "模板打击",
+  "ALPHANET_CARD_TEMPLATE_STRIKE.description": "造成{Damage:diff()}点伤害。",
+
+  "ALPHANET_CARD_TEMPLATE_DEFEND.title": "模板防御",
+  "ALPHANET_CARD_TEMPLATE_DEFEND.description": "获得{Block:diff()}点[gold]格挡[/gold]。",
+
+  "ALPHANET_CARD_VENTURE.title": "铤而走险",
+  "ALPHANET_CARD_VENTURE.description": "给予所有敌人{Weak:diff()}层[gold]易伤[/gold]和{Vulnerable:diff()}层[gold]虚弱[/gold]。\n进入[purple]临界状态[/purple]。",
+
+  "ALPHANET_CARD_SALVAGE.title": "化险为夷",
+  "ALPHANET_CARD_SALVAGE.description": "对所有敌人造成{Damage:diff()}点伤害。\n如果处于[purple]临界状态[/purple]则攻击两次。\n退出[purple]临界状态[/purple]。",
+
+  "ALPHANET_CARD_COUNTER.title": "反制",
+  "ALPHANET_CARD_COUNTER.description": "获得{ComputedBlock:diff()}点[gold]格挡[/gold]。\n给予1层[gold]虚弱[/gold]。\n本回合每消耗过1点{energyPrefix:energyIcons(1)}，获得的[gold]格挡[/gold]降低2。",
+
+  "ALPHANET_CARD_FORCE_FIELD.title": "力场",
+  "ALPHANET_CARD_FORCE_FIELD.description": "进入[purple]临界状态[/purple]。\n给予所有敌人{Vulnerable:diff()}层[gold]易伤[/gold]。\n抽{Draw:diff()}张牌。",
+
+  "ALPHANET_CARD_DECOUPLE.title": "解耦",
+  "ALPHANET_CARD_DECOUPLE.description": "将一张[red]混沌[/red]加入你的[gold]手牌[/gold]。\n获得{Energy:energyIcons()}。",
+
+  "ALPHANET_CARD_RIPPLE.title": "波纹",
+  "ALPHANET_CARD_RIPPLE.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n给予所有敌人{Weak:diff()}层[gold]虚弱[/gold]和{Vulnerable:diff()}层[gold]易伤[/gold]。",
+
+  "ALPHANET_CARD_PREVENT.title": "预防",
+  "ALPHANET_CARD_PREVENT.description": "退出[purple]临界状态[/purple]。\n[gold]消耗[/gold][gold]手牌[/gold]中所有状态牌。\n下回合获得{Block:diff()}点[gold]格挡[/gold]。",
+
+  "ALPHANET_CARD_RECALL.title": "回忆",
+  "ALPHANET_CARD_RECALL.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n将一张[gold]{IfUpgraded:show:记忆+|记忆}[/gold]放入你的[gold]手牌[/gold]。",
+
+  "ALPHANET_CARD_PARALLEL.title": "并行",
+  "ALPHANET_CARD_PARALLEL.description": "每有一名敌人，你获得{Block:diff()}点[gold]格挡[/gold]1次。",
+
+  "ALPHANET_CARD_SURPRISE_MOVE.title": "奇招",
+  "ALPHANET_CARD_SURPRISE_MOVE.description": "敌人失去{HpLoss:diff()}点生命，你获得{Block:diff()}点[gold]格挡[/gold]。\n退出[purple]临界状态[/purple]。\n每次被打出，这张牌的耗能-1{energyPrefix:energyIcons(1)}。",
+
+  "ALPHANET_CARD_POTENTIAL.title": "潜能",
+  "ALPHANET_CARD_POTENTIAL.description": "进入[purple]临界状态[/purple]。\n抽1张牌。\n在本回合内获得{StrengthPower:diff()}点[gold]力量[/gold]。",
+
+  "ALPHANET_CARD_FIRST_AID.title": "急救",
+  "ALPHANET_CARD_FIRST_AID.description": "退出[purple]临界状态[/purple]。\n抽1张牌。\n获得{Block:diff()}点[gold]格挡[/gold]。",
+
+  "ALPHANET_CARD_DEPLETE.title": "耗竭",
+  "ALPHANET_CARD_DEPLETE.description": "造成{Damage:diff()}点伤害。\n清除全部剩余{energyPrefix:energyIcons(1)}。",
+
+  "ALPHANET_CARD_TRANSFER.title": "转移",
+  "ALPHANET_CARD_TRANSFER.description": "造成{Damage:diff()}点伤害。\n下回合抽{Draw}张牌且获得{Energy}{energyPrefix:energyIcons(1)}。",
+
+  "ALPHANET_CARD_MICRO_MOVEMENT.title": "微动",
+  "ALPHANET_CARD_MICRO_MOVEMENT.description": "造成{Damage:diff()}点伤害。\n敌人本回合失去{StrengthLoss:diff()}点[gold]力量[/gold]，给予{Weak:diff()}层[gold]虚弱[/gold]。",
+
+  "ALPHANET_CARD_CHAIN_REACTION.title": "连锁",
+  "ALPHANET_CARD_CHAIN_REACTION.description": "被同名卡牌打出时抽1张牌。\n对敌人造成{Damage:diff()}点伤害2次。\n随机打出你[gold]手牌[/gold]中的另一张攻击牌。",
+
+  "ALPHANET_CARD_FOOT.title": "御卒",
+  "ALPHANET_CARD_FOOT.description": "造成{CalculatedDamage:diff()}点伤害。\n每次被保留时耗能+1{energyPrefix:energyIcons(1)}，伤害+{ExtraDamage:diff()}。",
+
+  "ALPHANET_CARD_LEVER.title": "杠杆",
+  "ALPHANET_CARD_LEVER.description": "造成{CalculatedDamage:diff()}点伤害。\n[gold]力量[/gold]对这张牌造成{StrengthMult:diff()}倍影响。",
+
+  "ALPHANET_CARD_BLUDGEON.title": "钝击",
+  "ALPHANET_CARD_BLUDGEON.description": "至少造成{MinDamage:diff()}点伤害。\n给予{Weak:diff()}层[gold]虚弱[/gold]。\n（尝试造成{Damage:diff()}点伤害）。",
+
+  "ALPHANET_CARD_SEAL.title": "封存",
+  "ALPHANET_CARD_SEAL.description": "造成{Damage:diff()}点伤害。\n为一张[gold]手牌[/gold]添加[gold]保留[/gold]。",
+  "ALPHANET_CARD_SEAL.selectionScreenPrompt": "选择一张[gold]手牌[/gold]添加[gold]保留[/gold]。",
+
+
+
+
+  
+  
+  "ALPHANET_CARD_ACCUMULATE.title": "积少成多",
+  "ALPHANET_CARD_ACCUMULATE.description": "当你抽到一张带有[gold]保留[/gold]的牌时，抽1张牌。",
+
+  "ALPHANET_CARD_OUTSIDERS_SLUMBER.title": "千年黄粱",
+  "ALPHANET_CARD_OUTSIDERS_SLUMBER.description": "立刻连续进行{Turns:diff()}个额外回合。\n在这些回合内你保留[gold]格挡[/gold]，获得[gold]无实体[/gold]并[red]失神[/red]。\n结束你的回合。",
+
+
+
+
+
+  "ALPHANET_CARD_TOKEN_MEMORIES.title": "记忆",
+  "ALPHANET_CARD_TOKEN_MEMORIES.description": "将[gold]弃牌堆[/gold]里的最多2张牌放入你的[gold]手牌[/gold]，它们在本回合的耗能-1。",
+  "ALPHANET_CARD_TOKEN_MEMORIES.selectionScreenPrompt": "选择最多2张牌放入你的[gold]手牌[/gold]，它们在本回合的耗能-1。",
+  
+
+  "ALPHANET_CARD_TOKEN_FUTURE.title": "未来",
+  "ALPHANET_CARD_TOKEN_FUTURE.description": "将[gold]抽牌堆[/gold]里的最多2张牌放入你的[gold]手牌[/gold]，它们在本回合的耗能-1。",
+  "ALPHANET_CARD_TOKEN_FUTURE.selectionScreenPrompt": "选择最多2张牌放入你的[gold]手牌[/gold]，它们在本回合的耗能-1。",
+
+  "ALPHANET_CARD_STATUS_CHAOS.title": "混沌",
+  "ALPHANET_CARD_STATUS_CHAOS.description": "回合结束时如果在[gold]手牌[/gold]中，则下回合开始时你陷入[red]失神[/red]。\n打出后本回合所有[gold]混沌[/gold]的耗能增加1{energyPrefix:energyIcons(1)}。"
+
+}

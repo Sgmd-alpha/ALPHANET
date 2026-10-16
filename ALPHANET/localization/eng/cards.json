@@ -1,0 +1,8 @@
+{
+  "RITSU_LIB_MOD_TEMPLATE_CARD_RITSU_LIB_MOD_TEMPLATE_STRIKE.title": "Template Strike",
+  "RITSU_LIB_MOD_TEMPLATE_CARD_RITSU_LIB_MOD_TEMPLATE_STRIKE.description": "Deal {Damage:diff()} damage.",
+  "RITSU_LIB_MOD_TEMPLATE_CARD_RITSU_LIB_MOD_TEMPLATE_STRIKE.smartDescription": "Deal {Damage:diff()} damage.",
+  "RITSU_LIB_MOD_TEMPLATE_CARD_RITSU_LIB_MOD_TEMPLATE_DEFEND.title": "Template Defend",
+  "RITSU_LIB_MOD_TEMPLATE_CARD_RITSU_LIB_MOD_TEMPLATE_DEFEND.description": "Gain {Block:diff()} Block.",
+  "RITSU_LIB_MOD_TEMPLATE_CARD_RITSU_LIB_MOD_TEMPLATE_DEFEND.smartDescription": "Gain {Block:diff()} Block."
+}

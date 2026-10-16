@@ -1,0 +1,13 @@
+using MegaCrit.Sts2.Core.Entities.Cards;
+using STS2RitsuLib.Content;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Keywords;
+
+
+namespace ALPHANET.Keywords;
+
+[RegisterOwnedCardKeyword(nameof(Miracle), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
+public class ALPHANETKeywords
+{
+    public static readonly CardKeyword Miracle = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Miracle)).GetModCardKeyword();
+}

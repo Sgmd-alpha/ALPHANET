@@ -1,0 +1,7 @@
+root = true
+
+[*]
+charset = utf-8
+
+# CS8605: 取消装箱可能为 null 的值。
+dotnet_diagnostic.CS8605.severity = suggestion

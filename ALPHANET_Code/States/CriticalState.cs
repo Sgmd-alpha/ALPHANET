@@ -19,23 +19,20 @@ public sealed class CriticalState : ModPowerTemplate
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single; 
 
-    // 绝对免疫开关 (仅限初始遗物触发)
     public bool RelicImmunityActive = false;
-    
-    // 寿命锁 1：玩家是否已经体验过一个完整的出牌阶段？
     public bool HasEnjoyedPlayableTurn = false;
-    // 寿命锁 2：敌人的回合是否已经发生过？
     private bool _hasEnemyTurnStarted = false;
+
     public override PowerAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
-    // ==========================================
-    // 入口与判定
-    // ==========================================
-    public static async Task Enter(PlayerChoiceContext choiceContext, Creature creature, Creature? applier = null, CardModel? cardSource = null, bool fromStarterRelic = false)
+    public static async Task Enter(PlayerChoiceContext? choiceContext, Creature creature, Creature? applier = null, CardModel? cardSource = null, bool fromStarterRelic = false)
     {
+        // 【核心修复】：如果外部传入了 null，自动兜底创建一个 ThrowingPlayerChoiceContext
+        choiceContext ??= new ThrowingPlayerChoiceContext();
+
         bool wasAlreadyInCritical = creature.HasPower<CriticalState>();
 
         // 机制触发：如果已经处于临界状态，扣除 1 点最大生命值
@@ -44,7 +41,7 @@ public sealed class CriticalState : ModPowerTemplate
             await CreatureCmd.LoseMaxHp(choiceContext, creature, 1m, false);
         }
 
-        // 施加状态本身
+        // 施加状态本身（此时 choiceContext 绝对非空，绝处逢生抽牌再也不会报错！）
         await PowerCmd.Apply<CriticalState>(choiceContext, creature, 1m, applier, cardSource);
 
         var power = creature.GetPower<CriticalState>();
@@ -53,10 +50,11 @@ public sealed class CriticalState : ModPowerTemplate
             if (fromStarterRelic) 
             {
                 power.RelicImmunityActive = true;
+                // 被动名刀触发时重置寿命锁，确保能活过接下来的完整回合
+                power.HasEnjoyedPlayableTurn = false;
+                power._hasEnemyTurnStarted = false;
             }
-
-            // 寿命核验：只有首次进入时初始化。如果是玩家出牌阶段主动打牌进入，直接扣上寿命锁。
-            if (!wasAlreadyInCritical)
+            else if (!wasAlreadyInCritical)
             {
                 power.HasEnjoyedPlayableTurn = MiracleResidue.IsPlayerMainPhase;
             }
@@ -73,12 +71,8 @@ public sealed class CriticalState : ModPowerTemplate
         }
     }
 
-    // ==========================================
-    // 免疫网：拦截一切导致暴毙的伤害与流失
-    // ==========================================
     public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
     {
-        // 只有遗物触发，且当前绝对不是玩家的“手动出牌阶段”时，免疫才生效
         if (target == Owner && RelicImmunityActive && !MiracleResidue.IsPlayerMainPhase)
         {
             Flash();
@@ -97,47 +91,54 @@ public sealed class CriticalState : ModPowerTemplate
         return amount;
     }
     
-    // ==========================================
-    // 记录敌人回合
-    // ==========================================
     public override Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
         if (side == CombatSide.Enemy)
         {
-            // 记录敌人已经进行过回合
             _hasEnemyTurnStarted = true;
         }
         return Task.CompletedTask;
     }
 
-    // ==========================================
-    // 倒计时处决与无敌剥夺：卡在出牌阶段开始的一瞬间
-    // ==========================================
     public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)
     {
-        // 确保是自己的回合
         if (player != Owner.Player) return;
 
-        // 此时玩家真正获得了出牌控制权，自动打牌阶段已全部结束，绝对免疫罩子碎裂
         RelicImmunityActive = false; 
 
-        // 双锁验证：敌人动过没？我享受过出牌回合没？
         if (_hasEnemyTurnStarted && HasEnjoyedPlayableTurn)
         {
-            // 条件均满足，在玩家即将出牌前宣判死刑
             Flash();
-            await CreatureCmd.Kill(Owner);
+
+            // 【核心修复】：检查身上是否有未使用的《奇迹残渣》
+            // 如果有，直接走免死续命逻辑并传入当前合法的 choiceContext，不在回合初调用 Kill 破坏联机状态机！
+            var miracle = player.Relics?.OfType<MiracleResidue>().FirstOrDefault();
+            if (miracle != null && miracle.CanPreventDeath)
+            {
+                // 将生命值扣到 1 点，并直接触发名刀续命
+                if (Owner.CurrentHp > 1m)
+                {
+                    await CreatureCmd.Damage(choiceContext, Owner, Owner.CurrentHp - 1m, ValueProp.Unblockable | ValueProp.Unpowered, null, null);
+                }
+                await miracle.TriggerDeathPrevention(choiceContext, Owner);
+                
+                // 因为已经在玩家回合初续命，本回合就是他享受的最后一个出牌回合，扣上寿命锁但剥夺当回合免伤罩
+                RelicImmunityActive = false;
+                HasEnjoyedPlayableTurn = true;
+                _hasEnemyTurnStarted = false;
+            }
+            else
+            {
+                // 没有名刀保护，真正执行处决
+                await CreatureCmd.Kill(Owner);
+            }
         }
         else
         {
-            // 如果这是我触发临界后的第一个出牌回合，放我一马，并把寿命锁扣上
             HasEnjoyedPlayableTurn = true;
         }
     }
 
-    // ==========================================
-    // 击杀解除
-    // ==========================================
     public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature target, bool wasRemovalPrevented, float deathAnimLength)
     {
         if (target.Side == CombatSide.Enemy && target.Powers.All(p => p.ShouldOwnerDeathTriggerFatal()))

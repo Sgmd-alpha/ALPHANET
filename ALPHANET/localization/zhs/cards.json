@@ -75,8 +75,9 @@
   "ALPHANET_CARD_GUARD_CRUSH.title": "格挡破坏",
   "ALPHANET_CARD_GUARD_CRUSH.description": "造成{Damage:diff()}点伤害。\n如果目标具有[gold]格挡[/gold]，则造成{HeavyDamage:diff()}点伤害。{InCombat:\n（造成{CalculatedDamage:diff()}点伤害。）|}",
   
-  "ALPHANET_POWER_NARROW_EXTRACTION_POWER.title": "绝处逢生",
-  "ALPHANET_POWER_NARROW_EXTRACTION_POWER.smartDescription": "进入[purple]临界状态[/purple]时，获得{BlockAmount}点[gold]格挡[/gold]，抽{Cards}张牌。",
+
+  "ALPHANET_CARD_NARROW_EXTRACTION.title": "绝处逢生",
+  "ALPHANET_CARD_NARROW_EXTRACTION.description": "进入[purple]临界状态[/purple]时，获得{BlockAmount}点[gold]格挡[/gold]，抽{Cards}张牌。",
   
   
   "ALPHANET_CARD_ACCUMULATE.title": "积少成多",

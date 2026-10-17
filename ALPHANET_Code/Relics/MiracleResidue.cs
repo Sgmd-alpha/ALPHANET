@@ -23,6 +23,9 @@ public sealed class MiracleResidue : ModRelicTemplate
     private bool _usedThisCombat = false;
     public static bool IsPlayerMainPhase = false;
 
+    // 公开只读属性：供 CriticalState 检查名刀是否还在
+    public bool CanPreventDeath => !_usedThisCombat;
+
     public override RelicAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png",
         IconOutlinePath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png",
@@ -31,22 +34,10 @@ public sealed class MiracleResidue : ModRelicTemplate
 
     public override RelicRarity Rarity => RelicRarity.Starter;
 
-    // ==========================================
-    // 展示【未来】的卡牌预览，并附带“虚无”、“消耗”的解释词条
-    // ==========================================
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips 
-    {
-        get
-        {
-            List<IHoverTip> list =
-            [
-                // 使用 AddRange 将【未来】卡牌预览和它的关键字（虚无、消耗）一起塞入列表
-                .. HoverTipFactory.FromCardWithCardHoverTips<TokenFuture>(),
-            ];
-            
-            return list;
-        }
-    }
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        .. HoverTipFactory.FromCardWithCardHoverTips<TokenFuture>(),
+    ];
 
     public override Task BeforeCombatStart()
     {
@@ -54,33 +45,37 @@ public sealed class MiracleResidue : ModRelicTemplate
         IsPlayerMainPhase = false;
         return Task.CompletedTask;
     }
+
     public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
     {
         if (player == Owner && Owner.PlayerCombatState?.TurnNumber == 1)
         {
             Flash(); 
-            
-            // 1. 对齐官方：创建一个 CardModel 类型的列表
             List<CardModel> list =
             [
-                // 2. 将创建好的【未来】实体塞进这个列表里
                 Owner.Creature.CombatState!.CreateCard<TokenFuture>(Owner),
             ];
-            
-            // 3. 使用官方复数形式的添加命令，把整个列表的牌移入手牌
             await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, Owner);
         }
     }
 
     public override Task AfterAutoPostPlayPhaseEntered(PlayerChoiceContext choiceContext, Player player)
     {
-        IsPlayerMainPhase = false; 
+        // 【修复联机污染】：只监听自己的回合阶段变化
+        if (player == Owner)
+        {
+            IsPlayerMainPhase = false; 
+        }
         return Task.CompletedTask;
     }
 
     public override Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)
     {
-        IsPlayerMainPhase = true;
+        // 【修复联机污染】：只监听自己的回合阶段变化
+        if (player == Owner)
+        {
+            IsPlayerMainPhase = true;
+        }
         return Task.CompletedTask;
     }
 
@@ -95,6 +90,12 @@ public sealed class MiracleResidue : ModRelicTemplate
 
     public override async Task AfterPreventingDeath(Creature creature)
     {
+        // 完美复刻官方 FairyInABottle 的写法，提供合法的上下文实例
+        await TriggerDeathPrevention(new ThrowingPlayerChoiceContext(), creature);
+    }
+
+    public async Task TriggerDeathPrevention(PlayerChoiceContext choiceContext, Creature creature)
+    {
         Flash();
         _usedThisCombat = true;
 
@@ -104,7 +105,7 @@ public sealed class MiracleResidue : ModRelicTemplate
             await CreatureCmd.Heal(creature, healAmount);
         }
 
-        await CriticalState.Enter(null!, creature, null, null, true);
+        await CriticalState.Enter(choiceContext, creature, null, null, true);
     }
 
     public override async Task AfterCombatEnd(CombatRoom _)

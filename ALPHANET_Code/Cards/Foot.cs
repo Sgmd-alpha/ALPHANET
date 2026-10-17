@@ -62,9 +62,6 @@ public sealed class Foot : ModCardTemplate
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-
-        // 打出后，将计数器清零，使其符合一般卡牌“耗能/伤害增加直到被打出”的重置规律
-        RetainedCount = 0;
     }
 
     public override Task AfterFlush(PlayerChoiceContext choiceContext, Player player, IReadOnlyCollection<CardModel> flushedCards, IReadOnlyCollection<CardModel> retainedCards)
@@ -74,8 +71,8 @@ public sealed class Foot : ModCardTemplate
             // 1. 每次被保留时，计数器 +1。图鉴和战斗 UI 会瞬间自动刷新伤害。
             RetainedCount++;
 
-            // 2. 耗能 +1 直到被打出
-            EnergyCost.AddUntilPlayed(1);
+            // 2. 耗能永久 +1 
+            EnergyCost.AddThisCombat(1);
         }
 
         return Task.CompletedTask;

@@ -55,7 +55,7 @@ public sealed class ArchitectureAmplifier : ModRelicTemplate
         _usedThisCombat = true;
         Flash();
         
-        // 给予 1 层无实体 (IntangiblePower)
         await PowerCmd.Apply<IntangiblePower>(null!, creature, 1m, creature, null);
+        await PowerCmd.Apply<BufferPower>(null!, creature, 1m, creature, null);
     }
 }

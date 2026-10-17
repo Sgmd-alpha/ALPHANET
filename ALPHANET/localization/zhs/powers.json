@@ -21,7 +21,7 @@
 
 
   "ALPHANET_POWER_NARROW_EXTRACTION_POWER.title": "绝处逢生",
-  "ALPHANET_POWER_NARROW_EXTRACTION_POWER.smartDescription": "进入[purple]临界状态[/purple]时，获得{BlockAmount}点[gold]格挡[/gold]，抽{Amount}张牌。",
+  "ALPHANET_POWER_NARROW_EXTRACTION_POWER.smartDescription": "进入[purple]临界状态[/purple]时，获得[blue]{BlockAmount}[/blue]点[gold]格挡[/gold]，抽[blue]{Cards}[/blue]张牌。",
   
 
   "ALPHANET_POWER_ACCUMULATE_POWER.title": "积少成多",

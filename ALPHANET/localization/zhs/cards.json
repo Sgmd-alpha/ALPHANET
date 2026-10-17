@@ -36,7 +36,7 @@
   "ALPHANET_CARD_SURPRISE_MOVE.description": "敌人失去{HpLoss:diff()}点生命，你获得{Block:diff()}点[gold]格挡[/gold]。\n退出[purple]临界状态[/purple]。\n每次被打出，这张牌的耗能-1{energyPrefix:energyIcons(1)}。",
 
   "ALPHANET_CARD_POTENTIAL.title": "潜能",
-  "ALPHANET_CARD_POTENTIAL.description": "进入[purple]临界状态[/purple]。\n抽1张牌。\n在本回合内获得{StrengthPower:diff()}点[gold]力量[/gold]。",
+  "ALPHANET_CARD_POTENTIAL.description": "获得{StrengthPower:diff()}点临时[gold]力量[/gold]。\n若处于[purple]临界状态[/purple]，抽2张牌；否则进入[purple]临界状态[/purple]并抽1张牌。",
 
   "ALPHANET_CARD_FIRST_AID.title": "急救",
   "ALPHANET_CARD_FIRST_AID.description": "退出[purple]临界状态[/purple]。\n抽1张牌。\n获得{Block:diff()}点[gold]格挡[/gold]。",
@@ -69,6 +69,14 @@
 
 
 
+  "ALPHANET_CARD_UNDER_THE_SEA.title": "海底捞月",
+  "ALPHANET_CARD_UNDER_THE_SEA.description": "将你[gold]抽牌堆[/gold]底部的牌放入你的[gold]手牌[/gold]。\n获得等同于那张牌耗能的{energyPrefix:energyIcons(1)}。",
+
+  "ALPHANET_CARD_GUARD_CRUSH.title": "格挡破坏",
+  "ALPHANET_CARD_GUARD_CRUSH.description": "造成{Damage:diff()}点伤害。\n如果目标具有[gold]格挡[/gold]，则造成{HeavyDamage:diff()}点伤害。{InCombat:\n（造成{CalculatedDamage:diff()}点伤害。）|}",
+  
+  "ALPHANET_POWER_NARROW_EXTRACTION_POWER.title": "绝处逢生",
+  "ALPHANET_POWER_NARROW_EXTRACTION_POWER.smartDescription": "进入[purple]临界状态[/purple]时，获得{BlockAmount}点[gold]格挡[/gold]，抽{Cards}张牌。",
   
   
   "ALPHANET_CARD_ACCUMULATE.title": "积少成多",
@@ -78,7 +86,8 @@
   "ALPHANET_CARD_OUTSIDERS_SLUMBER.description": "立刻连续进行{Turns:diff()}个额外回合。\n在这些回合内你保留[gold]格挡[/gold]，获得[gold]无实体[/gold]并[red]失神[/red]。\n结束你的回合。",
 
 
-
+  "ALPHANET_CARD_GLOOM_AND_GLOW.title": "晦明轮转",
+  "ALPHANET_CARD_GLOOM_AND_GLOW.description": "每次被打出后切换效果。\n{ModeBFlag:cond:>0?|[green]本次触发此效果 → [/green]}[purple]A[/purple]：进入[purple]临界状态[/purple]，对所有敌人造成{DamageA:diff()}点伤害。\n{ModeBFlag:cond:>0?[green]本次触发此效果 → [/green]|}[gold]B[/gold]：退出[purple]临界状态[/purple]，获得{BlockB:diff()}点[gold]格挡[/gold]，对所有敌人造成{DamageB:diff()}点伤害，给予{VulnB:diff()}层[gold]易伤[/gold]。",
 
 
   "ALPHANET_CARD_TOKEN_MEMORIES.title": "记忆",

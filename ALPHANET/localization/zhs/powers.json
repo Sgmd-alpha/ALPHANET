@@ -18,6 +18,10 @@
   "ALPHANET_POWER_BLUDGEON_POWER.title": "钝击能力（隐藏）",
   "ALPHANET_POWER_BLUDGEON_POWER.description": "不出意外的话，这个能力应该是隐藏的。",
   "ALPHANET_POWER_BLUDGEON_POWER.smartDescription": "不出意外的话，这个能力应该是隐藏的。",
+
+
+  "ALPHANET_POWER_NARROW_EXTRACTION_POWER.title": "绝处逢生",
+  "ALPHANET_POWER_NARROW_EXTRACTION_POWER.smartDescription": "进入[purple]临界状态[/purple]时，获得{BlockAmount}点[gold]格挡[/gold]，抽{Amount}张牌。",
   
 
   "ALPHANET_POWER_ACCUMULATE_POWER.title": "积少成多",

@@ -72,7 +72,7 @@ public sealed class TokenMemories : ModCardTemplate
 
                 foreach (var card in selectedCards)
                 {
-                    card.EnergyCost.AddThisTurn(-1);
+                    card.EnergyCost.AddUntilPlayed(-1);
                 }
             }
         }

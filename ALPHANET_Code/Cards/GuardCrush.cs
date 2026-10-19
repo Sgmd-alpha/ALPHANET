@@ -25,11 +25,11 @@ public sealed class GuardCrush : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars => 
     [
 
-        new DamageVar(6m, ValueProp.Move), 
-        new DamageVar("HeavyDamage", 12m, ValueProp.Move),
+        new DamageVar(8m, ValueProp.Move), 
+        new DamageVar("HeavyDamage", 24m, ValueProp.Move),
 
-        new CalculationBaseVar(6m),
-        new ExtraDamageVar(6m),
+        new CalculationBaseVar(8m),
+        new ExtraDamageVar(16m),
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? target) => 
         {
             return (target != null && target.Block > 0) ? 1 : 0;
@@ -50,11 +50,11 @@ public sealed class GuardCrush : ModCardTemplate
     protected override void OnUpgrade()
     {
         // 升级 UI 组
-        DynamicVars.Damage.UpgradeValueBy(2m);             // 6 -> 8
-        DynamicVars["HeavyDamage"].UpgradeValueBy(6m);     // 12 -> 18
+        DynamicVars.Damage.UpgradeValueBy(2m);             // 8 -> 10
+        DynamicVars["HeavyDamage"].UpgradeValueBy(6m);     // 24 -> 30
         
         // 升级后台组
-        DynamicVars.CalculationBase.UpgradeValueBy(2m);    // 6 -> 8
-        DynamicVars.ExtraDamage.UpgradeValueBy(4m);        // 6 -> 10
+        DynamicVars.CalculationBase.UpgradeValueBy(2m);    // 8 -> 10
+        DynamicVars.ExtraDamage.UpgradeValueBy(4m);        // 16 -> 20
     }
 }

@@ -61,7 +61,7 @@ public sealed class TokenFuture : ModCardTemplate
 
                 foreach (var card in selectedCards)
                 {
-                    card.EnergyCost.AddThisTurn(-1);
+                    card.EnergyCost.AddUntilPlayed(-1);
                 }
             }
         }

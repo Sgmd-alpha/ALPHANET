@@ -66,6 +66,12 @@
   "ALPHANET_CARD_SEAL.description": "造成{Damage:diff()}点伤害。\n为一张[gold]手牌[/gold]添加[gold]保留[/gold]。",
   "ALPHANET_CARD_SEAL.selectionScreenPrompt": "选择一张[gold]手牌[/gold]添加[gold]保留[/gold]。",
 
+  "ALPHANET_CARD_PROSPECT.title": "展望",
+  "ALPHANET_CARD_PROSPECT.description": "造成{Damage:diff()}点伤害。\n将[gold]抽牌堆[/gold]中的一张牌放到[gold]抽牌堆[/gold]顶。",
+  "ALPHANET_CARD_PROSPECT.selectionScreenPrompt": "选择一张牌放到[gold]抽牌堆[/gold]顶。",
+
+  "ALPHANET_CARD_TRICKERY.title": "诡术",
+  "ALPHANET_CARD_TRICKERY.description": "[purple]奇迹[/purple]。\n只能在剩余能量为0时打出。\n对所有敌人造成{Damage:diff()}点伤害。",
 
 
 
@@ -76,8 +82,8 @@
   "ALPHANET_CARD_GUARD_CRUSH.description": "造成{Damage:diff()}点伤害。\n如果目标具有[gold]格挡[/gold]，则造成{HeavyDamage:diff()}点伤害。{InCombat:\n（造成{CalculatedDamage:diff()}点伤害。）|}",
   
 
-  "ALPHANET_CARD_NARROW_EXTRACTION.title": "绝处逢生",
-  "ALPHANET_CARD_NARROW_EXTRACTION.description": "进入[purple]临界状态[/purple]时，获得{BlockAmount}点[gold]格挡[/gold]，抽{Cards}张牌。",
+"ALPHANET_CARD_NARROW_EXTRACTION.title": "绝处逢生",
+  "ALPHANET_CARD_NARROW_EXTRACTION.description": "进入[purple]临界状态[/purple]时，获得{Block:diff()}点[gold]格挡[/gold]，抽{Cards:diff()}张牌。",
   
   
   "ALPHANET_CARD_ACCUMULATE.title": "积少成多",
@@ -92,13 +98,13 @@
 
 
   "ALPHANET_CARD_TOKEN_MEMORIES.title": "记忆",
-  "ALPHANET_CARD_TOKEN_MEMORIES.description": "将[gold]弃牌堆[/gold]里的最多2张牌放入你的[gold]手牌[/gold]，它们在本回合的耗能-1。",
-  "ALPHANET_CARD_TOKEN_MEMORIES.selectionScreenPrompt": "选择最多2张牌放入你的[gold]手牌[/gold]，它们在本回合的耗能-1。",
+  "ALPHANET_CARD_TOKEN_MEMORIES.description": "将[gold]弃牌堆[/gold]里的最多2张牌放入你的[gold]手牌[/gold]，它们在被打出前的耗能-1。",
+  "ALPHANET_CARD_TOKEN_MEMORIES.selectionScreenPrompt": "选择最多2张牌放入你的[gold]手牌[/gold]，它们在被打出前的耗能-1。",
   
 
   "ALPHANET_CARD_TOKEN_FUTURE.title": "未来",
-  "ALPHANET_CARD_TOKEN_FUTURE.description": "将[gold]抽牌堆[/gold]里的最多2张牌放入你的[gold]手牌[/gold]，它们在本回合的耗能-1。",
-  "ALPHANET_CARD_TOKEN_FUTURE.selectionScreenPrompt": "选择最多2张牌放入你的[gold]手牌[/gold]，它们在本回合的耗能-1。",
+  "ALPHANET_CARD_TOKEN_FUTURE.description": "将[gold]抽牌堆[/gold]里的最多2张牌放入你的[gold]手牌[/gold]，它们在被打出前的耗能-1。",
+  "ALPHANET_CARD_TOKEN_FUTURE.selectionScreenPrompt": "选择最多2张牌放入你的[gold]手牌[/gold]，它们在被打出前的耗能-1。",
 
   "ALPHANET_CARD_STATUS_CHAOS.title": "混沌",
   "ALPHANET_CARD_STATUS_CHAOS.description": "回合结束时如果在[gold]手牌[/gold]中，则下回合开始时你陷入[red]失神[/red]。\n打出后本回合所有[gold]混沌[/gold]的耗能增加1{energyPrefix:energyIcons(1)}。"

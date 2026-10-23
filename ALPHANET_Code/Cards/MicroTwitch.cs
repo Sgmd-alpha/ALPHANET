@@ -15,9 +15,9 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
-public sealed class MicroMovement : ModCardTemplate
+public sealed class MicroTwitch : ModCardTemplate
 {
-    public MicroMovement() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) 
+    public MicroTwitch() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) 
     { 
     }
 
@@ -56,7 +56,7 @@ public sealed class MicroMovement : ModCardTemplate
 
         // 2. 本回合失去力量 (挂载我们刚刚写的负面临时力量)
         int strLossAmt = DynamicVars.GetIntOrDefault("StrengthLoss", 2);
-        await PowerCmd.Apply<MicroMovementPower>(choiceContext, target, strLossAmt, player.Creature, this);
+        await PowerCmd.Apply<MicroTwitchPower>(choiceContext, target, strLossAmt, player.Creature, this);
 
         // 3. 给予虚弱
         int weakAmt = DynamicVars.GetIntOrDefault("Weak", 1);

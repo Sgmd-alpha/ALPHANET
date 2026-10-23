@@ -13,11 +13,9 @@ namespace ALPHANET.Cards;
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class Deplete : ModCardTemplate
 {
-    private const int BaseEnergyCost = 0; // 0费卡
-    private const CardType CardKind = CardType.Attack; // 攻击牌
-    private const CardRarity CardRarityValue = CardRarity.Common; // 普通
-    private const TargetType CardTarget = TargetType.AnyEnemy;
-    private const bool ShowInCardLibrary = true;
+    public Deplete() : base(0, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+    {
+    }
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png");
@@ -28,11 +26,7 @@ public sealed class Deplete : ModCardTemplate
     ];
 
     protected override HashSet<CardTag> CanonicalTags => new();
-
-    public Deplete() : base(BaseEnergyCost, CardKind, CardRarityValue, CardTarget, ShowInCardLibrary)
-    {
-    }
-
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);

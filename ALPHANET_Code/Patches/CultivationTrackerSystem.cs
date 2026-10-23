@@ -3,6 +3,7 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -105,7 +106,40 @@ public static class CultivationTrackerSystem
     }
 
     // =========================================================
-    // 3. 公开接口：供《废其修为》预测与结算调用
+    // 3. 【修复】：多条命 Boss 换命 / 死亡复活时，清空上一条命的计数。
+    // =========================================================
+    // 拦截 A：当多命 Boss 的一条命被打空（触发 Hook.AfterDeath）时，重置其账本
+    [HarmonyPatch(typeof(Hook), nameof(Hook.AfterDeath))]
+    [HarmonyPostfix]
+    public static void OnCreatureAfterDeath(Creature creature)
+    {
+        if (creature != null)
+        {
+            var ledger = GetLedger(creature);
+            ledger.GainedPermanentStrength = 0;
+            ledger.PendingTempChangeIgnore = 0;
+        }
+    }
+
+    // 拦截 B：当多命 Boss 转阶段通过底层直接拔除（RemoveInternal）身上的正数 StrengthPower 时，同步清零账本
+    // （注：如果是玩家打出减力量卡使 +2 力量变成 0，我们可以区分，或者如果整团正力量被阶段切换强行抹除，则重置）
+    private static bool _isCrippling = false;
+
+    [HarmonyPatch(typeof(PowerModel), "RemoveInternal")]
+    [HarmonyPrefix]
+    public static void OnPowerRemoveInternalPrefix(PowerModel __instance)
+    {
+        // 如果不是《废其修为》自己调用的移除，且移除瞬间该 StrengthPower 依然是正数（说明是 Boss 转阶段/净化强行清空了自身所有状态！）
+        if (!_isCrippling && __instance is StrengthPower && __instance.Owner != null && __instance.Amount > 0)
+        {
+            var ledger = GetLedger(__instance.Owner);
+            ledger.GainedPermanentStrength = 0;
+            ledger.PendingTempChangeIgnore = 0;
+        }
+    }
+
+    // =========================================================
+    // 4. 公开接口：供《废其修为》预测与结算调用
     // =========================================================
 
     public static int PredictNewStrength(Creature? target)
@@ -126,7 +160,7 @@ public static class CultivationTrackerSystem
         // 没长过永久力量，或者刚被上一张《废其修为》废过了，直接结束
         if (gained <= 0) return;
 
-        // 立刻清空账本，防止第二张卡重复扣除（联机时所有客户端都会同步执行这一步）
+        // 立刻清空账本，防止第二张卡重复扣除
         ledger.GainedPermanentStrength = 0;
 
         var strengthPower = target.GetPower<StrengthPower>();
@@ -137,18 +171,24 @@ public static class CultivationTrackerSystem
         {
             if (newStr == 0)
             {
-                await PowerCmd.Remove(strengthPower);
+                try
+                {
+                    _isCrippling = true;
+                    await PowerCmd.Remove(strengthPower);
+                }
+                finally
+                {
+                    _isCrippling = false;
+                }
             }
             else
             {
-                // 调用官方公开方法修改层数，自动刷新血条下方的力量 UI，且不触发《不安油灯》
                 strengthPower.SetAmount(newStr, silent: false);
                 AccessTools.Method(typeof(PowerModel), "Flash")?.Invoke(strengthPower, null);
             }
         }
         else if (newStr != 0)
         {
-            // 如果敌人原本 +2 又被减了 2（当前为 0，没有 StrengthPower 实例），废除修为后直接给它挂上 -2 的力量实例
             var newPower = ModelDb.Power<StrengthPower>().ToMutable();
             newPower.ApplyInternal(target, newStr, silent: false);
             AccessTools.Method(typeof(PowerModel), "Flash")?.Invoke(newPower, null);

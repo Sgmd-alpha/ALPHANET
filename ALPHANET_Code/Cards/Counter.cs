@@ -16,10 +16,9 @@ namespace ALPHANET.Cards;
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class Counter : ModCardTemplate
 {
-    private const int BaseEnergyCost = 1;
-    private const CardType CardKind = CardType.Skill;
-    private const CardRarity CardRarityValue = CardRarity.Common;
-    private const TargetType CardTarget = TargetType.AnyEnemy;
+    public Counter() : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+    {
+    }
     private const bool ShowInCardLibrary = true;
 
     public override CardAssetProfile AssetProfile => new(
@@ -74,10 +73,6 @@ public sealed class Counter : ModCardTemplate
     ];
 
     protected override HashSet<CardTag> CanonicalTags => new();
-
-    public Counter() : base(BaseEnergyCost, CardKind, CardRarityValue, CardTarget, ShowInCardLibrary)
-    {
-    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

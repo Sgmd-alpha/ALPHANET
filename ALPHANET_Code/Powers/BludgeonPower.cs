@@ -10,7 +10,7 @@ namespace ALPHANET.Powers;
 
 [RegisterPower]
 
-public sealed class BludgeonPower : PowerModel
+public sealed class SolidImpactPower : PowerModel
 {
     public bool Triggered { get; set; } = false;
     public override PowerType Type => PowerType.None;
@@ -19,7 +19,7 @@ public sealed class BludgeonPower : PowerModel
     // 拦截器核心钩子
     public override decimal ModifyHpLostAfterOstyLate(Creature target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (cardSource is Bludgeon && props.IsPoweredAttack())
+        if (cardSource is SolidImpact && props.IsPoweredAttack())
         {
             if (amount < Amount)
             {

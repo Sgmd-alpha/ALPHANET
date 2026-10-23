@@ -11,7 +11,7 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace ALPHANET.Relics;
 
 [RegisterRelic(typeof(ALPHANETRelicPool))]
-public sealed class ArchitectureAmplifier : ModRelicTemplate
+public sealed class ArchitectureEnhancer : ModRelicTemplate
 {
     // 战斗内触发限制开关
     private bool _usedThisCombat = false;

@@ -3,14 +3,11 @@ using ALPHANET.States;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
-
 
 namespace ALPHANET.Relics;
 
@@ -25,28 +22,21 @@ public sealed class LogicGateA1 : ModRelicTemplate
         BigIconPath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png"
     );
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new List<IHoverTip>
-    {
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
         HoverTipFactory.FromPower<CriticalState>()
-    };
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        // 遗物给予的固定格挡使用 ValueProp.Unpowered（不受敏捷/脆弱影响）
         new BlockVar(6m, ValueProp.Unpowered)
     ];
 
-    // ==========================================
-    // 监听状态移除
-    // 请使用 VS Code 自动补全正确的钩子名称，如 OnPowerRemoved
-    // ==========================================
-    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    // 供 CriticalState.AfterRemoved 在退出临界状态时直接调用
+    public async Task TriggerOnExitCritical(Creature creature)
     {
-        // 确保发生变化的状态是【临界状态】，且挂在玩家身上，同时层数正在减少（退出临界状态）
-        if (power is CriticalState && power.Owner == Owner.Creature && amount < 0m)
-        {
-            Flash();
-            // 获得 6 点格挡
-            await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, null);
-        }
+        Flash();
+        await CreatureCmd.GainBlock(creature, DynamicVars.Block.BaseValue, ValueProp.Unpowered, null);
     }
 }

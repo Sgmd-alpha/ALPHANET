@@ -9,13 +9,16 @@
   "ALPHANET_CARD_VENTURE.description": "给予所有敌人{Weak:diff()}层[gold]易伤[/gold]和{Vulnerable:diff()}层[gold]虚弱[/gold]。\n进入[purple]临界状态[/purple]。",
 
   "ALPHANET_CARD_SALVAGE.title": "化险为夷",
-  "ALPHANET_CARD_SALVAGE.description": "对所有敌人造成{Damage:diff()}点伤害。\n如果处于[purple]临界状态[/purple]则攻击两次。\n退出[purple]临界状态[/purple]。",
+  "ALPHANET_CARD_SALVAGE.description": "对所有敌人造成{Damage:diff()}点伤害。\n[purple]临界状态[/purple]下攻击两次。\n退出[purple]临界状态[/purple]。",
+
+  "ALPHANET_CARD_TURN_THE_TIDE.title": "力挽狂澜",
+  "ALPHANET_CARD_TURN_THE_TIDE.description": "对所有敌人造成{Damage:diff()}点伤害。\n[purple]临界状态[/purple]下攻击两次。\n退出[purple]临界状态[/purple]。",
 
   "ALPHANET_CARD_COUNTER.title": "反制",
   "ALPHANET_CARD_COUNTER.description": "获得{ComputedBlock:diff()}点[gold]格挡[/gold]。\n给予1层[gold]虚弱[/gold]。\n本回合每消耗1{energyPrefix:energyIcons(1)}，[gold]格挡[/gold]降低2。",
 
-  "ALPHANET_CARD_FORCE_FIELD.title": "力场",
-  "ALPHANET_CARD_FORCE_FIELD.description": "进入[purple]临界状态[/purple]。\n给予所有敌人{Vulnerable:diff()}层[gold]易伤[/gold]。\n抽{Draw:diff()}张牌。",
+  "ALPHANET_CARD_REPULSION_FIELD.title": "力场",
+  "ALPHANET_CARD_REPULSION_FIELD.description": "进入[purple]临界状态[/purple]。\n给予所有敌人{Vulnerable:diff()}层[gold]易伤[/gold]。\n抽{Draw:diff()}张牌。",
 
   "ALPHANET_CARD_DECOUPLE.title": "解耦",
   "ALPHANET_CARD_DECOUPLE.description": "将一张[red]混沌[/red]加入你的[gold]手牌[/gold]。\n获得{Energy:energyIcons()}。",
@@ -32,8 +35,8 @@
   "ALPHANET_CARD_PARALLEL.title": "并行",
   "ALPHANET_CARD_PARALLEL.description": "每有一名敌人，你获得{Block:diff()}点[gold]格挡[/gold]1次。",
 
-  "ALPHANET_CARD_SURPRISE_MOVE.title": "奇招",
-  "ALPHANET_CARD_SURPRISE_MOVE.description": "敌人失去{HpLoss:diff()}点生命，你获得{Block:diff()}点[gold]格挡[/gold]。\n退出[purple]临界状态[/purple]。\n这张牌的耗能-1{energyPrefix:energyIcons(1)}。",
+  "ALPHANET_CARD_GAMBIT.title": "奇招",
+  "ALPHANET_CARD_GAMBIT.description": "敌人失去{HpLoss:diff()}点生命，你获得{Block:diff()}点[gold]格挡[/gold]。\n退出[purple]临界状态[/purple]。\n这张牌的耗能-1{energyPrefix:energyIcons(1)}。",
 
   "ALPHANET_CARD_POTENTIAL.title": "潜能",
   "ALPHANET_CARD_POTENTIAL.description": "获得{StrengthPower:diff()}点临时[gold]力量[/gold]。\n若处于[purple]临界状态[/purple]，抽2张牌；否则进入[purple]临界状态[/purple]并抽1张牌。",
@@ -47,8 +50,8 @@
   "ALPHANET_CARD_TRANSFER.title": "转移",
   "ALPHANET_CARD_TRANSFER.description": "造成{Damage:diff()}点伤害。\n下回合抽{Draw}张牌且获得{Energy}{energyPrefix:energyIcons(1)}。",
 
-  "ALPHANET_CARD_MICRO_MOVEMENT.title": "微动",
-  "ALPHANET_CARD_MICRO_MOVEMENT.description": "造成{Damage:diff()}点伤害。\n敌人本回合失去{StrengthLoss:diff()}点[gold]力量[/gold]，给予{Weak:diff()}层[gold]虚弱[/gold]。",
+  "ALPHANET_CARD_MICRO_TWITCH.title": "微动",
+  "ALPHANET_CARD_MICRO_TWITCH.description": "造成{Damage:diff()}点伤害。\n敌人本回合失去{StrengthLoss:diff()}点[gold]力量[/gold]，给予{Weak:diff()}层[gold]虚弱[/gold]。",
 
   "ALPHANET_CARD_CHAIN_REACTION.title": "连锁",
   "ALPHANET_CARD_CHAIN_REACTION.description": "被同名卡牌打出时抽1张牌。\n对敌人造成{Damage:diff()}点伤害2次。\n随机打出你[gold]手牌[/gold]中的另一张攻击牌。",
@@ -59,8 +62,8 @@
   "ALPHANET_CARD_LEVER.title": "杠杆",
   "ALPHANET_CARD_LEVER.description": "造成{CalculatedDamage:diff()}点伤害。\n[gold]力量[/gold]对这张牌造成{StrengthMult:diff()}倍影响。",
 
-  "ALPHANET_CARD_BLUDGEON.title": "钝击",
-  "ALPHANET_CARD_BLUDGEON.description": "至少造成{MinDamage:diff()}点伤害。\n给予{Weak:diff()}层[gold]虚弱[/gold]。\n（尝试造成{Damage:diff()}点伤害）。",
+  "ALPHANET_CARD_SOLID_IMPACT.title": "钝击",
+  "ALPHANET_CARD_SOLID_IMPACT.description": "至少造成{MinDamage:diff()}点伤害。\n给予{Weak:diff()}层[gold]虚弱[/gold]。\n（尝试造成{Damage:diff()}点伤害）。",
 
   "ALPHANET_CARD_SEAL.title": "封存",
   "ALPHANET_CARD_SEAL.description": "造成{Damage:diff()}点伤害。\n为一张[gold]手牌[/gold]添加[gold]保留[/gold]。",
@@ -72,6 +75,17 @@
 
   "ALPHANET_CARD_TRICKERY.title": "诡术",
   "ALPHANET_CARD_TRICKERY.description": "只能在剩余能量为0时打出。\n对所有敌人造成{Damage:diff()}点伤害。",
+
+
+
+  "ALPHANET_CARD_MIRACLE_SURGE.title": "奇迹涌现",
+  "ALPHANET_CARD_MIRACLE_SURGE.description": "抽{Cards:diff()}张牌。\n每次抽到带有[gold]奇迹[/gold]的牌时，额外抽一张牌。",
+
+  "ALPHANET_CARD_PHASE_INVERSION.title": "阴阳逆转",
+  "ALPHANET_CARD_PHASE_INVERSION.description": "在手牌中加入一张[gold]混沌[/gold]。抽{Cards:diff()}张牌。\n如果自身处于[purple]临界状态[/purple]则退出，反之亦然。",
+
+  "ALPHANET_CARD_CEASEFIRE.title": "中场休息",
+  "ALPHANET_CARD_CEASEFIRE.description": "获得{Block:diff()}点[gold]格挡[/gold]，退出[purple]临界状态[/purple]，将这张牌放入[gold]抽牌堆[/gold]。",
 
 
 
@@ -91,13 +105,37 @@
   "ALPHANET_CARD_CORNERED.description": "造成{Damage:diff()}点伤害。\n如果生命值不高于20，则耗能变为0且攻击{Repeat:diff()}次。",
 
   "ALPHANET_CARD_PROPERLY_HANDLED.title": "妥善处理",
-  "ALPHANET_CARD_PROPERLY_HANDLED.description": "[gold]保留[/gold]。\n造成{Damage:diff()}点伤害，抽{Cards:diff()}张牌，退出[purple]临界状态[/purple]。",
+  "ALPHANET_CARD_PROPERLY_HANDLED.description": "造成{Damage:diff()}点伤害，抽{Cards:diff()}张牌，退出[purple]临界状态[/purple]。",
 
   "ALPHANET_CARD_PICK_OFF.title": "逐个击破",
   "ALPHANET_CARD_PICK_OFF.description": "造成{Damage:diff()}点伤害X次。\n优先选择当前生命值最低的敌人。",
 
   "ALPHANET_CARD_CRIPPLE_CULTIVATION.title": "废其修为",
-  "ALPHANET_CARD_CRIPPLE_CULTIVATION.description": "造成{Damage:diff()}点伤害，清除其的[gold]人工制品[/gold]、[gold]格挡[/gold]与[gold]覆甲[/gold]，以及战斗中获得的[gold]力量[/gold]。\n给予{Weak:diff()}层[gold]虚弱[/gold]。{InCombat:\n（敌人[gold]力量[/gold]变为{TargetNewStr:diff()}）|}",
+  "ALPHANET_CARD_CRIPPLE_CULTIVATION.description": "造成{Damage:diff()}点伤害，去除敌人的[gold]人工制品[/gold]、[gold]格挡[/gold]与[gold]覆甲[/gold]，以及战斗中获得的[gold]力量[/gold]。\n给予{Weak:diff()}层[gold]虚弱[/gold]。{InCombat:\n（敌人[gold]力量[/gold]变为{TargetNewStr:diff()}）|}",
+
+  "ALPHANET_CARD_COMFORT_ZONE.title": "习常惯行",
+  "ALPHANET_CARD_COMFORT_ZONE.description": "造成{Damage:diff()}点伤害{Repeat:diff()}次，获得{Block:diff()}点[gold]格挡[/gold]。\n每次使用这张攻击牌时使伤害+{DamageScale:diff()}且[gold]格挡[/gold]+{BlockScale:diff()}，使用其他攻击牌时重置。",
+
+  "ALPHANET_CARD_DAD_SLAP.title": "父爱一击",
+  "ALPHANET_CARD_DAD_SLAP.description": "如果你的[gold]手牌[/gold]中不存在其他攻击或技能牌，则对所有敌人造成{Damage:diff()}点伤害。\n你的回合开始时，将这张牌从[gold]消耗牌堆[/gold]放入你的手牌。",
+
+  "ALPHANET_CARD_CONDITIONED_REFLEX.title": "条件反射",
+  "ALPHANET_CARD_CONDITIONED_REFLEX.description": "抽到这张牌时自动将其打出。对所有敌人造成{Damage:diff()}点伤害。\n被打出或[gold]保留[/gold]时，伤害增加你本回合[gold]力量[/gold]的数值。",
+
+  "ALPHANET_CARD_PSIONIC_BLADEDANCE.title": "灵剑之舞",
+  "ALPHANET_CARD_PSIONIC_BLADEDANCE.description": "进入[purple]临界状态[/purple]，对所有敌人造成{CalculatedDamage:diff()}点伤害{Repeat:diff()}次。\n本场战斗中每触发过一次进入[purple]临界状态[/purple]的效果，这张牌的伤害+{ExtraDamage:diff()}。",
+
+  "ALPHANET_CARD_ZAKO_SLAYER.title": "杂鱼杀手",
+  "ALPHANET_CARD_ZAKO_SLAYER.description": "尝试对敌人造成{Damage:diff()}点伤害。\n如果高于该敌人意图伤害，则正常造成伤害且获得{Block:diff()}点[gold]格挡[/gold]。否则无任何效果。{InCombat:\n（目标当前意图伤害：{EnemyIntentDmg:diff()}）|}",
+
+  "ALPHANET_CARD_BURNOUT.title": "弹射起步",
+  "ALPHANET_CARD_BURNOUT.description": "对敌人造成{Damage:diff()}点伤害。获得{Energy:diff()}能量。抽{Cards:diff()}张牌。",
+
+  "ALPHANET_CARD_MIND_SCOOP.title": "削心如泥",
+  "ALPHANET_CARD_MIND_SCOOP.description": "造成{Damage:diff()}点伤害。\n在[gold]抽牌堆[/gold]中加入一张[gold]理之矛，心之盾{IfUpgraded:show:+|}[/gold]。",
+
+
+
 
 
   "ALPHANET_CARD_NARROW_EXTRACTION.title": "绝处逢生",
@@ -129,6 +167,8 @@
   "ALPHANET_CARD_TOKEN_STASIS.selectionScreenPrompt": "选择一张牌放入[gold]手牌[/gold]（耗能-1）。",
 
   "ALPHANET_CARD_STATUS_CHAOS.title": "混沌",
-  "ALPHANET_CARD_STATUS_CHAOS.description": "回合结束时如果在[gold]手牌[/gold]中，则下回合开始时你陷入[red]失神[/red]。\n打出后本回合所有[gold]混沌[/gold]的耗能增加1{energyPrefix:energyIcons(1)}。"
+  "ALPHANET_CARD_STATUS_CHAOS.description": "回合结束时如果在[gold]手牌[/gold]中，则下回合开始时你陷入[red]失神[/red]。\n打出后本回合所有[gold]混沌[/gold]的耗能增加1{energyPrefix:energyIcons(1)}。",
 
+  "ALPHANET_CARD_TOKEN_PARADOX.title": "理之矛，心之盾",
+  "ALPHANET_CARD_TOKEN_PARADOX.description": "造成{Damage:diff()}点伤害，获得{Block:diff()}点[gold]格挡[/gold]。\n如果这张牌是回合开始时打出的第一张牌，则伤害与[gold]格挡[/gold]+50%."
 }

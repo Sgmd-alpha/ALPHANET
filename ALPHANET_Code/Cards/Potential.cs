@@ -13,8 +13,19 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
-public sealed class Potential : ModCardTemplate
+public sealed class Potential : ModCardTemplate, ICriticalIndicatorCard
 {
+    public CriticalIndicatorType GetCriticalIndicator()
+    {
+        // 如果已经在临界状态中，打出它只抽2张牌，不触发进入临界状态效果 -> 不显示圆圈
+        if (Owner?.Creature != null && Owner.Creature.HasPower<CriticalState>())
+        {
+            return CriticalIndicatorType.None;
+        }
+        // 不在临界状态时（或图鉴预览时），打出它会进入临界状态 -> 显示紫色圆圈
+        return CriticalIndicatorType.Enter;
+    }
+    public CriticalIndicatorType GetPreviewCriticalIndicator() => CriticalIndicatorType.Enter;
     public Potential() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self) 
     { 
     }

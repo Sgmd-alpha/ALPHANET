@@ -49,7 +49,7 @@ public sealed class PickOff : ModCardTemplate
         for (int i = 0; i < xValue; i++)
         {
             // 每次攻击前，重新获取场上可被攻击的敌人
-            IReadOnlyList<Creature> hittableEnemies = base.CombatState!.HittableEnemies;
+            IReadOnlyList<Creature> hittableEnemies = CombatState!.HittableEnemies;
             
             // 如果敌人都被砍光了，提前结束循环，防止报错
             if (hittableEnemies.Count == 0)

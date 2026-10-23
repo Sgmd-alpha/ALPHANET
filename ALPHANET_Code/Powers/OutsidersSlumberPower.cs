@@ -135,6 +135,10 @@ public sealed class OutsidersSlumberPower : ModPowerTemplate
             {
                 _isWakingUp = true;
             }
+            foreach (var debuff in player.Creature.Powers.Where(p => p.Type == PowerType.Debuff && p != this).ToList())
+            {
+                await debuff.AfterSideTurnEnd(choiceContext, CombatSide.Enemy, Owner.CombatState!.Allies);  //清理绑定在 Enemy 回合结束但逻辑上属于玩家回合周期的 TaintedPower 等
+            }
 
             PlayerCmd.EndTurn(player, canBackOut: false);
         }

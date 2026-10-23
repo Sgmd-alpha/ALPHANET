@@ -17,8 +17,9 @@ namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
 [RegisterCharacterStarterCard(typeof(ALPHANETCharacter), 1)]
-public sealed class Venture : ModCardTemplate
+public sealed class Venture : ModCardTemplate, ICriticalIndicatorCard
 {
+    public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Enter;
     public Venture() : base(0, CardType.Skill, CardRarity.Basic, TargetType.AllEnemies) 
     { 
     }

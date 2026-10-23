@@ -6,8 +6,8 @@ using STS2RitsuLib.Interop.AutoRegistration;
 namespace ALPHANET.Powers;
 
 [RegisterPower]
-public sealed class MicroMovementPower : TemporaryStrengthPower
+public sealed class MicroTwitchPower : TemporaryStrengthPower
 {
-    public override AbstractModel OriginModel => ModelDb.Card<MicroMovement>();
+    public override AbstractModel OriginModel => ModelDb.Card<MicroTwitch>();
     protected override bool IsPositive => false;
 }

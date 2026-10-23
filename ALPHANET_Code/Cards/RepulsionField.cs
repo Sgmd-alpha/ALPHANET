@@ -14,9 +14,11 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
-public sealed class ForceField : ModCardTemplate
+public sealed class RepulsionField : ModCardTemplate, ICriticalIndicatorCard
 {
-    public ForceField() : base(1, CardType.Skill, CardRarity.Common, TargetType.AllEnemies) 
+    public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Enter;
+    
+    public RepulsionField() : base(1, CardType.Skill, CardRarity.Common, TargetType.AllEnemies) 
     { 
     }
 

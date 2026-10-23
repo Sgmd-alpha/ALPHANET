@@ -12,8 +12,9 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
-public sealed class ProperlyHandled : ModCardTemplate
+public sealed class ProperlyHandled : ModCardTemplate, ICriticalIndicatorCard
 {
+    public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Exit;
     // ==========================================
     // 基础设置：1费，攻击牌，罕见，单体目标
     // ==========================================

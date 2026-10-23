@@ -18,10 +18,14 @@ namespace ALPHANET.Relics;
 
 [RegisterRelic(typeof(ALPHANETRelicPool))] 
 [RegisterCharacterStarterRelic(typeof(ALPHANETCharacter))]
-public sealed class MiracleResidue : ModRelicTemplate
+public class MiracleResidue : ModRelicTemplate
 {
     private bool _usedThisCombat = false;
     public static bool IsPlayerMainPhase = false;
+    // 在 MiracleResidue 类中添加这三个虚属性，供子类《奇迹碎片》重写：
+    protected virtual bool UpgradeFutureCard => false;
+    protected virtual decimal PostCombatHealThreshold => 10m;
+    protected virtual int PostCombatGoldReward => 0;
 
     // 公开只读属性：供 CriticalState 检查名刀是否还在
     public bool CanPreventDeath => !_usedThisCombat;
@@ -50,11 +54,19 @@ public sealed class MiracleResidue : ModRelicTemplate
     {
         if (player == Owner && Owner.PlayerCombatState?.TurnNumber == 1)
         {
-            Flash(); 
-            List<CardModel> list =
-            [
-                Owner.Creature.CombatState!.CreateCard<TokenFuture>(Owner),
-            ];
+            Flash();
+
+            // 1. 先创建出“未来”卡牌实例
+            CardModel futureCard = Owner.Creature.CombatState!.CreateCard<TokenFuture>(Owner);
+
+            // 2. 如果是《奇迹碎片》（UpgradeFutureCard 为 true），则在加入手牌前将其升级为“未来+”！
+            if (UpgradeFutureCard)
+            {
+                CardCmd.Upgrade(futureCard);
+            }
+
+            // 3. 将卡牌加入手牌
+            List<CardModel> list = [ futureCard ];
             await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, Owner);
         }
     }
@@ -108,14 +120,30 @@ public sealed class MiracleResidue : ModRelicTemplate
         await CriticalState.Enter(choiceContext, creature, null, null, true);
     }
 
-    public override async Task AfterCombatEnd(CombatRoom _)
+    public override async Task AfterCombatVictory(CombatRoom room)
+{
+    if (Owner == null || Owner.Creature.IsDead) return;
+
+    bool triggered = false;
+
+    // 1. 如果有战后金币奖励（奇迹碎片：20金币）
+    if (PostCombatGoldReward > 0)
     {
-        decimal targetHp = Math.Min(10m, Owner.Creature.MaxHp);
-        if (Owner.Creature.CurrentHp < targetHp)
-        {
-            Flash();
-            decimal amountToHeal = targetHp - Owner.Creature.CurrentHp;
-            await CreatureCmd.Heal(Owner.Creature, amountToHeal);
-        }
+        triggered = true;
+        await PlayerCmd.GainGold(PostCombatGoldReward, Owner);
     }
+
+    // 2. 回复生命值到阈值（10点 / 20点），若最大生命值低于阈值则回满
+    decimal targetHp = Math.Min(PostCombatHealThreshold, Owner.Creature.MaxHp);
+    if (Owner.Creature.CurrentHp < targetHp)
+    {
+        triggered = true;
+        await CreatureCmd.Heal(Owner.Creature, targetHp - Owner.Creature.CurrentHp);
+    }
+
+    if (triggered)
+    {
+        Flash();
+    }
+}
 }

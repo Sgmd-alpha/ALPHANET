@@ -13,13 +13,13 @@ namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
 [RegisterCharacterStarterCard(typeof(ALPHANETCharacter), 1)] 
-public sealed class Salvage : ModCardTemplate
+public sealed class Salvage : ModCardTemplate, ICriticalIndicatorCard
 {
-    private const int BaseEnergyCost = 1;
-    private const CardType CardKind = CardType.Attack;
-    private const CardRarity CardRarityValue = CardRarity.Basic;
-    private const TargetType CardTarget = TargetType.AllEnemies; 
-    private const bool ShowInCardLibrary = true;
+    public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Exit;
+
+    public Salvage() : base(1, CardType.Attack, CardRarity.Basic, TargetType.AllEnemies)
+    {
+    }
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
@@ -36,11 +36,6 @@ public sealed class Salvage : ModCardTemplate
     [
         HoverTipFactory.FromPower<CriticalState>()
     ];
-
-    public Salvage() : base(BaseEnergyCost, CardKind, CardRarityValue, CardTarget, ShowInCardLibrary)
-    {
-    }
-
     // ==========================================
     // 视觉反馈
     // ==========================================

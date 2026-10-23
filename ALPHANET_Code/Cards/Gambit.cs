@@ -14,10 +14,11 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
-public sealed class SurpriseMove : ModCardTemplate
+public sealed class Gambit : ModCardTemplate, ICriticalIndicatorCard
 {
+    public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Exit;
     // 耗能 2，技能牌，普通稀有度，目标为单体敌人
-    public SurpriseMove() : base(2, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+    public Gambit() : base(2, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
     {
     }
     // ==========================================

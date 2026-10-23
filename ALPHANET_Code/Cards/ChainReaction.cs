@@ -25,10 +25,10 @@ public sealed class ChainReaction : ModCardTemplate
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
     );
 
-    // 显式声明基础 13 点伤害
+    // 显式声明基础 10 点伤害
     protected override IEnumerable<DynamicVar> CanonicalVars => 
     [
-        new DamageVar(13m, ValueProp.Move)
+        new DamageVar(10m, ValueProp.Move)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -91,7 +91,7 @@ public sealed class ChainReaction : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        // 升级时伤害 +3（13 -> 16）
+        // 升级时伤害 +3（10 -> 13）
         DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

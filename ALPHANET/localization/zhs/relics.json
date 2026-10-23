@@ -5,18 +5,22 @@
 
   "ALPHANET_RELIC_MIRACLE_RESIDUE.title": "奇迹残渣",
   "ALPHANET_RELIC_MIRACLE_RESIDUE.description": "战斗开始时，将一张[gold]未来[/gold]加入你的手牌。战斗胜利时，回复生命值到10点。\n每场战斗中仅一次，受到致命伤害时保留1生命值并进入[purple]临界状态[/purple]。触发此效果后你[gold]无敌[/gold]直至你的下一个出牌阶段正式开始。",
-  "ALPHANET_RELIC_MIRACLE_RESIDUE.flavor": "哪怕只有一个人愿意相信，妄想也能化为现实。",
+  "ALPHANET_RELIC_MIRACLE_RESIDUE.flavor": "诺奥瑟，心灵架构师，精通心灵攻防的方法。他有成千上万副面孔，他可以使用任何一人的思考方式，又有强大而稳固的自我意识。\n物质与心灵的力量推动社会向前，但是当今时代的心灵推力太弱了。从混沌中瞥见的一缕缕奇迹成为架构计划的灵感，而那孕育奇迹的混沌能量本身也为他所用。",
+
+  "ALPHANET_RELIC_MIRACLE_SHARD.title": "奇迹碎片",
+  "ALPHANET_RELIC_MIRACLE_SHARD.description": "战斗开始时，将一张[gold]未来+[/gold]加入你的手牌。战斗胜利时获得20金币并回复生命值到20点。\n每场战斗中仅一次，受到致命伤害时保留1生命值并进入[purple]临界状态[/purple]。触发此效果后你[gold]无敌[/gold]直至你的下一个出牌阶段正式开始。",
+  "ALPHANET_RELIC_MIRACLE_SHARD.flavor": "独立思考的能力是从零到一的飞跃，是开天辟地的奇迹，是一切后续力量的基石。接下来的四道光芒，又将它助燃作燎原之势。\n那四种架构力量既造就了天才，也催生了极端主义者……但架构本身也是通往“无限”的门。无限的雪球始于坚硬的内核，成于正向反馈的回路。自然法则如此，个体意识如此，文明进化亦是如此。",
 
   "ALPHANET_RELIC_LOGIC_GATE_A1.title": "逻辑器A1",
-  "ALPHANET_RELIC_LOGIC_GATE_A1.description": "每当你进入[purple]临界状态[/purple]时，获得6点[gold]格挡[/gold]。",
-  "ALPHANET_RELIC_LOGIC_GATE_A1.flavor": "哪怕只有一个人愿意相信，妄想也能化为现实……\n……而这妄想化为现实的过程，其名为“奇迹”。\n西格蒙德·阿尔法，曾经的你毁掉了那个奇迹——我在过去的七十年间朝思暮想的那个奇迹。\n你残损的人格虽难以发出光与热，却还有妄想的本能。即使是行尸走肉也仍有不得不坚持下去的道理，只为见证每一个属于人类意志的平凡未来。\n我不怨你。四处看看吧，我已经用开发网络/ALPHANET的力量让你获得了新生。",
+  "ALPHANET_RELIC_LOGIC_GATE_A1.description": "你从[purple]临界状态[/purple]退出时，获得{Block:diff()}点[gold]格挡[/gold]。",
+  "ALPHANET_RELIC_LOGIC_GATE_A1.flavor": "哪怕只有一个人愿意相信，妄想也能化为现实……\n……而这妄想化为现实的过程，其名为“奇迹”。\n西格蒙德·阿尔法，曾经的你毁掉了那个奇迹——我在过去的七十年间朝思暮想的，共同体的未来。\n我不怨你。四处看看吧，我已经用开发网络/ALPHANET的力量让你获得了新生。",
 
   "ALPHANET_RELIC_SILK_POUCH.title": "锦囊",
   "ALPHANET_RELIC_SILK_POUCH.description": "[purple]临界状态[/purple]下，你额外拥有2点力量和2点敏捷。",
-  "ALPHANET_RELIC_SILK_POUCH.flavor": "潘特莱蒙继承了一座属于自己和“过去的自己”的记忆库，但许多年过去，那些记忆飞快地褪色，无论是曾经的见闻还是旧友西格蒙德，在文字记录下一切之前就已真假难辨。\n环顾四周，这灰暗、疲弊且肮脏的地方，曾经又怎么可能诞生过那些美好与奇迹呢？\n一切都已经固化了，他这样想，不再奢求改变，也不再妄想奇迹。但是看着日记中略显荒诞的叙述，他仍然感觉自己曾经活过。",
+  "ALPHANET_RELIC_SILK_POUCH.flavor": "潘特莱蒙继承了一座属于自己和“过去的自己”的记忆库，但许多年过去，那些记忆飞快地褪色，无论是曾经的见闻还是旧友西格蒙德，在文字记录下一切之前就已真假难辨。\n环顾四周，这灰暗、疲弊且肮脏的地方，曾经又怎么可能诞生过那些美好与奇迹呢？但是看着日记中略显荒诞的叙述，他仍然感觉自己曾经活过。",
 
-  "ALPHANET_RELIC_ARCHITECTURE_AMPLIFIER.title": "架构增幅器",
-  "ALPHANET_RELIC_ARCHITECTURE_AMPLIFIER.description": "在每场战斗中，你首次退出[purple]临界状态[/purple]时获得1层[gold]无实体[/gold]和1层[gold]缓冲[/gold]。",
-  "ALPHANET_RELIC_ARCHITECTURE_AMPLIFIER.flavor": "某个瞬间，数十亿艾薇星人做了一个有关共同体的梦。\n那是一个人类互相理解，心灵相通，交换着真诚走向共同目标的世界。\n时间似乎停顿片刻，但稍后又恢复流动。只有一种温暖消散的感觉，而后梦的记忆褪色，人们继续做自己的事情。\n但他们不知道，这将是人们最后一次在梦中感受到共同体的波动。别无选择的架构师们东拼西凑，将仅存的资源尽数押给了一场失败的赌局。\n这个故事是真的。一切欢乐与骄傲都是真的，而一切悲痛与落寞也都是真的。记载在日志中的血与泪是真的，而无从考究的传说更是真的。\n仿佛从梦中醒来。你不记得梦的内容，能回忆起的只有纯粹的忧伤。"
+  "ALPHANET_RELIC_ARCHITECTURE_Enhancer.title": "架构增幅器",
+  "ALPHANET_RELIC_ARCHITECTURE_Enhancer.description": "在每场战斗中，你首次退出[purple]临界状态[/purple]时获得1层[gold]无实体[/gold]和1层[gold]缓冲[/gold]。",
+  "ALPHANET_RELIC_ARCHITECTURE_Enhancer.flavor": "架构特性单元，作为模块化的思维能力，架构师们相信它们能协助开发人们的大脑，将其中的混沌区域缓慢转化向秩序。\n混沌是大脑内部的无意义信号，它被图形化为不可名状的黑色物质，但混沌本身也具有微弱的灵魂能量。此外，极为偶尔地，混沌会催生“奇迹”，一个诞生于巧合却可以被理论解释的现象。"
 
 }

@@ -14,9 +14,9 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
-public sealed class Bludgeon : ModCardTemplate
+public sealed class SolidImpact : ModCardTemplate
 {
-    public Bludgeon() : base(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) 
+    public SolidImpact() : base(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) 
     { 
     }
 
@@ -56,12 +56,12 @@ public sealed class Bludgeon : ModCardTemplate
         decimal minDmg = DynamicVars.GetIntOrDefault("MinDamage", 14);
 
         // 2. 【核心修改】：寻找是否已经挂载过幽灵拦截器
-        var interceptor = player.Creature.GetPower<BludgeonPower>();
+        var interceptor = player.Creature.GetPower<SolidImpactPower>();
         if (interceptor == null)
         {
             // 如果这场战斗是第一次打出《钝击》，则静默挂载它 (传入 true)
-            await PowerCmd.Apply<BludgeonPower>(choiceContext, player.Creature, minDmg, player.Creature, this, true);
-            interceptor = player.Creature.GetPower<BludgeonPower>();
+            await PowerCmd.Apply<SolidImpactPower>(choiceContext, player.Creature, minDmg, player.Creature, this, true);
+            interceptor = player.Creature.GetPower<SolidImpactPower>();
         }
 
         // 3. 更新幽灵拦截器的状态（以防这回合保底伤害因升级或其他因素变化），并重置触发开关

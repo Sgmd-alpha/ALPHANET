@@ -13,10 +13,9 @@ namespace ALPHANET.Cards;
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class Accumulate : ModCardTemplate
 {
-    private const int BaseEnergyCost = 2; // 初始耗能 2
-    private const CardType CardKind = CardType.Power; // 类型：能力
-    private const CardRarity CardRarityValue = CardRarity.Rare; // 稀有度：稀有
-    private const TargetType CardTarget = TargetType.Self; // 目标：自己
+    public Accumulate() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+    {
+    }
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png");
@@ -34,10 +33,6 @@ public sealed class Accumulate : ModCardTemplate
     ];
 
     protected override HashSet<CardTag> CanonicalTags => new();
-
-    public Accumulate() : base(BaseEnergyCost, CardKind, CardRarityValue, CardTarget, true)
-    {
-    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

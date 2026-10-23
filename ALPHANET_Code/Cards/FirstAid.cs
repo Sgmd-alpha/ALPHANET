@@ -12,8 +12,9 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
-public sealed class FirstAid : ModCardTemplate
+public sealed class FirstAid : ModCardTemplate, ICriticalIndicatorCard
 {
+    public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Exit;
     public override bool GainsBlock => true;
 
     public FirstAid() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self) 

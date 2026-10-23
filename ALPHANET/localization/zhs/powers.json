@@ -15,9 +15,9 @@
   "ALPHANET_POWER_ABSENT_MINDED_NEXT_TURN_POWER.description": "下回合开始时，角色无法抽牌，无法获得能量。不会触发佩尔之眼。出牌阶段开始时强制结束回合。",
   "ALPHANET_POWER_ABSENT_MINDED_NEXT_TURN_POWER.smartDescription": "下回合开始时，角色无法抽牌，无法获得能量。不会触发佩尔之眼。出牌阶段开始时强制结束回合。",
 
-  "ALPHANET_POWER_BLUDGEON_POWER.title": "钝击能力（隐藏）",
-  "ALPHANET_POWER_BLUDGEON_POWER.description": "不出意外的话，这个能力应该是隐藏的。",
-  "ALPHANET_POWER_BLUDGEON_POWER.smartDescription": "不出意外的话，这个能力应该是隐藏的。",
+  "ALPHANET_POWER_SOLID_IMPACT_POWER.title": "钝击能力（隐藏）",
+  "ALPHANET_POWER_SOLID_IMPACT_POWER.description": "不出意外的话，这个能力应该是隐藏的。",
+  "ALPHANET_POWER_SOLID_IMPACT_POWER.smartDescription": "不出意外的话，这个能力应该是隐藏的。",
 
 
   "ALPHANET_POWER_NARROW_EXTRACTION_POWER.title": "绝处逢生",

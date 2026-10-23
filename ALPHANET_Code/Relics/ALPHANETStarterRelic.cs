@@ -1,16 +1,13 @@
-using ALPHANET.Characters; // 指向你的专属角色和遗物池
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace ALPHANET.Relics;
 
 // 将遗物注册进 ALPHANETRelicPool，并设为 ALPHANETCharacter 的初始遗物
-[RegisterRelic(typeof(ALPHANETRelicPool))]
 public sealed class ALPHANETStarterRelic : ModRelicTemplate
 {
     // 稀有度

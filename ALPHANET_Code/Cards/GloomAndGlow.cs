@@ -14,10 +14,15 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
-public sealed class GloomAndGlow : ModCardTemplate
+public sealed class GloomAndGlow : ModCardTemplate, ICriticalIndicatorCard
 {
     public bool IsModeB { get; set; } = false;
-
+    public CriticalIndicatorType GetCriticalIndicator()
+    {
+        // A形态返回紫色圆圈(Enter)，B形态返回白色圆圈(Exit)
+        return IsModeB ? CriticalIndicatorType.Exit : CriticalIndicatorType.Enter;
+    }
+    public CriticalIndicatorType GetPreviewCriticalIndicator() => CriticalIndicatorType.EnterThenExit;
     public GloomAndGlow() : base(0, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies) 
     { 
     }

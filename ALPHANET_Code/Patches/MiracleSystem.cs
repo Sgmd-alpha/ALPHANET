@@ -20,7 +20,7 @@ namespace ALPHANET.Systems
             new Type[] { typeof(UnplayableReason), typeof(AbstractModel) }, 
             new ArgumentType[] { ArgumentType.Out, ArgumentType.Out })]
         [HarmonyPostfix]
-        public static void ForcePlayableWithArgs(CardModel __instance, ref bool __result, ref UnplayableReason reason)
+        public static void RepulsionPlayableWithArgs(CardModel __instance, ref bool __result, ref UnplayableReason reason)
         {
             if (__instance?.Tags != null && __instance.Tags.Contains(ALPHANETTags.Miracle))
             {
@@ -36,7 +36,7 @@ namespace ALPHANET.Systems
 
         [HarmonyPatch(typeof(CardModel), nameof(CardModel.CanPlay), new Type[0])]
         [HarmonyPostfix]
-        public static void ForcePlayableNoArgs(CardModel __instance, ref bool __result)
+        public static void RepulsionPlayableNoArgs(CardModel __instance, ref bool __result)
         {
             if (__instance?.Tags != null && __instance.Tags.Contains(ALPHANETTags.Miracle))
             {

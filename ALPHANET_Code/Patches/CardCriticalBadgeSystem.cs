@@ -19,9 +19,9 @@ public static class CardCriticalBadgeSystem
     private static readonly string ExitIconPath = $"{Entry.ResPath}/images/ui/crit_exit.png";
     private static readonly string EnterExitIconPath = $"{Entry.ResPath}/images/ui/crit_enter_exit.png";
 
-    // 图标位置：对应截图中“灵剑之舞”文字正右方的蓝框位置
+    // 图标位置
     // X 越小越靠左，Y 越小越靠上
-    private static readonly Vector2 BadgePosition = new(68f, -190f);
+    private static readonly Vector2 BadgePosition = new(-87f, -190f);
 
     // 图标缩放后的显示大小（像素）：无论原图多大，都会自动等比缩放到 26x26
     private static readonly Vector2 SingleBadgeSize = new(26f, 26f);

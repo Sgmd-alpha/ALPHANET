@@ -1,6 +1,5 @@
 using ALPHANET.Keywords;
 using ALPHANET.Powers;
-using ALPHANET.Systems;
 using ALPHANET.Tags;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -11,14 +10,13 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace ALPHANET.Cards;
-
 [RegisterCard(typeof(StatusCardPool))]
 public sealed class StatusChaos : ModCardTemplate
 {
-    // 状态牌通常不可升级，重写此属性将其锁定
+    // 状态牌不可升级
     public override int MaxUpgradeLevel => 0;
 
-    public StatusChaos() : base(1, CardType.Status, CardRarity.Status, TargetType.None) 
+    public StatusChaos() : base(1, CardType.Status, CardRarity.Status, TargetType.None, true) 
     { 
     }
 
@@ -26,7 +24,6 @@ public sealed class StatusChaos : ModCardTemplate
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
     );
 
-    // 关键字配置
     public override IEnumerable<CardKeyword> CanonicalKeywords => 
     [ 
         CardKeyword.Ethereal,
@@ -39,14 +36,13 @@ public sealed class StatusChaos : ModCardTemplate
         ALPHANETTags.Miracle
     ];
 
-    // 悬浮提示：显示关联的失神状态
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
         HoverTipFactory.FromPower<AbsentMindedNextTurnPower>(1),
         HoverTipFactory.FromPower<AbsentMindedPower>(1)
     ];
 
-    // 核心开关：告知引擎这张牌需要在手牌中监听回合结束事件
+    // 告知引擎这张牌需要在手牌中监听回合结束事件
     public override bool HasTurnEndInHandEffect => true;
 
     // ==========================================
@@ -54,19 +50,20 @@ public sealed class StatusChaos : ModCardTemplate
     // ==========================================
     protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
     {
-        var player = Owner!;
+        var creature = Owner!.Creature;
 
-        // 挂载 1 层“下回合失神”倒计时指示器
-        await PowerCmd.Apply<AbsentMindedNextTurnPower>(choiceContext, player.Creature, 1, player.Creature, this);
+        // 挂载“下回合失神”倒计时指示器
+        await PowerCmd.Apply<AbsentMindedNextTurnPower>(choiceContext, creature, 1m, creature, this);
     }
 
     // ==========================================
-    // 触发条件：打出
+    // 触发条件：打出（奇迹扣血已由 MiracleSystem 自动接管）
     // ==========================================
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await MiracleSystem.PayMiracleCostIfNeeded(this, choiceContext, cardPlay);
-        var player = Owner!;
-        await PowerCmd.Apply<ChaosCostModifierPower>(choiceContext, player.Creature, 1, player.Creature, this);
+        var creature = Owner!.Creature;
+
+        // 打出后本回合所有混沌的耗能增加 1
+        await PowerCmd.Apply<ChaosCostModifierPower>(choiceContext, creature, 1m, creature, this);
     }
 }

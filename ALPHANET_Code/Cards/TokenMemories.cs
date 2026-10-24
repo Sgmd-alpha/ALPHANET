@@ -15,11 +15,15 @@ namespace ALPHANET.Cards;
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class TokenMemories : ModCardTemplate
 {
+    public TokenMemories() : base(2, CardType.Skill, CardRarity.Token, TargetType.Self, true)
+    {
+    }
+
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
     );
 
-    // 奇迹、保留、消耗
+    // 奇迹、保留、消耗（MiracleSystem 会自动接管透支扣血与红/金框高亮）
     public override IEnumerable<CardKeyword> CanonicalKeywords => 
     [ 
         ALPHANETKeywords.Miracle, 
@@ -32,21 +36,15 @@ public sealed class TokenMemories : ModCardTemplate
         ALPHANETTags.Miracle
     ];
 
-    // 选牌
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         ModCardVars.Int("CardSelectCount", 2)
     ];
 
-    // 基础耗能 2
-    public TokenMemories() : base(2, CardType.Skill, CardRarity.Token, TargetType.Self, true)
-    {
-    }
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // 获取弃牌堆
-        var discardPile = PileType.Discard.GetPile(Owner);
+        var player = Owner!;
+        var discardPile = PileType.Discard.GetPile(player);
         
         if (discardPile.Cards.Count == 0)
         {
@@ -54,20 +52,19 @@ public sealed class TokenMemories : ModCardTemplate
         }
 
         int selectCount = DynamicVars.GetIntOrDefault("CardSelectCount", 2);
-        int maxSelectable = Math.Min(selectCount, CardPile.MaxCardsInHand - PileType.Hand.GetPile(Owner).Cards.Count);
+        int maxSelectable = Math.Min(selectCount, CardPile.MaxCardsInHand - PileType.Hand.GetPile(player).Cards.Count);
 
         if (maxSelectable > 0)
         {
-            var selectedCards = await CardSelectCmd.FromCombatPile(
+            var selectedCards = (await CardSelectCmd.FromCombatPile(
                 choiceContext, 
-                discardPile, // 从弃牌堆打开选牌界面
-                Owner, 
+                discardPile, 
+                player, 
                 new CardSelectorPrefs(SelectionScreenPrompt, 0, maxSelectable)
-            );
+            )).ToList();
 
-            if (selectedCards != null && selectedCards.Any())
+            if (selectedCards.Count > 0)
             {
-                // 移入手牌
                 await CardPileCmd.Add(selectedCards, PileType.Hand);
 
                 foreach (var card in selectedCards)
@@ -80,6 +77,6 @@ public sealed class TokenMemories : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        EnergyCost.UpgradeBy(-1); // 2 -> 1
     }
 }

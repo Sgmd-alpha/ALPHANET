@@ -35,8 +35,8 @@ public sealed class ZakoSlayer : ModCardTemplate
     [
         // 尝试造成的伤害：24 (升级后 30)
         new DamageVar(24m, ValueProp.Move),
-        // 拼刀胜利获得的格挡：12 (升级后 15)
-        new BlockVar(12m, ValueProp.Move),
+        // 拼刀胜利获得的格挡：16 (升级后 20)
+        new BlockVar(16m, ValueProp.Move),
 
         // 实时显示目标敌人的本回合意图总伤害
         ModCardVars.Computed(
@@ -162,6 +162,6 @@ public sealed class ZakoSlayer : ModCardTemplate
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(6m); // 24 -> 30
-        DynamicVars.Block.UpgradeValueBy(3m);  // 12 -> 15
+        DynamicVars.Block.UpgradeValueBy(4m);  // 16 -> 20
     }
 }

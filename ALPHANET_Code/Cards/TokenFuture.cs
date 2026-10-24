@@ -1,3 +1,5 @@
+using ALPHANET.Keywords;
+using ALPHANET.Tags;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -13,30 +15,37 @@ namespace ALPHANET.Cards;
 [RegisterCard(typeof(TokenCardPool))]
 public sealed class TokenFuture : ModCardTemplate
 {
+    public TokenFuture() : base(2, CardType.Skill, CardRarity.Token, TargetType.Self, true)
+    {
+    }
+
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
     );
 
+    // ==========================================
+    // 补全【奇迹】关键字与标签（MiracleSystem 会自动接管扣血与高亮）
+    // ==========================================
     public override IEnumerable<CardKeyword> CanonicalKeywords => 
     [ 
-        CardKeyword.Ethereal, 
-        CardKeyword.Exhaust 
+        ALPHANETKeywords.Miracle, // 奇迹
+        CardKeyword.Ethereal,     // 虚无
+        CardKeyword.Exhaust       // 消耗
     ];
 
-    // 继续保持优良传统：不用 Magic，用清晰的显式变量
+    protected override HashSet<CardTag> CanonicalTags => 
+    [
+        ALPHANETTags.Miracle
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         ModCardVars.Int("CardSelectCount", 2)
     ];
 
-    // 简化构造函数，直接填入参数，代码更清爽
-    public TokenFuture() : base(2, CardType.Skill, CardRarity.Token, TargetType.Self, true)
-    {
-    }
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var drawPile = PileType.Draw.GetPile(Owner);
+        var drawPile = PileType.Draw.GetPile(Owner!);
         
         if (drawPile.Cards.Count == 0)
         {
@@ -44,14 +53,14 @@ public sealed class TokenFuture : ModCardTemplate
         }
 
         int selectCount = DynamicVars.GetIntOrDefault("CardSelectCount", 2);
-        int maxSelectable = Math.Min(selectCount, CardPile.MaxCardsInHand - PileType.Hand.GetPile(Owner).Cards.Count);
+        int maxSelectable = Math.Min(selectCount, CardPile.MaxCardsInHand - PileType.Hand.GetPile(Owner!).Cards.Count);
 
         if (maxSelectable > 0)
         {
             var selectedCards = await CardSelectCmd.FromCombatPile(
                 choiceContext, 
                 drawPile, 
-                Owner, 
+                Owner!, 
                 new CardSelectorPrefs(SelectionScreenPrompt, 0, maxSelectable)
             );
 
@@ -69,6 +78,6 @@ public sealed class TokenFuture : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        EnergyCost.UpgradeBy(-1); // 2 -> 1
     }
 }

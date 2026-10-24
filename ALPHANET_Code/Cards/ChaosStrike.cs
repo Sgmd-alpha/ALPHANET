@@ -1,8 +1,11 @@
+using System.Runtime.CompilerServices;
 using ALPHANET.Characters;
-using Godot;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -10,13 +13,66 @@ using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
-
 namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class ChaosStrike : ModCardTemplate
 {
-    public ChaosStrike() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+    // =========================================================
+    // 跨战斗安全隔离的“全体混沌打击增伤账本”
+    // （即使是后续回合新生成/复制出的混沌打击，也能自动享受全部加成！）
+    // =========================================================
+    private class ChaosStrikeBonusTracker
+    {
+        public WeakReference<ICombatState>? CombatRef;
+        public decimal BonusDamage = 0m;
+
+        public decimal GetBonus(ICombatState? currentCombat)
+        {
+            if (currentCombat == null || CombatRef == null)
+                return 0m;
+
+            if (CombatRef.TryGetTarget(out var recordedCombat) && ReferenceEquals(recordedCombat, currentCombat))
+            {
+                return BonusDamage;
+            }
+
+            return 0m;
+        }
+
+        public void AddBonus(ICombatState? currentCombat, decimal amount)
+        {
+            if (currentCombat == null || amount <= 0m) return;
+
+            if (CombatRef != null && CombatRef.TryGetTarget(out var recordedCombat) && ReferenceEquals(recordedCombat, currentCombat))
+            {
+                BonusDamage += amount;
+            }
+            else
+            {
+                CombatRef = new WeakReference<ICombatState>(currentCombat);
+                BonusDamage = amount;
+            }
+        }
+    }
+
+    private static readonly ConditionalWeakTable<Creature, ChaosStrikeBonusTracker> _bonusTrackers = new();
+
+    private static decimal GetCombatBonusDamage(Creature? owner)
+    {
+        if (owner == null || owner.CombatState == null) return 0m;
+        return _bonusTrackers.GetOrCreateValue(owner).GetBonus(owner.CombatState);
+    }
+
+    private static void AddCombatBonusDamage(Creature? owner, decimal amount)
+    {
+        if (owner == null || owner.CombatState == null) return;
+        _bonusTrackers.GetOrCreateValue(owner).AddBonus(owner.CombatState, amount);
+    }
+
+    // =========================================================
+
+    public ChaosStrike() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, true)
     {
     }
 
@@ -29,22 +85,23 @@ public sealed class ChaosStrike : ModCardTemplate
         CardTag.Strike
     ];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
+        HoverTipFactory.FromCard(ModelDb.Card<StatusChaos>())
     ];
 
     // ==========================================
-    // 动态变量与【ComputedDynamicVar 预测魔法】
+    // 动态变量
     // ==========================================
     protected override IEnumerable<DynamicVar> CanonicalVars => 
     [
-        // 基础伤害
+        // 基础伤害：8 (升级后 10)
         new DamageVar(8m, ValueProp.Move),
         
-        // 增伤幅度 (等同于 new IntVar，但通过 RitsuLib 注册)
+        // 每张状态牌增伤幅度：3 (升级后 4)
         ModCardVars.Int("Scale", 3),
 
-        // 【新科技】：动态预测将要消耗的卡牌数量
+        // 动态预测将要消耗的状态牌数量
         ModCardVars.Computed(
             "StatusCount",
             static ctx =>
@@ -55,7 +112,7 @@ public sealed class ChaosStrike : ModCardTemplate
             },
             baseValue: 0m),
 
-        // 【新科技】：动态预测本次打出后，这张牌会永久增加多少伤害
+        // 动态预测本次打出后，所有混沌打击会增加多少伤害
         ModCardVars.Computed(
             "GrowthPreview",
             static ctx =>
@@ -66,7 +123,6 @@ public sealed class ChaosStrike : ModCardTemplate
                 int normalCount = hand.Count(c => c.Type == CardType.Status && c is not StatusChaos);
                 int chaosCount = hand.Count(c => c is StatusChaos);
                 
-                // 安全地通过上下文读取 Scale 的基础值
                 decimal scale = ctx.GetCardBaseValueOrDefault("Scale", 3m);
                 
                 return (normalCount * scale) + (chaosCount * scale * 2m);
@@ -74,25 +130,37 @@ public sealed class ChaosStrike : ModCardTemplate
             baseValue: 0m)
     ];
 
+    // ==========================================
+    // 核心：将本场战斗累积的增伤实时加到所有《混沌打击》上！
+    // （自动同步手牌绿字面板预览与实际攻击结算）
+    // ==========================================
+    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
+    {
+        if (cardSource == this && Owner?.Creature != null)
+        {
+            return GetCombatBonusDamage(Owner.Creature);
+        }
+        return 0m;
+    }
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-        // 1. 【先造成伤害】：此时的面板伤害是绝对准确的，享受当前的力量和易伤
+        // 1. 【先造成伤害】：ModifyDamageAdditive 会自动加上此前累积的全局混沌打击增伤
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
         // 2. 获取手牌中的状态牌和混沌
-        List<CardModel> handCards = PileType.Hand.GetPile(Owner).Cards.ToList();
+        List<CardModel> handCards = PileType.Hand.GetPile(Owner!).Cards.ToList();
         List<CardModel> statusCards = handCards.Where(c => c.Type == CardType.Status || c is StatusChaos).ToList();
 
         decimal totalBonusDamage = 0m;
-        // 使用 RitsuLib 提供的扩展方法安全读取当前增伤幅度
         decimal scale = DynamicVars.GetValueOrDefault("Scale", 3m);
 
-        // 3. 【后消耗与计算】：此时消耗的动作会触发你的“加力量和敏捷”能力，但这只会对你后续打出的牌生效，绝不干扰刚才的伤害结算！
+        // 3. 【后消耗与计算】
         foreach (CardModel card in statusCards)
         {
             await CardCmd.Exhaust(choiceContext, card);
@@ -103,16 +171,16 @@ public sealed class ChaosStrike : ModCardTemplate
                 totalBonusDamage += scale;
         }
 
-        // 4. 【永久成长】：将本回合吸收的伤害永久写入这张牌！下一次打出时，它将变得更加致命。
-        if (totalBonusDamage > 0)
+        // 4. 【全局成长】：将本次吸收的伤害记入本场战斗的全局账本，所有《混沌打击》（包括未来新生成的）立刻同步享受增伤！
+        if (totalBonusDamage > 0m)
         {
-            DynamicVars.Damage.BaseValue += totalBonusDamage;
+            AddCombatBonusDamage(Owner!.Creature, totalBonusDamage);
         }
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(2m);
-        DynamicVars["Scale"].UpgradeValueBy(1m);
+        DynamicVars.Damage.UpgradeValueBy(2m);      // 8 -> 10
+        DynamicVars["Scale"].UpgradeValueBy(1m);    // 3 -> 4
     }
 }

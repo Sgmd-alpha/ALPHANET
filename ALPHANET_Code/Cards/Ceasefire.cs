@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using ALPHANET.Characters;
 using ALPHANET.States;
 using MegaCrit.Sts2.Core.Commands;

@@ -12,7 +12,6 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace ALPHANET.Cards;
-
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class Gambit : ModCardTemplate, ICriticalIndicatorCard
 {

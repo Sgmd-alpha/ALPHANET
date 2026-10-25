@@ -49,7 +49,7 @@ public static class CardCriticalBadgeSystem
         if (combatRoom == null || !GodotObject.IsInstanceValid(combatRoom)) return;
 
         // 遍历战斗房间树中的所有 NCard 节点，立刻更新一次它们的圆圈图标
-        foreach (var nCard in FindAllCardsInNode((Node)combatRoom))
+        foreach (var nCard in FindAllCardsInNode(combatRoom))
         {
             OnCardVisualsUpdated(nCard);
         }
@@ -79,7 +79,7 @@ public static class CardCriticalBadgeSystem
         Node containerNode = __instance.GetNodeOrNull("Visuals") 
                           ?? __instance.GetNodeOrNull("CardContainer") 
                           ?? __instance.GetNodeOrNull("Front") 
-                          ?? (Node)__instance;
+                          ?? __instance;
 
         var existingBadge = containerNode.GetNodeOrNull<TextureRect>(BadgeNodeName);
 

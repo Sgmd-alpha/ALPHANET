@@ -1,6 +1,5 @@
 using ALPHANET.Characters;
 using ALPHANET.Keywords;
-using ALPHANET.Systems;
 using ALPHANET.Tags;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -18,7 +17,7 @@ public sealed class Trickery : ModCardTemplate
     // ==========================================
     // 基础设置：1费，攻击牌，全体敌人
     // ==========================================
-    public Trickery() : base(1, CardType.Attack, CardRarity.Common, TargetType.AllEnemies)
+    public Trickery() : base(1, CardType.Attack, CardRarity.Common, TargetType.AllEnemies, true)
     {
     }
 
@@ -31,7 +30,7 @@ public sealed class Trickery : ModCardTemplate
     // ==========================================
     public override IEnumerable<CardKeyword> CanonicalKeywords => 
     [
-        ALPHANETKeywords.Miracle, // 奇迹
+        ALPHANETKeywords.Miracle
     ];
 
     protected override HashSet<CardTag> CanonicalTags => 
@@ -55,28 +54,21 @@ public sealed class Trickery : ModCardTemplate
     {
         get
         {
-            // 确保 Owner 和 PlayerCombatState 不为空
             if (Owner?.PlayerCombatState == null) return false;
-
-            // 检查玩家当前的剩余能量是否等于 0
-            // (注意：这里使用 <= 0 是为了容错，尽管通常能量不会小于 0)
             return Owner.PlayerCombatState.Energy <= 0;
         }
     }
 
     // ==========================================
-    // 打出时的效果
+    // 打出时的效果（奇迹代价已由 MiracleSystem 自动结算）
     // ==========================================
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // 奇迹判定与代扣代价 (如果该牌当前不是 0 费，则触发奇迹代价)
-        await MiracleSystem.PayMiracleCostIfNeeded(this, choiceContext, cardPlay);
-
         // 造成全体伤害
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
-            .TargetingAllOpponents(CombatState!) // 使用官方推荐的 AOE 目标选定方法
-            .WithHitFx("vfx/vfx_attack_slash")      // 替换为你想要的攻击特效
+            .TargetingAllOpponents(CombatState!)
+            .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
     }
 
@@ -89,3 +81,4 @@ public sealed class Trickery : ModCardTemplate
         DynamicVars.Damage.UpgradeValueBy(4m);
     }
 }
+

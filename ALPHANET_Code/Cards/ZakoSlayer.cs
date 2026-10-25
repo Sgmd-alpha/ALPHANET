@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Cards.DynamicVars;
@@ -21,6 +20,7 @@ public sealed class ZakoSlayer : ModCardTemplate
     public ZakoSlayer() : base(3, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
+    public override bool GainsBlock => true;
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
@@ -44,7 +44,7 @@ public sealed class ZakoSlayer : ModCardTemplate
             ctx => 
             {
                 var target = ctx.Target ?? ctx.CombatState?.HittableEnemies.FirstOrDefault();
-                var owner = (ctx.Card as CardModel)?.Owner;
+                var owner = ctx.Card?.Owner;
                 return (target != null && owner != null) ? GetEnemyIntentTotalDamage(target, owner) : 0m;
             },
             baseValue: 0m)

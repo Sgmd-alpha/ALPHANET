@@ -17,7 +17,7 @@ public sealed class Cornered : ModCardTemplate
     // 记录这张牌当前是否已经应用了“绝境减费”，确保有借有还，绝不叠算或吞掉其他减费
     private bool _hasAppliedDiscount;
 
-    public Cornered() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+    public Cornered() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, true)
     {
     }
 
@@ -108,3 +108,4 @@ public sealed class Cornered : ModCardTemplate
         DynamicVars.Repeat.UpgradeValueBy(1m);
     }
 }
+

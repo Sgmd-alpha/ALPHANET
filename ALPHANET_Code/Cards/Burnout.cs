@@ -14,7 +14,7 @@ namespace ALPHANET.Cards;
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class Burnout : ModCardTemplate
 {
-    public Burnout() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+    public Burnout() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, true)
     {
     }
 
@@ -47,7 +47,7 @@ public sealed class Burnout : ModCardTemplate
     ];
 
     // ==========================================
-    // 打出效果
+    // 打出效果（奇迹代价已由 MiracleSystem 自动结算）
     // ==========================================
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -75,3 +75,4 @@ public sealed class Burnout : ModCardTemplate
         DynamicVars.Cards.UpgradeValueBy(2m);  // 3 -> 5
     }
 }
+

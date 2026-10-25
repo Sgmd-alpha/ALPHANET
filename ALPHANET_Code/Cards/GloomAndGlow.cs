@@ -17,6 +17,7 @@ namespace ALPHANET.Cards;
 public sealed class GloomAndGlow : ModCardTemplate, ICriticalIndicatorCard
 {
     public bool IsModeB { get; set; } = false;
+    public override bool GainsBlock => true;
     public CriticalIndicatorType GetCriticalIndicator()
     {
         // A形态返回紫色圆圈(Enter)，B形态返回白色圆圈(Exit)

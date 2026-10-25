@@ -17,6 +17,7 @@ public sealed class Ceasefire : ModCardTemplate, ICriticalIndicatorCard
     public Ceasefire() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self, true)
     {
     }
+    public override bool GainsBlock => true;
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"

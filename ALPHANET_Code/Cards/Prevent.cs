@@ -17,7 +17,7 @@ namespace ALPHANET.Cards;
 public sealed class Prevent : ModCardTemplate, ICriticalIndicatorCard
 {
     public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Exit;
-    // 不需要写 GainsBlock => true 否则 UI 会错误地在当前回合就显示格挡护盾预览
+    public override bool GainsBlock => true;
     public Prevent() : base(1, CardType.Skill, CardRarity.Common, TargetType.None) 
     { 
     }

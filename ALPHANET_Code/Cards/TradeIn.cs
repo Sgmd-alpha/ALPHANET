@@ -19,6 +19,8 @@ public sealed class TradeIn : ModCardTemplate, ICriticalIndicatorCard
     public TradeIn() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self, true)
     {
     }
+    
+    public override bool GainsBlock => true;
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"

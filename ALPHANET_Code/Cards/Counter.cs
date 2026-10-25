@@ -16,10 +16,10 @@ namespace ALPHANET.Cards;
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class Counter : ModCardTemplate
 {
-    public Counter() : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+    public Counter() : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy, true)
     {
     }
-    private const bool ShowInCardLibrary = true;
+    public override bool GainsBlock => true;
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png");

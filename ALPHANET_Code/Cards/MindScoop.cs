@@ -57,8 +57,7 @@ public sealed class MindScoop : ModCardTemplate
         {
             CardCmd.Upgrade(paradoxCard);
         }
-
-        await CardPileCmd.AddGeneratedCardsToCombat([ paradoxCard ], PileType.Draw, Owner!);
+        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(paradoxCard, PileType.Draw, Owner, CardPilePosition.Random));
     }
 
     protected override void OnUpgrade()

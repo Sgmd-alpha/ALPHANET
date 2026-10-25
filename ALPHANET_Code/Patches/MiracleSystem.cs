@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
@@ -178,40 +179,38 @@ public static class MiracleSystem
     }
 
     // =========================================================
-    // 4. 【核心架构升级】：拦截所有卡牌的 OnPlayWrapper，全自动在 OnPlay 前结算奇迹代价！
+    // 4. 【核心修复】：精准拦截官方 OnPlayWrapper 内部的 Hook.BeforeCardPlayed(combatState, cardPlay)
+    //    在卡牌 OnPlay 真正执行前，全自动完成奇迹扣血与事件广播！
     // =========================================================
-    [HarmonyPatch(typeof(CardModel), "OnPlayWrapper")]
+    [HarmonyPatch(typeof(Hook), nameof(Hook.BeforeCardPlayed))]
     [HarmonyPostfix]
-    public static void AutoPayMiracleOnPlayWrapper(
-        CardModel __instance,
-        PlayerChoiceContext choiceContext,
+    public static void AutoPayMiracleBeforeCardPlayed(
         CardPlay cardPlay,
         ref Task __result)
     {
-        // 如果不是奇迹牌，直接放行原 Task，零性能开销
-        if (__instance?.Tags == null || !__instance.Tags.Contains(ALPHANETTags.Miracle))
+        CardModel? card = cardPlay?.Card;
+        if (card?.Tags == null || !card.Tags.Contains(ALPHANETTags.Miracle))
             return;
 
-        // 将原本的 OnPlayWrapper Task 包装一层：先结算奇迹扣血与事件，再执行卡牌自己的 OnPlay！
         Task originalTask = __result;
-        __result = ExecuteMiracleThenPlayAsync(__instance, choiceContext, cardPlay, originalTask);
+        __result = ExecuteBeforePlayThenMiracleAsync(card, cardPlay!, originalTask);
     }
 
-    private static async Task ExecuteMiracleThenPlayAsync(
+    private static async Task ExecuteBeforePlayThenMiracleAsync(
         CardModel card,
-        PlayerChoiceContext choiceContext,
         CardPlay cardPlay,
-        Task originalOnPlayTask)
+        Task originalBeforePlayTask)
     {
-        // 1. 在卡牌 OnPlay 真正开始前，先自动结算奇迹代价与触发计数
-        await PayMiracleCostIfNeeded(card, choiceContext, cardPlay);
+        // 1. 先等待原版 BeforeCardPlayed 钩子完成
+        await originalBeforePlayTask;
 
-        // 2. 继续执行卡牌自身的 OnPlay 逻辑
-        await originalOnPlayTask;
+        // 2. 在进入卡牌的 OnPlay 之前，自动结算奇迹代价与触发事件！
+        var choiceContext = new ThrowingPlayerChoiceContext();
+        await PayMiracleCostIfNeeded(card, choiceContext, cardPlay);
     }
 
     /// <summary>
-    /// 结算奇迹代价（已由 OnPlayWrapper 自动调用；即使旧卡牌里还没删掉手动调用，因为有 _playRecords.Remove 保护，也绝不会重复扣血！）
+    /// 结算奇迹代价（已由 Hook.BeforeCardPlayed 自动调用；即使旧卡牌里保留了手动调用，因为有 _playRecords.Remove 保护，也绝不会重复扣血！）
     /// </summary>
     public static async Task PayMiracleCostIfNeeded(CardModel card, PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -219,22 +218,27 @@ public static class MiracleSystem
 
         // 取出并立刻销毁本次出牌记录（防止任何情况下的重复结算）
         if (!_playRecords.TryGetValue(card, out var record))
-            return;
-
-        _playRecords.Remove(card);
+        {
+            // 如果是 0 费且未经过 SpendEnergy 记录（例如自动打出或首次打出 0 费），兜底判定一次
+            if (card.EnergyCost != null &&
+                Math.Max(0, card.EnergyCost.GetWithModifiers(CostModifiers.All)) == 0 &&
+                cardPlay.PlayIndex == 0 &&
+                !cardPlay.IsAutoPlay)
+            {
+                record = new MiraclePlayRecord { Deficit = 0, IsZeroCostMiracle = true };
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            _playRecords.Remove(card);
+        }
 
         int deficit = record.Deficit;
         bool isZeroCost = record.IsZeroCostMiracle;
-
-        // 如果是 0 费但并非通过 SpendEnergy 扣费（例如被其他效果直接打出且当前实际费用为 0），也兜底识别为 0 费奇迹
-        if (deficit == 0 && !isZeroCost && card.EnergyCost != null)
-        {
-            int actualCost = Math.Max(0, card.EnergyCost.GetWithModifiers(CostModifiers.All));
-            if (actualCost == 0 && cardPlay.IsFirstInSeries)
-            {
-                isZeroCost = true;
-            }
-        }
 
         // 既没有透支能量，也不是 0 费奇迹 -> 说明是正常交费打出，未触发奇迹效果
         if (deficit <= 0 && !isZeroCost)
@@ -276,7 +280,6 @@ public static class MiracleSystem
     private static bool HasSemusMemoirs(MegaCrit.Sts2.Core.Entities.Players.Player? player)
     {
         if (player?.Relics == null) return false;
-        // 通过类名匹配《西缪回忆录》，即便你还没创建 SemusMemoirs 类也能直接编译通过！
         var relic = player.Relics.FirstOrDefault(r => r.GetType().Name == "SemusMemoirs");
         if (relic != null)
         {

@@ -1,4 +1,7 @@
 {
   "ALPHANET_KEYWORD_MIRACLE.title": "奇迹",
-  "ALPHANET_KEYWORD_MIRACLE.description": "当前能量不足时也能通过支付[red]奇迹代价[/red]打出。额外消耗的每点能量会转为流失3点生命。"
+  "ALPHANET_KEYWORD_MIRACLE.description": "当前能量不足时也能通过支付[red]奇迹代价[/red]打出。额外消耗的每点能量会转为流失3点生命。",
+
+  "ALPHANET_KEYWORD_MASTER_PLAN_MARK.title": "印记：运筹帷幄",
+  "ALPHANET_KEYWORD_MASTER_PLAN_MARK.description": "此后第一次抽到这张牌时，当回合不能再抽牌。"
 }

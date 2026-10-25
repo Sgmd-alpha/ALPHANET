@@ -19,17 +19,20 @@ namespace ALPHANET.Cards;
 public sealed class PsionicBladedance : ModCardTemplate, ICriticalIndicatorCard
 {
     public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Enter;
-    public PsionicBladedance() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies)
+
+    public PsionicBladedance() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies, true)
     {
     }
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
     );
+
     public override IEnumerable<CardKeyword> CanonicalKeywords => 
     [ 
-        ALPHANETKeywords.Miracle,
+        ALPHANETKeywords.Miracle
     ];
+
     protected override HashSet<CardTag> CanonicalTags => 
     [
         ALPHANETTags.Miracle
@@ -79,3 +82,4 @@ public sealed class PsionicBladedance : ModCardTemplate, ICriticalIndicatorCard
         DynamicVars.ExtraDamage.UpgradeValueBy(1m);
     }
 }
+

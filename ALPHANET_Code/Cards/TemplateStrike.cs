@@ -1,18 +1,11 @@
-using ALPHANET.Characters;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
-using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace ALPHANET.Cards;
-
-// RegisterCard 会把这张牌交给 RitsuLib 自动注册。
-// RegisterCharacterStarterCard 会把它追加进 ALPHANETCharacter 的初始卡组。
-[RegisterCard(typeof(ALPHANETCardPool))]
-[RegisterCharacterStarterCard(typeof(ALPHANETCharacter), 4)]
 public sealed class TemplateStrike : ModCardTemplate
 {
     // 基础耗能。

@@ -1,17 +1,13 @@
-using ALPHANET.Characters;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
-using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace ALPHANET.Cards;
 
 // 防御牌和打击一样注册到角色卡池，并作为 4 张初始卡加入角色卡组。
-[RegisterCard(typeof(ALPHANETCardPool))]
-[RegisterCharacterStarterCard(typeof(ALPHANETCharacter), 4)]
 public sealed class TemplateDefend : ModCardTemplate
 {
     // 基础耗能。

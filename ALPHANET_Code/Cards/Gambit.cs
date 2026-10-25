@@ -1,40 +1,51 @@
 using ALPHANET.Characters;
 using ALPHANET.Keywords;
 using ALPHANET.States;
-using ALPHANET.Systems;
 using ALPHANET.Tags;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace ALPHANET.Cards;
+
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class Gambit : ModCardTemplate, ICriticalIndicatorCard
 {
     public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Exit;
+
     // 耗能 2，技能牌，普通稀有度，目标为单体敌人
-    public Gambit() : base(2, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+    public Gambit() : base(2, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy, true)
     {
     }
+
+    public override CardAssetProfile AssetProfile => new(
+        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
+    );
+
     // ==========================================
     // 1. 注册关键词 (用于 UI 悬浮提示)
     // ==========================================
     public override IEnumerable<CardKeyword> CanonicalKeywords => 
     [
-        ALPHANETKeywords.Miracle, // 奇迹
+        ALPHANETKeywords.Miracle
     ];
-    public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png");
+
     // ==========================================
     // 2. 注册标签 (供底层引擎补丁拦截，以及其他卡牌检索)
     // ==========================================
     protected override HashSet<CardTag> CanonicalTags => 
     [
         ALPHANETTags.Miracle
+    ];
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<CriticalState>()
     ];
 
     // ==========================================
@@ -47,33 +58,36 @@ public sealed class Gambit : ModCardTemplate, ICriticalIndicatorCard
     ];
 
     // ==========================================
-    // 4. 打出效果
+    // 4. 打出效果（奇迹代价已由 MiracleSystem 自动结算）
     // ==========================================
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // 奇迹判定与代扣生命值
-        await MiracleSystem.PayMiracleCostIfNeeded(this, choiceContext, cardPlay);
+        var creature = Owner!.Creature;
 
-        // 敌人失去生命 (无视护甲、无视能力)
+        // 1. 敌人失去生命 (无视护甲、无视能力)
         if (cardPlay.Target != null)
         {
             await CreatureCmd.Damage(
                 choiceContext, 
                 cardPlay.Target, 
-                DynamicVars["HpLoss"].BaseValue, // 核心修改：正常从字典读取，绝对安全且每张牌独立
+                DynamicVars["HpLoss"].BaseValue, 
                 ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, 
                 this, 
                 cardPlay
             );
         }
         
-        // 获得格挡
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+        // 2. 获得格挡
+        await CreatureCmd.GainBlock(creature, DynamicVars.Block, cardPlay);
         
-        // 退出临界状态
-        var criticalState = Owner.Creature.Powers.FirstOrDefault(p => p is CriticalState);
-        await PowerCmd.Remove(criticalState);
-        // 永久减费
+        // 3. 退出临界状态
+        var criticalState = creature.GetPower<CriticalState>();
+        if (criticalState != null)
+        {
+            await PowerCmd.Remove(criticalState);
+        }
+
+        // 4. 每次被打出，本场战斗耗能 -1
         EnergyCost.AddThisCombat(-1);
     }
 
@@ -86,3 +100,4 @@ public sealed class Gambit : ModCardTemplate, ICriticalIndicatorCard
         DynamicVars["HpLoss"].UpgradeValueBy(2m);
     }
 }
+

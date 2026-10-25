@@ -97,3 +97,4 @@ public sealed class ChaosConversion : ModCardTemplate
         DynamicVars.Block.UpgradeValueBy(2m); // 6 -> 8
     }
 }
+

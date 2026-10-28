@@ -138,8 +138,8 @@ public static class CardCriticalBadgeSystem
 
             case CriticalIndicatorType.EnterThenExit:
                 existingBadge.Texture = ResourceLoader.Load<Texture2D>(EnterExitIconPath);
-                existingBadge.CustomMinimumSize = DoubleBadgeSize;
-                existingBadge.Size = DoubleBadgeSize;
+                existingBadge.CustomMinimumSize = SingleBadgeSize;
+                existingBadge.Size = SingleBadgeSize;
                 break;
         }
     }

@@ -26,7 +26,7 @@
 
 
   "ALPHANET_CARD_COUNTER.title": "反制",
-  "ALPHANET_CARD_COUNTER.description": "获得{ComputedBlock:diff()}点[gold]格挡[/gold]。\n给予1层[gold]虚弱[/gold]。\n本回合每消耗1{energyPrefix:energyIcons(1)}，[gold]格挡[/gold]降低2。",
+  "ALPHANET_CARD_COUNTER.description": "获得{ComputedBlock:diff()}点[gold]格挡[/gold]。\n给予1层[gold]虚弱[/gold]。\n本回合每消耗1{energyPrefix:energyIcons(1)}，[gold]格挡[/gold]-2。",
 
   "ALPHANET_CARD_REPULSION_FIELD.title": "力场",
   "ALPHANET_CARD_REPULSION_FIELD.description": "进入[purple]临界状态[/purple]。\n给予所有敌人{Vulnerable:diff()}层[gold]易伤[/gold]。\n抽{Draw:diff()}张牌。",
@@ -41,7 +41,7 @@
   "ALPHANET_CARD_PREVENT.description": "退出[purple]临界状态[/purple]。\n[gold]消耗[/gold][gold]手牌[/gold]中所有状态牌。\n下回合获得{Block:diff()}点[gold]格挡[/gold]。",
 
   "ALPHANET_CARD_RECALL.title": "回忆",
-  "ALPHANET_CARD_RECALL.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n将一张[gold]{IfUpgraded:show:记忆+|记忆}[/gold]放入你的[gold]手牌[/gold]。",
+  "ALPHANET_CARD_RECALL.description": "获得{ComputedBlock:diff()}点[gold]格挡[/gold]。\n本回合这张牌的[gold]格挡[/gold]-2。\n将一张[gold]{IfUpgraded:show:记忆+|记忆}[/gold]放入[gold]手牌[/gold]。",
 
   "ALPHANET_CARD_PARALLEL.title": "并行",
   "ALPHANET_CARD_PARALLEL.description": "每有一名敌人，你获得{Block:diff()}点[gold]格挡[/gold]1次。",
@@ -109,7 +109,7 @@
   "ALPHANET_CARD_SUPPLY_RETRIEVAL.selectionScreenPrompt": "选择至多1张牌消耗，其余卡牌将抽至手牌",
 
   "ALPHANET_CARD_CHAOS_CONVERSION.title": "混沌转化",
-  "ALPHANET_CARD_CHAOS_CONVERSION.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n将[gold]手牌[/gold]中所有[gold]混沌[/gold]变化为随机{IfUpgraded:show:升级后的|}[gold]普通牌[/gold]。这些牌获得[gold]虚无[/gold]。",
+  "ALPHANET_CARD_CHAOS_CONVERSION.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n将[gold]手牌[/gold]中所有[gold]混沌[/gold]变化为随机{IfUpgraded:show:[gold]升级过的[/gold]|}[gold]普通牌[/gold]。这些牌获得[gold]虚无[/gold]。",
 
   "ALPHANET_CARD_BLIND_SWAP.title": "胡乱替换",
   "ALPHANET_CARD_BLIND_SWAP.description": "丢弃[gold]手牌[/gold]中的1张牌，抽{Cards:diff()}张牌。\n将一张[gold]混沌[/gold]加入你的[gold]手牌[/gold]。",
@@ -121,14 +121,16 @@
   "ALPHANET_CARD_POWER_AMPLIFICATION.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n选择[gold]手牌[/gold]里一张耗能不超过1{energyPrefix:energyIcons(1)}的能力牌，将其打出2次。",
   "ALPHANET_CARD_POWER_AMPLIFICATION.selectionScreenPrompt": "选择1张耗能不超过1的能力牌打出2次",
 
-
+  "ALPHANET_CARD_MASTER_PLAN.title": "运筹帷幄",
+  "ALPHANET_CARD_MASTER_PLAN.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n将一张[gold]手牌[/gold]放到[gold]抽牌堆[/gold]底端，此后第一次抽到那张牌时，当回合不能再抽牌。",
+  "ALPHANET_CARD_MASTER_PLAN.selectionScreenPrompt": "选择1张手牌放到抽牌堆底端",
 
 
   "ALPHANET_CARD_EVASIVE_DASH.title": "回避冲刺",
   "ALPHANET_CARD_EVASIVE_DASH.description": "退出[purple]临界状态[/purple]。\n失去{DexLoss:diff()}[gold]敏捷[/gold]，获得{Intangible:diff()}层[gold]无实体[/gold]。",
 
   "ALPHANET_CARD_TACTICAL_REVERSAL.title": "攻守易形",
-  "ALPHANET_CARD_TACTICAL_REVERSAL.description": "退出[purple]临界状态[/purple]，获得{Block:diff()}点[gold]格挡[/gold]。\n下回合开始时，将一张[gold]理之矛，心之盾{IfUpgraded:show:+|}[/gold]加入你的[gold]手牌[/gold]。",
+  "ALPHANET_CARD_TACTICAL_REVERSAL.description": "退出[purple]临界状态[/purple]，获得{Block:diff()}点[gold]格挡[/gold]。\n下回合开始时，将一张[gold]{IfUpgraded:show:理之矛，心之盾+|理之矛，心之盾}[/gold]加入你的[gold]手牌[/gold]。",
 
 
 
@@ -172,7 +174,7 @@
   "ALPHANET_CARD_BURNOUT.description": "对敌人造成{Damage:diff()}点伤害。获得{Energy:diff()}能量。抽{Cards:diff()}张牌。",
 
   "ALPHANET_CARD_MIND_SCOOP.title": "削心如泥",
-  "ALPHANET_CARD_MIND_SCOOP.description": "造成{Damage:diff()}点伤害。\n在[gold]抽牌堆[/gold]中加入一张[gold]理之矛，心之盾{IfUpgraded:show:+|}[/gold]。",
+  "ALPHANET_CARD_MIND_SCOOP.description": "造成{Damage:diff()}点伤害。\n在[gold]抽牌堆[/gold]中加入一张[gold]{IfUpgraded:show:理之矛，心之盾+|理之矛，心之盾}[/gold]。",
 
 
 
@@ -200,19 +202,93 @@
   "ALPHANET_CARD_PRICEY_IS_RIGHT.title": "贵就是对",
   "ALPHANET_CARD_PRICEY_IS_RIGHT.description": "你的回合结束时，自动打出[gold]手牌[/gold]中一张耗能最高的牌，除非其耗能不高于1。",
 
+  "ALPHANET_CARD_PACK_RAT.title": "惜物成癖",
+  "ALPHANET_CARD_PACK_RAT.description": "你的回合结束时，[gold]保留[/gold]你[gold]手牌[/gold]中的所有能力牌，并使它们的耗能-1。",
+
+  "ALPHANET_CARD_STRUCTURAL_FATIGUE.title": "结构疲劳",
+  "ALPHANET_CARD_STRUCTURAL_FATIGUE.description": "如果敌人在某回合攻击了你，回合结束时其失去{StructuralFatiguePower:diff()}[gold]力量[/gold]。",
 
 
 
 
-  "ALPHANET_CARD_ACCUMULATE.title": "积少成多",
-  "ALPHANET_CARD_ACCUMULATE.description": "当你抽到一张带有[gold]保留[/gold]的牌时，抽1张牌。",
+  "ALPHANET_CARD_GATE_OF_ALL_WONDERS.title": "众妙之门",
+  "ALPHANET_CARD_GATE_OF_ALL_WONDERS.description": "[gold]消耗[/gold][gold]手牌[/gold]中的所有[gold]打击[/gold]与[gold]防御[/gold]。\n[gold]消耗牌堆[/gold]中每张[gold]打击[/gold]使随机敌人失去{HpLoss:diff()}点生命，每张[gold]防御[/gold]使你获得{Block:diff()}点[gold]格挡[/gold]。",
+
+  "ALPHANET_CARD_THE_GREAT_FORMLESS.title": "大象无形",
+  "ALPHANET_CARD_THE_GREAT_FORMLESS.description": "[gold]消耗[/gold][gold]手牌[/gold]中所有带有[gold]保留[/gold]或[gold]奇迹[/gold]的牌，生成等量{IfUpgraded:show:[gold]升级过的[/gold]|}随机无色牌。\n将一张[gold]混沌[/gold]添加到[gold]手牌[/gold]。",
+
+  "ALPHANET_CARD_DISTILL_THE_TRUTH.title": "去伪存真",
+  "ALPHANET_CARD_DISTILL_THE_TRUTH.description": "抽{Cards:diff()}张牌，丢弃1张牌，随后[gold]消耗[/gold]所有[gold]手牌[/gold]。",
+  "ALPHANET_CARD_DISTILL_THE_TRUTH.selectionScreenPrompt": "选择1张牌丢弃",
+
+
+
+
+  "ALPHANET_CARD_EXPLOIT_CHAOS.title": "混沌利用",
+  "ALPHANET_CARD_EXPLOIT_CHAOS.description": "[gold]消耗[/gold][gold]手牌[/gold]中所有状态牌，获得{StrengthPower:diff()}[gold]力量[/gold]和{DexterityPower:diff()}[gold]敏捷[/gold]。\n你的每回合内，每有{Cards:diff()}张状态牌出现在你的[gold]手牌[/gold]中时，尝试将这张牌放入你的[gold]手牌[/gold]。{InCombat:\n（还需要[blue]{Remaining:diff()}[/blue]张状态牌）|}",
+
+  "ALPHANET_CARD_INTERSECTING_FATES.title": "交叉命运",
+  "ALPHANET_CARD_INTERSECTING_FATES.description": "在你的[gold]手牌[/gold]中加入X张{IfUpgraded:show:[gold]升级过的[/gold]|}其他角色卡牌，这些牌在本回合可以免费打出。",
 
   "ALPHANET_CARD_OUTSIDERS_SLUMBER.title": "千年黄粱",
   "ALPHANET_CARD_OUTSIDERS_SLUMBER.description": "立刻连续进行{Turns:diff()}个额外回合。\n在这些回合内你保留[gold]格挡[/gold]，获得[gold]无实体[/gold]并[red]失神[/red]。\n结束你的回合。",
 
+  "ALPHANET_CARD_BEYOND_MISERY.title": "病入膏肓",
+  "ALPHANET_CARD_BEYOND_MISERY.description": "在[gold]手牌[/gold]中加入一张[gold]混沌[/gold]。\n使一名敌人的负面效果翻倍。",
+
+  "ALPHANET_CARD_LIFE_DRAIN.title": "生命吸收",
+  "ALPHANET_CARD_LIFE_DRAIN.description": "使一名敌人失去{HpLoss:diff()}点生命，溢出量用于[gold]治疗[/gold]自身。\n在[gold]手牌[/gold]中加入一张[gold]混沌[/gold]。{InCombat:\n（回复{Heal}点生命）|}",
+
+
+
+
+
+
+
+
+
 
   "ALPHANET_CARD_GLOOM_AND_GLOW.title": "晦明轮转",
   "ALPHANET_CARD_GLOOM_AND_GLOW.description": "每次被打出后切换效果。\n{ModeBFlag:cond:>0?|[green]本次触发此效果 → [/green]}[purple]A[/purple]：进入[purple]临界状态[/purple]，对所有敌人造成{DamageA:diff()}点伤害。\n{ModeBFlag:cond:>0?[green]本次触发此效果 → [/green]|}[gold]B[/gold]：退出[purple]临界状态[/purple]，获得{BlockB:diff()}点[gold]格挡[/gold]，对所有敌人造成{DamageB:diff()}点伤害，给予{VulnB:diff()}层[gold]易伤[/gold]。",
+
+  "ALPHANET_CARD_FORESEEN_OUTCOME.title": "生死已定",
+  "ALPHANET_CARD_FORESEEN_OUTCOME.description": "对一名敌人造成{Damage:diff()}点伤害。进入[purple]临界状态[/purple]，将一张[gold]{IfUpgraded:show:未来+|未来}[/gold]添加到你的[gold]手牌[/gold]。",
+
+  "ALPHANET_CARD_MIRACLE_STRIKE.title": "奇迹打击",
+  "ALPHANET_CARD_MIRACLE_STRIKE.description": "对所有敌人造成{Damage:diff()}点伤害2次，抽{Cards:diff()}张牌并使其获得[gold]保留[/gold]。",
+
+  "ALPHANET_CARD_RITE_OF_REMEMBRANCE.title": "招魂仪式",
+  "ALPHANET_CARD_RITE_OF_REMEMBRANCE.description": "对所有敌人造成{Damage:diff()}点伤害\n。将一张[gold]{IfUpgraded:show:坟墓+|坟墓}[/gold]加入你的[gold]手牌[/gold]。\n被[gold]消耗[/gold]时自动打出。",
+
+  "ALPHANET_CARD_GOLD_BY_GOLD.title": "金金计较",
+  "ALPHANET_CARD_GOLD_BY_GOLD.description": "一名敌人{GoldByGoldPower:diff()}回合内死亡则额外掉落{Gold:diff()}[gold]金币[/gold]。\n对该敌人造成{Damage:diff()}点伤害。",
+  
+  "ALPHANET_CARD_ORDER_OBLIVION.title": "秩.序.灭.散.",
+  "ALPHANET_CARD_ORDER_OBLIVION.description": "进入[purple]临界状态[/purple]。\n对随机敌人造成{Damage:diff()}点伤害，重复{Hits:diff()}次。",
+
+  "ALPHANET_CARD_CASCADE_OF_MIRACLES.title": "奇迹之雨",
+  "ALPHANET_CARD_CASCADE_OF_MIRACLES.description": "造成{Damage:diff()}点伤害。\n在这场战斗中，你每次触发[gold]奇迹[/gold]效果，就额外造成一次伤害。{InCombat:\n（命中{CalculatedHits}次）|}",
+
+  "ALPHANET_CARD_UNFINISHED_DECREE.title": "未竟律令",
+  "ALPHANET_CARD_UNFINISHED_DECREE.description": "失去[red]{SelfHpLoss:diff()}[/red]点生命（保留至少{SelfMinHp:diff()}点）。\n造成{Damage:diff()}点伤害（目标保留至少{EnemyMinHp:diff()}点）。\n结束你的回合。",
+
+
+
+  "ALPHANET_CARD_SPY_AMBUSH.title": "SPY-暗度陈仓",
+  "ALPHANET_CARD_SPY_AMBUSH.description": "你在一回合内没有打出攻击牌时，下回合造成的攻击伤害+{SPYAmbushPower}%。",
+
+  "ALPHANET_CARD_VSL_TALK_TO_THE_MIND.title": "VSL-以心拒之",
+  "ALPHANET_CARD_VSL_TALK_TO_THE_MIND.description": "你的攻击每次命中敌人时，获得{VSLTalkToTheMindPower:diff()}[gold]格挡[/gold]。\n[purple]临界状态[/purple]下翻倍。",
+
+  "ALPHANET_CARD_HRE_CHAOS_FORM.title": "HRE-混沌形态",
+  "ALPHANET_CARD_HRE_CHAOS_FORM.description": "[gold]消耗[/gold]或[gold]变化[/gold][gold]混沌[/gold]时，你获得{StrengthPower:diff()}点[gold]力量[/gold]和{DexterityPower:diff()}点[gold]敏捷[/gold]。",
+
+  "ALPHANET_CARD_TCS_PANDEMONIUM.title": "TCS-群魔乱舞",
+  "ALPHANET_CARD_TCS_PANDEMONIUM.description": "处于[purple]临界状态[/purple]时，[gold]手牌[/gold]中的[gold]诅咒[/gold]牌在打出时被[gold]消耗[/gold]并抽{Cards:diff()}张牌；\n[gold]不能被打出[/gold]的[gold]诅咒[/gold]牌可以免费打出。\n牌组中每有一张[gold]诅咒[/gold]牌，此牌耗能-1{energyPrefix:energyIcons(1)}。",
+
+
+  "ALPHANET_CARD_ACCUMULATE.title": "积少成多",
+  "ALPHANET_CARD_ACCUMULATE.description": "当你抽到一张带有[gold]保留[/gold]的牌时，抽1张牌。",
 
 
 

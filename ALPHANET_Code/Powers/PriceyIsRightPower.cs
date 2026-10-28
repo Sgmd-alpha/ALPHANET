@@ -35,7 +35,7 @@ public sealed class PriceyIsRightPower : ModPowerTemplate
 
         CardPile hand = PileType.Hand.GetPile(player);
 
-        for (int i = 0; i < (int)Amount; i++)
+        for (int i = 0; i < Amount; i++)
         {
             // 1. 筛选手牌中可打出、且当前耗能高于 1 (>= 2) 的牌
             var validCards = hand.Cards

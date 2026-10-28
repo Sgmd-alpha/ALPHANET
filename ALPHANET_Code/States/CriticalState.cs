@@ -465,7 +465,7 @@ public sealed class CriticalState : ModPowerTemplate
 
     public override decimal ModifyHpLostAfterOsty(Creature target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (RelicImmunityActive && !MiracleResidue.IsPlayerMainPhase)
+        if (target == Owner && RelicImmunityActive && !MiracleResidue.IsPlayerMainPhase)
         {
             Flash();
             return 0m; 

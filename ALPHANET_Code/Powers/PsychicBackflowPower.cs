@@ -23,27 +23,25 @@ public sealed class PsychicBackflowPower : ModPowerTemplate
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
-    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    public override async Task BeforeCardPlayed(CardPlay cardPlay)
     {
-        if (cardPlay.Card.Owner != Owner.Player) return;
+        // 只响应自己玩家打出的牌
+        if (cardPlay.Card.Owner.Creature != Owner)
+            return;
 
-        // 判定打出的牌耗能是否 >= 3（兼容 X 费牌以及临时变费后的实际耗能）
-        int costAtPlay = cardPlay.Card.EnergyCost != null
-            ? Math.Max(0, cardPlay.Card.EnergyCost.GetWithModifiers(CostModifiers.All))
-            : 0;
+        // 判定打出的牌实际耗能是否 >= 3
+        // 使用官方示例中的 GetResolved()。
+        if (cardPlay.Card.EnergyCost.GetResolved() < 3)
+            return;
 
-        if (costAtPlay >= 3)
-        {
-            Flash();
-            decimal totalBlock = BaseBlockPerStack * Amount;
-            decimal totalEnergy = BaseEnergyPerStack * Amount;
+        Flash();
 
-            // 1. 获得 10 * 层数 格挡
-            await CreatureCmd.GainBlock(Owner, totalBlock, ValueProp.Unpowered, cardPlay);
+        decimal totalBlock = BaseBlockPerStack * Amount;
+        decimal totalEnergy = BaseEnergyPerStack * Amount;
 
-            // 2. 下回合获得 1 * 层数 能量
-            await PowerCmd.Apply<EnergyNextTurnPower>(choiceContext, Owner, totalEnergy, Owner, null);
-        }
+        // 1. 立即获得 10 * 层数格挡
+        await CreatureCmd.GainBlock(Owner, totalBlock, ValueProp.Unpowered, cardPlay);
+        // 2. 下回合获得 1 * 层数能量
+        await PowerCmd.Apply<EnergyNextTurnPower>(new ThrowingPlayerChoiceContext(), Owner, totalEnergy, Owner, null);
     }
 }
-

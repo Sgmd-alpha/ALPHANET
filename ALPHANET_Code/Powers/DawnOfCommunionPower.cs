@@ -24,7 +24,7 @@ public sealed class DawnOfCommunionPower : ModPowerTemplate
         if (player != Owner.Player) return;
 
         Flash();
-        int count = (int)Amount;
+        int count = Amount;
 
         // 1. 抽 1 * Amount 张牌
         await CardPileCmd.Draw(choiceContext, count, player);

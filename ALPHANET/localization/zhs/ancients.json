@@ -1,8 +1,266 @@
 {
-  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0.char": "系统自检完成。",
+  "NEOW.title": "涅奥",
+  "NEOW.epithet": "神秘抹香鲸",
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0.char": "鲸鱼兄弟，你好。",
   "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0.next": "继续",
-  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1.ancient": "[sine]去吧……连入尖塔的网络……[/sine]",
-  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0.char": "请求初始资源分配。",
-  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0.next": "继续",
-  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1.ancient": "空白正好！随便拿点东西填进去吧！"
+
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1.char": "……唔，它不会是睡着了吧？",
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1.next": "继续",
+
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-2.ancient": "[sine]爬……塔……[/sine]",
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-2.next": "继续",
+
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-3.ancient": "[sine]还有……叫我“女士”……[/sine]",
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-3.next": "继续",
+
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-4.char": "一些遗物。或许这里真有什么宝贝。",
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-4.next": "继续",
+
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-5.char": "……还有，抹香鲸能在这种环境下生存吗？",
+
+  
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.char": "你好你好啊，又是我。",
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.next": "继续",
+
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.ancient": "[sine]来看看……初始遗物……[/sine]",
+
+
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.ancient": "[sine]爬……塔……[/sine]",
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.next": "继续",
+
+  "NEOW.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-1r.char": "杀戮尖塔2，启动！",
+
+
+
+  "PAEL.title": "佩尔",
+  "PAEL.epithet": "增生的龙",
+  "PAEL.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.ancient": "看上什么了？随便拿吧……",
+  "PAEL.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.next": "继续",
+
+  "PAEL.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1r.char": "啊……谢谢？",
+
+
+  "PAEL.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.char": "你把这些东西分给我，你不会……越来越少吗？",
+  "PAEL.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.next": "继续",
+
+  "PAEL.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.ancient": "不会……我睡眠……",
+
+
+  "PAEL.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.ancient": "ZZzzzzz……",
+  "PAEL.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.next": "继续",
+
+  "PAEL.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-1r.char": "哎，我的爱好也是睡觉，你这看得我都困了。",
+
+
+
+
+
+  "OROBAS.title": "欧洛巴斯",
+  "OROBAS.epithet": "大眼睛",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0.ancient": "外来者！？来自艾薇星！？那是哪里？",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0.next": "继续",
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1.char": "啊啊啊啊啊！额？噢抱歉，在我眼中生物的视觉冲击力正比于腿的数目。",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1.next": "继续",
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-2.ancient": "别怕！！我这里有些东西给你！！试试这些！！",
+
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.ancient": "又是你！！又有故事可以听！！",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.next": "继续",
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.char": "上回书说到，在公共现象世界的飞地“启明星”……",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.next": "继续",
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-2r.ancient": "哎呀！！革命委员会坏！！",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-2r.next": "继续",
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-3r.char": "唔，不完全如此。没有革命委员会，就没有现在的艾薇星。",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-3r.next": "继续",
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-4r.ancient": "厉害！艾薇星人真厉害！！你真厉害！！",
+
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.ancient": "你又来了！！",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.next": "继续",
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-1r.char": "又是你呀，欧洛巴斯！看到你我一天的心情都好了！",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-1r.next": "继续",
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-2r.char": "其实，你一直位列“诺奥瑟最喜欢的先古之民”榜首。",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-2r.next": "继续",
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-3r.ancient": "哇！！",
+
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.3-0r.ancient": "心灵架构师！！你又来了！！",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.3-0r.next": "继续",
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.3-1r.char": "又是你呀，欧洛巴斯！看到你我一天的心情都好了！",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.3-1r.next": "继续",
+
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.3-2r.char": "来吧，看看我们能变出什么花样。",
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.3-2r.next": "继续",
+  
+  "OROBAS.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.3-3r.ancient": "魔法！！心灵魔法！！",
+
+
+
+  "TEZCATARA.title": "特兹卡塔拉",
+  "TEZCATARA.epithet": "稻草人",
+  "TEZCATARA.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.ancient": "哎呀呀，小家伙，你是……来自哪里的？",
+  "TEZCATARA.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.next": "继续",
+
+  "TEZCATARA.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1r.char": "艾薇星。嗯……或者说，地球？",
+  "TEZCATARA.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1r.next": "继续",
+
+  "TEZCATARA.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-2r.ancient": "哦？那是哪里？",
+
+
+  "TEZCATARA.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.ancient": "进来吧，我刚做了一批小吃，尝尝吧。",
+  "TEZCATARA.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.next": "继续",
+
+  "TEZCATARA.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.char": "有烤冷面吗？",
+  "TEZCATARA.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.next": "继续",
+
+  "TEZCATARA.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-2r.ancient": "哎呀，我这里都是些热的东西。烤冷面也是热的吗？哈哈，我还真没听说过那个。",
+
+
+  "TEZCATARA.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.ancient": "来吧，进来吧！吃些点心吧！",
+
+
+  "NONUPEIPE.title": "诺奴佩普",
+  "NONUPEIPE.epithet": "鱼尾贵族",
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.ancient": "啊，你是……？",
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.next": "继续",
+
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1r.char": "不过是一个无关紧要的人，莫名其妙地出现，要杀一个他根本就不认识的人。",
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1r.next": "继续",
+
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-2r.char": "豪到你了么？",
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-2r.next": "继续",
+
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-3r.ancient": "只要是想杀建筑师的，我都会支持。过来吧。",
+
+
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.ancient": "上茶，来客人了！",
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.next": "继续",
+
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.char": "啊，有人说你的名字是来源于两个NOPE占位符拼起来的结果。",
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.next": "继续",
+
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-2r.ancient": "是吗……为什么……",
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-2r.next": "继续",
+
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-3r.char": "没什么……只是想……",
+
+
+  "NONUPEIPE.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.ancient": "艾薇星的访客，来我这里领些东西吧。",
+
+
+
+
+  "TANX.title": "坦克斯",
+  "TANX.epithet": "男狮子",
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.ancient": "法师！你不需要武器吗！？",
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.next": "继续",
+
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1r.ancient": "与我一战！！",
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1r.next": "继续",
+
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-2r.char": "废其修为！",
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-2r.next": "继续",
+
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-3r.ancient": "怎么回事！！不可能！！",
+
+
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.char": "嵌合兽！你的辣个呢？",
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.next": "继续",
+
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.ancient": "什么！？",
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.next": "继续",
+
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-2r.char": "辣个，就是辣个，南十字深深封印，辣个呢？",
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-2r.next": "继续",
+
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-3r.ancient": "什么！？总之挑一把趁手的武器吧！",
+
+
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.ancient": "进攻是最好的防守！！",
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.next": "继续",
+
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-1r.char": "南十字深深封印！",
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-1r.next": "继续",
+
+  "TANX.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-2r.ancient": "哈哈哈！！痛快，痛快！！",
+
+
+
+
+  "VAKUU.title": "瓦库",
+  "VAKUU.epithet": "职业代打，胡局杀手",
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.ancient": "嗯？另一个恶魔？",
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.next": "继续",
+
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1r.char": "不是。是你看错了。",
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1r.next": "继续",
+
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-2r.char": "你是这个游戏的制作人吗？",
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-2r.next": "继续",
+
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-3r.ancient": "不不不。一定是你看错了。",
+
+  
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.ancient": "你还记得我的低语耳环吗？",
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.next": "继续",
+
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.char": "我对它做了些魔改，不然我完全没法用。",
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.next": "继续",
+
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-2r.ancient": "魔改？是魔法吗？我倒是听说过一种叫“怪物定身术”的东西。",
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-2r.next": "继续",
+
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-3r.char": "其实不是。",
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-3r.next": "继续",
+
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-4r.ancient": "算啦，无所谓了。",
+
+
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.ancient": "你又来签我的契约了？",
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.next": "继续",
+
+  "VAKUU.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-1r.char": "我以前还挺讨厌你的，最近倒是有些喜欢了。",
+
+
+
+  "DARV.title": "达弗",
+  "DARV.epithet": "老资历",
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.char": "老资历的遗物吗，有点意思。",
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-0r.next": "继续",
+
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.0-1r.ancient": "什么老资历！我这里都是上古的好宝贝！",
+
+
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.char": "这把会有符文金字塔吗？",
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-0r.next": "继续",
+
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.1-1r.ancient": "我哪知道！",
+
+
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.ancient": "哎呀，我又差点认错人了！",
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-0r.next": "继续",
+
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-1r.char": "你是把我当成那位亡灵契约师了吗？",
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-1r.next": "继续",
+
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-2r.ancient": "不。我见过另一个紫衣服的人，那位简直是个传说！",
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-2r.next": "继续",
+
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-3r.char": "哈哈哈。我和那位相比哪个更厉害？",
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-3r.next": "继续",
+
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.2-4r.ancient": "她或许比你厉害多了！",
+
+
+  "DARV.talk.ALPHANET_CHARACTER_ALPHANET_CHARACTER.3-0r.ancient": "看你战斗简直是一种享受！……下饭？倒也不完全是。"
 }

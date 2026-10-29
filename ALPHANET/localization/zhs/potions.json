@@ -1,0 +1,10 @@
+{
+  "ALPHANET_POTION_TOGGLE_TONIC.title": "自适应冲剂",
+  "ALPHANET_POTION_TOGGLE_TONIC.description": "抽[blue]{Cards}[/blue]张牌，如果处于[purple]临界状态[/purple]则退出，反之亦然。",
+
+  "ALPHANET_POTION_MASTER_CHEAP_ICED_TEA.title": "廉师傅冰茶",
+  "ALPHANET_POTION_MASTER_CHEAP_ICED_TEA.description": "对一名敌人造成等同于你已损生命值一半的伤害（向上取整）。",
+
+  "ALPHANET_POTION_DILUTED_MENG_PO_SOUP.title": "掺水孟婆汤",
+  "ALPHANET_POTION_DILUTED_MENG_PO_SOUP.description": "退出[gold]临界状态[/gold]，并获得一个额外回合。"
+}

@@ -8,8 +8,11 @@ using STS2RitsuLib.Scaffolding.Godot;
 namespace ALPHANET.Characters;
 
 [RegisterCharacter]
-public sealed class ALPHANETCharacter : ModCharacterTemplate<ALPHANETCardPool, ALPHANETRelicPool, ALPHANETPotionPool>
-{
+[RequireEpoch(typeof(Timeline.ALPHANETCharacterEpoch))]
+[UnlockEpochAfterEliteVictories(typeof(Timeline.ALPHANETEliteEpoch))]
+[UnlockEpochAfterBossVictories(typeof(Timeline.ALPHANETBossEpoch))]
+[UnlockEpochAfterAscensionOneWin(typeof(Timeline.ALPHANETAscensionOneEpoch))]
+public class ALPHANETCharacter : ModCharacterTemplate<ALPHANETCardPool, ALPHANETRelicPool, ALPHANETPotionPool>{
     public static readonly Color ThemeColor = Color.FromHsv(260f / 360f, 0.8f, 0.85f);
 
     private const string SceneRoot = $"{Entry.ResPath}/scenes/characters";
@@ -63,7 +66,7 @@ public sealed class ALPHANETCharacter : ModCharacterTemplate<ALPHANETCardPool, A
     // 某个字段没写时，RitsuLib 会从占位角色配置里补齐。
     public override string? PlaceholderCharacterId => "ironclad";
     // 如果你的人物不需要时间线小故事，加上这句。
-    public override bool RequiresEpochAndTimeline => false;
+    public override bool RequiresEpochAndTimeline => true;
     // 攻击和施法动画延迟，以对齐动画。静态占位资源不需要延迟。
     public override float AttackAnimDelay => 0f;
     public override float CastAnimDelay => 0f;

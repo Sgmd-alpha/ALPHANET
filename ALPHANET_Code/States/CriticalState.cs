@@ -359,6 +359,7 @@ public sealed class CriticalState : ModPowerTemplate
                 await PowerCmd.Apply<DexterityPower>(ctx, Owner, SilkPouch.BonusAmount, Owner, null);
             }
         }
+        await Cards.DecreeNonexistenceIdeal.TryTriggerEasterEggTransformation(Owner);
     }
 
     public override async Task AfterRemoved(Creature oldOwner)
@@ -389,6 +390,12 @@ public sealed class CriticalState : ModPowerTemplate
             {
                 await logicGate.TriggerOnExitCritical(oldOwner);
             }
+        }
+        // 3. 结算【无限认知 (InfiniteCognitionPower)】：每回合一次，退出临界状态后下一张牌额外打出一次
+        var infiniteCog = oldOwner.GetPower<Powers.InfiniteCognitionPower>();
+        if (infiniteCog != null)
+        {
+            await infiniteCog.OnExitCritical(oldOwner);
         }
     }
         

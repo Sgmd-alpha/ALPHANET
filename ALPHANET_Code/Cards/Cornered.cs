@@ -1,6 +1,7 @@
 using ALPHANET.Characters;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
@@ -14,7 +15,6 @@ namespace ALPHANET.Cards;
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class Cornered : ModCardTemplate
 {
-    // 记录这张牌当前是否已经应用了“绝境减费”，确保有借有还，绝不叠算或吞掉其他减费
     private bool _hasAppliedDiscount;
 
     public Cornered() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, true)
@@ -25,13 +25,11 @@ public sealed class Cornered : ModCardTemplate
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
     );
 
-    // 判定当前是否满足绝境条件（血量 <= 20）
     public bool IsCorneredActive => 
         IsMutable && 
         Owner?.Creature != null && 
         Owner.Creature.CurrentHp <= DynamicVars.GetIntOrDefault("HpThreshold", 20);
 
-    // 满足条件时发金光
     protected override bool ShouldGlowGoldInternal => IsCorneredActive;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => 
@@ -42,7 +40,7 @@ public sealed class Cornered : ModCardTemplate
     ];
 
     // ==========================================
-    // 核心：有借有还的费用同步状态机
+    // 核心：使用 AddThisCombat，让账本完全由我们自己掌控
     // ==========================================
     public void SyncCorneredCost()
     {
@@ -52,27 +50,41 @@ public sealed class Cornered : ModCardTemplate
 
         if (shouldBeFree && !_hasAppliedDiscount)
         {
-            // 进入绝境（<= 20血）：费用 -1（1费变0费）
-            EnergyCost.AddUntilPlayed(-1);
+            // 减费：1 变 0
+            EnergyCost.AddThisCombat(-1);
             _hasAppliedDiscount = true;
         }
         else if (!shouldBeFree && _hasAppliedDiscount)
         {
-            // 脱离绝境（回血到 > 20血）：把之前减掉的 1 费加回来（0费变回1费）！
-            EnergyCost.AddUntilPlayed(1);
+            // 回血脱离绝境，把借的费用加回来：0 变 1
+            EnergyCost.AddThisCombat(1);
             _hasAppliedDiscount = false;
         }
     }
 
-    // 克隆卡牌时重置标记（或同步当前状态），防止战斗中复制卡牌时状态错乱
     protected override void AfterCloned()
     {
         base.AfterCloned();
         _hasAppliedDiscount = false;
+        SyncCorneredCost();
     }
 
-    // 卡牌进入战斗或被打出时自检
+    // ==========================================
+    // 关键生命周期钩子：确保卡牌在手里时也能实时更新
+    // ==========================================
     public override Task AfterCardEnteredCombat(CardModel card)
+    {
+        if (card == this) SyncCorneredCost();
+        return Task.CompletedTask;
+    }
+
+    public override Task AfterCardDrawn(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
+    {
+        if (card == this) SyncCorneredCost();
+        return Task.CompletedTask;
+    }
+
+    public override Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         SyncCorneredCost();
         return Task.CompletedTask;
@@ -91,8 +103,8 @@ public sealed class Cornered : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-        // 打出后，引擎会自动清理 UntilPlayed 的费用修饰，因此我们也将自身账本复位
-        _hasAppliedDiscount = false;
+        // 【极其重要】：删除了之前的 _hasAppliedDiscount = false;
+        // 因为我们现在用的是 ThisCombat，引擎不会清理它，它必须保持 true 状态直到玩家回血！
 
         int hitCount = IsCorneredActive ? DynamicVars.Repeat.IntValue : 1;
 
@@ -108,4 +120,3 @@ public sealed class Cornered : ModCardTemplate
         DynamicVars.Repeat.UpgradeValueBy(1m);
     }
 }
-

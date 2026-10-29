@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhn54fq0nd843"
-path="res://.godot/imported/CascadeofMiracles.png-04fd5328961af8d2aff3f96e6c9a835a.ctex"
+uid="uid://bnlcng8tofnpb"
+path="res://.godot/imported/CascadeOfMiracles.png-ff56d39884823203a4383d8d582aa920.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ALPHANET/images/cards/CascadeofMiracles.png"
-dest_files=["res://.godot/imported/CascadeofMiracles.png-04fd5328961af8d2aff3f96e6c9a835a.ctex"]
+source_file="res://ALPHANET/images/cards/CascadeOfMiracles.png"
+dest_files=["res://.godot/imported/CascadeOfMiracles.png-ff56d39884823203a4383d8d582aa920.ctex"]
 
 [params]
 

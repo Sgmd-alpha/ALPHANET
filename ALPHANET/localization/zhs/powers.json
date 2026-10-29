@@ -23,6 +23,10 @@
   "ALPHANET_POWER_SOLID_IMPACT_POWER.description": "不出意外的话，这个能力应该是隐藏的。",
   "ALPHANET_POWER_SOLID_IMPACT_POWER.smartDescription": "不出意外的话，这个能力应该是隐藏的。",
 
+  "ALPHANET_POWER_DILUTED_MENG_PO_SOUP_POWER.title": "孟婆汤能力（隐藏）",
+  "ALPHANET_POWER_DILUTED_MENG_PO_SOUP_POWER.description": "不出意外的话，这个能力应该是隐藏的。",
+  "ALPHANET_POWER_DILUTED_MENG_PO_SOUP_POWER.smartDescription": "不出意外的话，这个能力应该是隐藏的。",
+
   "ALPHANET_POWER_MASTER_PLAN_POWER.title": "运筹帷幄",
   "ALPHANET_POWER_MASTER_PLAN_POWER.description": "当你第一次抽到被放入[gold]抽牌堆[/gold]底端的那张牌时，当回合不能再抽牌。",
 
@@ -87,12 +91,14 @@
   "ALPHANET_POWER_GOLD_BY_GOLD_POWER.description": "在[blue]{Amount}[/blue]回合内死亡时，额外掉落[blue]{Gold}[/blue][gold]金币[/gold]。",
   "ALPHANET_POWER_GOLD_BY_GOLD_POWER.smartDescription": "在[blue]{Amount}[/blue]回合内死亡时，额外掉落[blue]{Gold}[/blue][gold]金币[/gold]。",
 
+  "ALPHANET_POWER_BMS_DAMAGE_SUBSIDY_POWER.title": "损伤补贴",
+  "ALPHANET_POWER_BMS_DAMAGE_SUBSIDY_POWER.description": "记录你在自己回合失去的生命值（当前已累计：[blue]{Accumulated}[/blue]）。\n回合结束时，恢复累计值[blue]{HealPct}%[/blue]的生命（四舍五入）。\n下回合开始时，获得等同于累计值[blue]{Amount}[/blue]倍的[gold]格挡[/gold]。",
+  "ALPHANET_POWER_BMS_DAMAGE_SUBSIDY_POWER.smartDescription": "记录你在自己回合失去的生命值（当前已累计：[blue]{Accumulated}[/blue]）。\n回合结束时，恢复累计值[blue]{HealPct}%[/blue]的生命（四舍五入）。\n下回合开始时，获得等同于累计值[blue]{Amount}[/blue]倍的[gold]格挡[/gold]。",
 
 
   "ALPHANET_POWER_SPY_AMBUSH_POWER.title": "暗度陈仓",
   "ALPHANET_POWER_SPY_AMBUSH_POWER.description": "若上一回合未打出攻击牌，下回合获得伤害加成。",
   "ALPHANET_POWER_SPY_AMBUSH_POWER.smartDescription": "若上一回合未打出攻击牌，下回合获得伤害加成。",
-
 
   "ALPHANET_POWER_SPY_AMBUSH_BUFF_POWER.title": "暗度陈仓（增伤）",
   "ALPHANET_POWER_SPY_AMBUSH_BUFF_POWER.description": "下回合攻击伤害提升[blue]{Amount}[/blue]%（若本回合已打出攻击牌则失效）。",
@@ -102,7 +108,6 @@
   "ALPHANET_POWER_VSL_TALK_TO_THE_MIND_POWER.description": "你的攻击每次命中敌人时，获得[blue]{Amount}[/blue][gold]格挡[/gold]（[purple]临界状态[/purple]下获得[blue]{CritBlock}[/blue][gold]格挡[/gold]）。",
   "ALPHANET_POWER_VSL_TALK_TO_THE_MIND_POWER.smartDescription": "你的攻击每次命中敌人时，获得[blue]{Amount}[/blue][gold]格挡[/gold]（[purple]临界状态[/purple]下获得[blue]{CritBlock}[/blue][gold]格挡[/gold]）。",
 
-
   "ALPHANET_POWER_HRE_CHAOS_FORM_POWER.title": "混沌形态",
   "ALPHANET_POWER_HRE_CHAOS_FORM_POWER.description": "每当你[gold]消耗[/gold]或[gold]变化[/gold][gold]混沌[/gold]时，获得[blue]{Amount}[/blue]点[gold]力量[/gold]和[blue]{Amount}[/blue]点[gold]敏捷[/gold]。",
   "ALPHANET_POWER_HRE_CHAOS_FORM_POWER.smartDescription": "每当你[gold]消耗[/gold]或[gold]变化[/gold][gold]混沌[/gold]时，获得[blue]{Amount}[/blue]点[gold]力量[/gold]和[blue]{Amount}[/blue]点[gold]敏捷[/gold]。",
@@ -111,6 +116,20 @@
   "ALPHANET_POWER_TCS_PANDEMONIUM_POWER.description": "处于[purple]临界状态[/purple]时，[gold]手牌[/gold]中的[gold]诅咒[/gold]牌在打出时被[gold]消耗[/gold]并抽[blue]{Amount}[/blue]张牌；[gold]不能被打出[/gold]的[gold]诅咒[/gold]牌可以被免费打出。",
   "ALPHANET_POWER_TCS_PANDEMONIUM_POWER.smartDescription": "处于[purple]临界状态[/purple]时，[gold]手牌[/gold]中的[gold]诅咒[/gold]牌在打出时被[gold]消耗[/gold]并抽[blue]{Amount}[/blue]张牌；[gold]不能被打出[/gold]的[gold]诅咒[/gold]牌可以被免费打出。",
 
+  "ALPHANET_POWER_RND_EBB_AND_FLOW_POWER.title": "此消彼长",
+  "ALPHANET_POWER_RND_EBB_AND_FLOW_POWER.description": "每当你给予敌人负面状态时，获得[blue]{Amount}[/blue]点临时[gold]力量[/gold]、[blue]{Amount}[/blue]点临时[gold]敏捷[/gold]和{BlockGain}点[gold]格挡[/gold]。",
+
+  "ALPHANET_POWER_INFINITE_COGNITION_POWER.title": "无限认知",
+  "ALPHANET_POWER_INFINITE_COGNITION_POWER.description": "每回合第一次退出[purple]临界状态[/purple]后，你打出的下[blue]{Amount}[/blue]张牌会额外打出一次。",
+  "ALPHANET_POWER_INFINITE_COGNITION_POWER.smartDescription": "每回合第一次退出[purple]临界状态[/purple]后，你打出的下[blue]{Amount}[/blue]张牌会额外打出一次。",
+
+  "ALPHANET_POWER_INFINITE_COGNITION_ECHO_POWER.title": "无限回响",
+  "ALPHANET_POWER_INFINITE_COGNITION_ECHO_POWER.description": "你打出的下[blue]{Amount}[/blue]张牌会额外打出一次。",
+  "ALPHANET_POWER_INFINITE_COGNITION_ECHO_POWER.smartDescription": "你打出的下[blue]{Amount}[/blue]张牌会额外打出一次。",
+
+  "ALPHANET_POWER_FINAL_RESONANCE_POWER.title": "终末震荡",
+  "ALPHANET_POWER_FINAL_RESONANCE_POWER.description": "你的回合结束时，所有敌人受到[blue]{Amount}[/blue]点伤害。如果你处于[purple]临界状态[/purple]，则伤害提升至[blue]{CritDmg}[/blue]点。",
+  "ALPHANET_POWER_FINAL_RESONANCE_POWER.smartDescription": "你的回合结束时，所有敌人受到[blue]{Amount}[/blue]点伤害。如果你处于[purple]临界状态[/purple]，则伤害提升至[blue]{CritDmg}[/blue]点。",
 
   "ALPHANET_POWER_ACCUMULATE_POWER.title": "积少成多",
   "ALPHANET_POWER_ACCUMULATE_POWER.description":"当你抽到一张带有[gold]保留[/gold]的牌时，抽1张牌。",
@@ -118,6 +137,14 @@
 
   "ALPHANET_POWER_OUTSIDERS_SLUMBER_POWER.title": "千年黄粱",
   "ALPHANET_POWER_OUTSIDERS_SLUMBER_POWER.description": "你连续进行[blue]{Amount}[/blue]个额外回合。在这些回合内你[red]失神[/red]。",
-  "ALPHANET_POWER_OUTSIDERS_SLUMBER_POWER.smartDescription": "你连续进行[blue]{Amount}[/blue]个额外回合。在这些回合内你[red]失神[/red]。"
+  "ALPHANET_POWER_OUTSIDERS_SLUMBER_POWER.smartDescription": "你连续进行[blue]{Amount}[/blue]个额外回合。在这些回合内你[red]失神[/red]。",
+
+  "ALPHANET_POWER_OPTIMAL_PROPOSAL_SELF_POWER.title": "最优提案（承伤）",
+  "ALPHANET_POWER_OPTIMAL_PROPOSAL_SELF_POWER.description": "本回合替所有队友承受未被[gold]格挡[/gold]的攻击伤害。",
+  "ALPHANET_POWER_OPTIMAL_PROPOSAL_SELF_POWER.smartDescription": "本回合替所有队友承受未被[gold]格挡[/gold]的攻击伤害。",
+
+  "ALPHANET_POWER_OPTIMAL_COVERED_POWER.title": "最优提案（庇护）",
+  "ALPHANET_POWER_OPTIMAL_COVERED_POWER.description": "本回合免受攻击伤害，未被你[gold]格挡[/gold]的攻击伤害将转移给打出[gold]最优提案[/gold]的队友。",
+  "ALPHANET_POWER_OPTIMAL_COVERED_POWER.smartDescription": "本回合免受攻击伤害，未被你[gold]格挡[/gold]的攻击伤害将转移给打出[gold]最优提案[/gold]的队友。"
 
 }

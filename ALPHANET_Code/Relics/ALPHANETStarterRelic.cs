@@ -8,6 +8,7 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace ALPHANET.Relics;
 
 // 将遗物注册进 ALPHANETRelicPool，并设为 ALPHANETCharacter 的初始遗物
+//这是一个示例文件。
 public sealed class ALPHANETStarterRelic : ModRelicTemplate
 {
     // 稀有度

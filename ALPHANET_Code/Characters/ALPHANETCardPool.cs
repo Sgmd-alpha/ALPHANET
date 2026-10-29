@@ -1,10 +1,11 @@
 using Godot;
+using STS2RitsuLib.Scaffolding.Characters;
 using STS2RitsuLib.Scaffolding.Content;
 using STS2RitsuLib.Utils;
 
 namespace ALPHANET.Characters;
 
-public sealed class ALPHANETCardPool : TypeListCardPoolModel
+public sealed class ALPHANETCardPool : TypeListCardPoolModel, IModColorfulPhilosophersCardPool
 {
     private static readonly Material? _poolFrameMaterial = MaterialUtils.CreateHsvShaderMaterial(0.75f, 0.7f, 0.7f);
 

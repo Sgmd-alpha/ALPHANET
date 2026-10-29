@@ -3,6 +3,9 @@
   "ALPHANET_RELIC_ALPHANET_STARTER_RELIC.description": "每回合开始时，额外抽 {Cards:diff()} 张牌。",
   "ALPHANET_RELIC_ALPHANET_STARTER_RELIC.flavor": "测试用的遗物。",
 
+  "SEA_GLASS.ALPHANET_CHARACTER_ALPHANET.title": "戈多玻璃",
+  
+
   "ALPHANET_RELIC_MIRACLE_RESIDUE.title": "奇迹残渣",
   "ALPHANET_RELIC_MIRACLE_RESIDUE.description": "战斗开始时，将一张[gold]未来[/gold]加入你的手牌。战斗胜利时，回复生命值到10点。\n每场战斗中仅一次，受到致命伤害时保留1生命值并进入[purple]临界状态[/purple]。触发此效果后你[gold]无敌[/gold]直至你的下一个出牌阶段正式开始。",
   "ALPHANET_RELIC_MIRACLE_RESIDUE.flavor": "诺奥瑟，心灵架构师，精通心灵攻防的方法。他有成千上万副面孔，他可以使用任何一人的思考方式，又有强大而稳固的自我意识。\n物质与心灵的力量推动社会向前，但是当今时代的心灵推力太弱了。从混沌中瞥见的一缕缕奇迹成为架构计划的灵感，而那孕育奇迹的混沌能量本身也为他所用。",
@@ -19,8 +22,24 @@
   "ALPHANET_RELIC_SILK_POUCH.description": "[purple]临界状态[/purple]下，你额外拥有2点力量和2点敏捷。",
   "ALPHANET_RELIC_SILK_POUCH.flavor": "潘特莱蒙继承了一座属于自己和“过去的自己”的记忆库，但许多年过去，那些记忆飞快地褪色，无论是曾经的见闻还是旧友西格蒙德，在文字记录下一切之前就已真假难辨。\n环顾四周，这灰暗、疲弊且肮脏的地方，曾经又怎么可能诞生过那些美好与奇迹呢？但是看着日记中略显荒诞的叙述，他仍然感觉自己曾经活过。",
 
+  "ALPHANET_RELIC_MEMORIAL_PHOTOS.title": "纪念留影",
+  "ALPHANET_RELIC_MEMORIAL_PHOTOS.description": "你的回合结束时，你每拥有1张带[gold]保留[/gold]的牌，就对所有敌人造成{Damage}点伤害。",
+  "ALPHANET_RELIC_MEMORIAL_PHOTOS.flavor": "所有人都为领主准备了这个惊喜，他记录的这份最后的幸福瞬间化为燃料。共同的黎明已经近在眼前。\n时间与空间都不再稳定，潜藏于瓶底之下的混沌如暗流般涌动。宏观世界的无声战争已经打响，秩序的对立面也是全人类的敌人。共同体计划遇到的阻碍来自方方面面。必须立刻赶到灵魂塔。",
+
+  "ALPHANET_RELIC_GLASSWORK.title": "玻璃制品",
+  "ALPHANET_RELIC_GLASSWORK.description": "每回合你第一次生成牌时，获得 {Strength} 点[gold]力量[/gold]。",
+  "ALPHANET_RELIC_GLASSWORK.flavor": "人们称其为“鲁珀特之泪”……当然这个是空间/VSL架构师，梵，“构建”出来的。\n“越是强大，越是脆弱。阁下不要太勉强自己。”\n但这些或许都是幻觉。1942年，在一个神秘机械阵列的中心，诺奥瑟进入了如同恒久的昏迷。汲取过混沌的灵魂，此时也落得在混沌中浸泡。革命委员会，或者说人类意志，做出了这样的处分。",
+
+  "ALPHANET_RELIC_SEMUS_MEMOIRS.title": "西缪回忆录",
+  "ALPHANET_RELIC_SEMUS_MEMOIRS.description": "你触发[gold]奇迹[/gold]的代价减轻为2点生命值。",
+  "ALPHANET_RELIC_SEMUS_MEMOIRS.flavor": "灵魂管理办将大脑视为可被规范化的、复杂的可编程硬件，而现象世界是思绪的图形化。架构师团队负责人，诺奥瑟，表示：可以将心灵函数封装为“特性单元”，而复杂的特性单元需要依赖能承载它们的库，即“架构”。\n于是我说：“诺奥瑟，按照你的想法去做吧，我为你的研究负责；人类社会在管理办的陪伴下已经走过上下五千载，期待你的成果能将它引向下一个万年。”",
+
+  "ALPHANET_RELIC_ASTRONOMICAL_TELESCOPE.title": "天文望远镜",
+  "ALPHANET_RELIC_ASTRONOMICAL_TELESCOPE.description": "在每场战斗开始时，将2张带有[gold]保留[/gold]的卡牌从你的抽牌堆放入你的手牌。",
+  "ALPHANET_RELIC_ASTRONOMICAL_TELESCOPE.flavor": "这是属于全艾薇星甚至是周边小部分宇宙的故事，它如同公共现象世界“司南”一样基于共同认知。\n存在归于混沌的过程是不可逆的。混沌之中实际上什么都没有，但人们似乎又能从中看到百千图景……显然那些画面毫无意义或价值。\n而对存在的质疑，其终点是头脑空空。从最初级最简单的生物富集现象，到最先进的智能堆砌出艾薇星上秩序的文明，这一切是绝对的奇迹",
+
   "ALPHANET_RELIC_ARCHITECTURE_Enhancer.title": "架构增幅器",
   "ALPHANET_RELIC_ARCHITECTURE_Enhancer.description": "在每场战斗中，你首次退出[purple]临界状态[/purple]时获得1层[gold]无实体[/gold]和1层[gold]缓冲[/gold]。",
-  "ALPHANET_RELIC_ARCHITECTURE_Enhancer.flavor": "架构特性单元，作为模块化的思维能力，架构师们相信它们能协助开发人们的大脑，将其中的混沌区域缓慢转化向秩序。\n混沌是大脑内部的无意义信号，它被图形化为不可名状的黑色物质，但混沌本身也具有微弱的灵魂能量。此外，极为偶尔地，混沌会催生“奇迹”，一个诞生于巧合却可以被理论解释的现象。"
+  "ALPHANET_RELIC_ARCHITECTURE_Enhancer.flavor": "混沌是大脑内部的无意义信号，它被图形化为不可名状的黑色物质，但混沌本身也具有微弱的灵魂能量。此外，极为偶尔地，混沌会催生“奇迹”，一个诞生于巧合却可以被理论解释的现象。\n架构特性单元，作为模块化的思维能力，架构师们相信它们能协助开发人们的大脑，将其中的混沌区域缓慢转化向秩序。\n但架构师们和公共现象世界“司南”也基于人脑的混沌部分维持存在，这样现实世界的人们对他们才没有感知。混沌缩小后，他们该去哪里呢？"
 
 }

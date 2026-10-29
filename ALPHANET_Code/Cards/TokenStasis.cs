@@ -40,37 +40,63 @@ public sealed class TokenStasis : ModCardTemplate
         HoverTipFactory.FromCard<StatusChaos>()
     ];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    
+    protected override async Task OnPlay(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
     {
         var player = Owner!;
-
-        // 1. 将一张“混沌”加入手牌
-        CardModel chaosCard = CombatState!.CreateCard<StatusChaos>(player);
-        await CardPileCmd.AddGeneratedCardsToCombat([ chaosCard ], PileType.Hand, player);
-
-        // 2. 将消耗牌堆里的 1 张牌放入手牌，并使其在被打出前的耗能 -1
         CardPile exhaustPile = PileType.Exhaust.GetPile(player);
-        bool hasHandSpace = PileType.Hand.GetPile(player).Cards.Count < CardPile.MaxCardsInHand;
 
-        if (exhaustPile.Cards.Count > 0 && hasHandSpace)
+        int handCount = PileType.Hand.GetPile(player).Cards.Count;
+
+        // 为生成混沌预留一个手牌位置。
+        // 只有混沌加入手牌后仍有空间，才允许选取消耗堆中的牌。
+        bool canSelectCard =
+            exhaustPile.Cards.Count > 0
+            && handCount + 1 < CardPile.MaxCardsInHand;
+
+        CardModel? selectedCard = null;
+
+        if (canSelectCard)
         {
-            var prefs = new CardSelectorPrefs(SelectionScreenPrompt, 1);
-            
-            var selectedCards = await CardSelectCmd.FromCombatPile(
-                choiceContext, 
-                exhaustPile, 
-                player, 
-                prefs
-            );
-            CardModel? selectedCard = selectedCards.FirstOrDefault();
-
-            if (selectedCard != null)
+            try
             {
-                await CardPileCmd.Add(selectedCard, PileType.Hand);
-                selectedCard.EnergyCost.AddUntilPlayed(-1);
+                var selectedCards = await CardSelectCmd.FromCombatPile(
+                    choiceContext,
+                    exhaustPile,
+                    player,
+                    new CardSelectorPrefs(SelectionScreenPrompt, 1)
+                );
+
+                selectedCard = selectedCards.FirstOrDefault();
+            }
+            catch (OperationCanceledException)
+            {
+                // 选牌被取消时，不继续执行这张牌的剩余效果。
+                // 此时尚未生成混沌，避免只执行一半效果。
+                return;
             }
         }
+
+        // 1. 生成一张混沌并加入手牌。
+        CardModel chaosCard = CombatState!.CreateCard<StatusChaos>(player);
+
+        await CardPileCmd.AddGeneratedCardsToCombat(
+            [chaosCard],
+            PileType.Hand,
+            player
+        );
+
+        // 2. 如果成功选中了消耗堆中的牌，将其加入手牌并降低费用。
+        if (selectedCard != null)
+        {
+            await CardPileCmd.Add(selectedCard, PileType.Hand);
+
+            selectedCard.EnergyCost.AddUntilPlayed(-1);
+        }
     }
+
 
     protected override void OnUpgrade()
     {

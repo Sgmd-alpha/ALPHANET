@@ -19,8 +19,8 @@ public sealed class ChaosCostModifierPower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.Counter;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/ChaosCostModifierPower.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/ChaosCostModifierPower.png"
+        IconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
     // ==========================================

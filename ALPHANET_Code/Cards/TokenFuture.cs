@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -43,38 +44,60 @@ public sealed class TokenFuture : ModCardTemplate
         ModCardVars.Int("CardSelectCount", 2)
     ];
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    
+    
+    protected override async Task OnPlay(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
     {
         var drawPile = PileType.Draw.GetPile(Owner!);
-        
+
         if (drawPile.Cards.Count == 0)
+            return;
+
+        int selectCount = DynamicVars.GetIntOrDefault(
+            "CardSelectCount", 2);
+
+        int maxSelectable = Math.Min(
+            selectCount,
+            CardPile.MaxCardsInHand
+                - PileType.Hand.GetPile(Owner!).Cards.Count);
+
+        if (maxSelectable <= 0)
+            return;
+
+        IEnumerable<CardModel>? selectedCards;
+
+        try
         {
-            return; 
+            selectedCards = await CardSelectCmd.FromCombatPile(
+                choiceContext,
+                drawPile,
+                Owner!,
+                new CardSelectorPrefs(
+                    SelectionScreenPrompt,
+                    0,
+                    maxSelectable)
+            );
+        }
+        catch (OperationCanceledException)
+        {
+            // 选牌界面因保存并退出等原因被取消。
+            // 这是正常的取消流程，不继续执行这张牌的后续效果。
+            return;
         }
 
-        int selectCount = DynamicVars.GetIntOrDefault("CardSelectCount", 2);
-        int maxSelectable = Math.Min(selectCount, CardPile.MaxCardsInHand - PileType.Hand.GetPile(Owner!).Cards.Count);
+        if (selectedCards == null || !selectedCards.Any())
+            return;
 
-        if (maxSelectable > 0)
+        await CardPileCmd.Add(selectedCards, PileType.Hand);
+
+        foreach (var card in selectedCards)
         {
-            var selectedCards = await CardSelectCmd.FromCombatPile(
-                choiceContext, 
-                drawPile, 
-                Owner!, 
-                new CardSelectorPrefs(SelectionScreenPrompt, 0, maxSelectable)
-            );
-
-            if (selectedCards != null && selectedCards.Any())
-            {
-                await CardPileCmd.Add(selectedCards, PileType.Hand);
-
-                foreach (var card in selectedCards)
-                {
-                    card.EnergyCost.AddUntilPlayed(-1);
-                }
-            }
+            card.EnergyCost.AddUntilPlayed(-1);
         }
     }
+
 
     protected override void OnUpgrade()
     {

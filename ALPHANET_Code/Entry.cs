@@ -1,9 +1,12 @@
 using System.Reflection;
+using ALPHANET.Timeline;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
+using MegaCrit.Sts2.Core.Models.Characters;
 using STS2RitsuLib;
 using STS2RitsuLib.Interop;
+using STS2RitsuLib.Unlocks;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace ALPHANET;
@@ -24,6 +27,7 @@ public partial class Entry
         ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
-        Logger.Info("ALPHANET initialized. H-ARCHITECTURE online.");
+        ModUnlockRegistry.For(ModId).UnlockEpochAfterRunAs<Ironclad, ALPHANETCharacterEpoch>();
+        Logger.Info("ALPHANET initialized. H-ARCHITECTURE by NOC.");
     }
 }

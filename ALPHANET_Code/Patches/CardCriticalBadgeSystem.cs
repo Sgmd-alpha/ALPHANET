@@ -1,5 +1,6 @@
 using System.Reflection;
 using ALPHANET.Cards;
+using ALPHANET.Powers;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Models;
@@ -11,21 +12,31 @@ namespace ALPHANET.Systems;
 public static class CardCriticalBadgeSystem
 {
     private const string BadgeNodeName = "ALPHANET_CritBadge";
+    private const string InfinityBadgeNodeName = "ALPHANET_InfinityBadge";
 
     // =========================================================
-    // 在这里配置你的 PNG 图标路径与微调参数
+    // 1. 临界状态进出图标路径与参数
     // =========================================================
     private static readonly string EnterIconPath = $"{Entry.ResPath}/images/ui/crit_enter.png";
     private static readonly string ExitIconPath = $"{Entry.ResPath}/images/ui/crit_exit.png";
     private static readonly string EnterExitIconPath = $"{Entry.ResPath}/images/ui/crit_enter_exit.png";
 
-    // 图标位置
-    // X 越小越靠左，Y 越小越靠上
     private static readonly Vector2 BadgePosition = new(-87f, -190f);
-
-    // 图标缩放后的显示大小（像素）：无论原图多大，都会自动等比缩放到 26x26
     private static readonly Vector2 SingleBadgeSize = new(26f, 26f);
     private static readonly Vector2 DoubleBadgeSize = new(52f, 26f);
+
+    // =========================================================
+    // 2. 【无限认知】∞ 额外打出标志路径与位置参数
+    // =========================================================
+    private static readonly string InfinityIconPath = $"{Entry.ResPath}/images/ui/infinity_badge.png";
+
+    // 位置说明：
+    // (-87f, -158f) 为左上角费用水晶与临界圆圈的正下方；
+    // 如果你想放在卡面右上角或正上方，只需调整这里的 X 和 Y 即可！
+    private static readonly Vector2 InfinityBadgePosition = new(-90f, -156f);
+
+    // ∞ 符号
+    private static readonly Vector2 InfinityBadgeSize = new(40f, 40f);
 
     [HarmonyTargetMethods]
     public static IEnumerable<MethodBase> TargetMethods()
@@ -41,14 +52,13 @@ public static class CardCriticalBadgeSystem
     }
 
     /// <summary>
-    /// 供 CriticalState 在进出临界状态时调用，立刻刷新手牌中动态卡牌（如《阴阳逆转》《潜能》）的圆圈颜色！
+    /// 供 CriticalState 与 InfiniteCognitionEchoPower 调用，立刻刷新手牌中所有卡牌的角标！
     /// </summary>
     public static void RefreshAllVisibleCardBadges()
     {
         var combatRoom = MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom.Instance;
         if (combatRoom == null || !GodotObject.IsInstanceValid(combatRoom)) return;
 
-        // 遍历战斗房间树中的所有 NCard 节点，立刻更新一次它们的圆圈图标
         foreach (var nCard in FindAllCardsInNode(combatRoom))
         {
             OnCardVisualsUpdated(nCard);
@@ -81,6 +91,13 @@ public static class CardCriticalBadgeSystem
                           ?? __instance.GetNodeOrNull("Front") 
                           ?? __instance;
 
+        // 分别更新【临界状态角标】与【无限认知 ∞ 角标】
+        UpdateCritBadge(containerNode, cardModel);
+        UpdateInfinityBadge(containerNode, cardModel);
+    }
+
+    private static void UpdateCritBadge(Node containerNode, CardModel? cardModel)
+    {
         var existingBadge = containerNode.GetNodeOrNull<TextureRect>(BadgeNodeName);
 
         if (cardModel is not ICriticalIndicatorCard indicatorCard)
@@ -89,8 +106,6 @@ public static class CardCriticalBadgeSystem
             return;
         }
         
-        // 规范模型（图鉴/预览）不可用于查询运行时 Owner，
-        // 因此调用专门的预览方法；正常运行时则计算真实状态。
         var indicatorType = cardModel.IsMutable
             ? indicatorCard.GetCriticalIndicator()
             : indicatorCard.GetPreviewCriticalIndicator();
@@ -110,7 +125,6 @@ public static class CardCriticalBadgeSystem
                 ZIndex = 0,
                 ZAsRelative = true,
                 MouseFilter = Control.MouseFilterEnum.Ignore,
-                // 关键设置：忽略原图分辨率，强制缩放到我们设定的 Size 大小，并保持长宽比居中
                 ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
                 StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered
             };
@@ -121,7 +135,6 @@ public static class CardCriticalBadgeSystem
         existingBadge.Visible = true;
         existingBadge.Position = BadgePosition;
 
-        // 根据状态切换对应的 PNG 贴图与尺寸
         switch (indicatorType)
         {
             case CriticalIndicatorType.Enter:
@@ -142,5 +155,49 @@ public static class CardCriticalBadgeSystem
                 existingBadge.Size = SingleBadgeSize;
                 break;
         }
+    }
+
+    private static void UpdateInfinityBadge(Node containerNode, CardModel? cardModel)
+    {
+        var existingInfBadge = containerNode.GetNodeOrNull<TextureRect>(InfinityBadgeNodeName);
+
+        bool shouldShow = false;
+        if (cardModel != null && cardModel.IsMutable)
+        {
+            var creature = cardModel.Owner?.Creature;
+            var echoPower = creature?.GetPower<InfiniteCognitionEchoPower>();
+            if (echoPower != null && echoPower.ShouldShowInfinityBadgeOn(cardModel))
+            {
+                shouldShow = true;
+            }
+        }
+
+        if (!shouldShow)
+        {
+            if (existingInfBadge != null) existingInfBadge.Visible = false;
+            return;
+        }
+
+        if (existingInfBadge == null)
+        {
+            existingInfBadge = new TextureRect
+            {
+                Name = InfinityBadgeNodeName,
+                Position = InfinityBadgePosition,
+                ZIndex = 0,
+                ZAsRelative = true,
+                MouseFilter = Control.MouseFilterEnum.Ignore,
+                ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+                StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered
+            };
+
+            containerNode.AddChild(existingInfBadge);
+        }
+
+        existingInfBadge.Visible = true;
+        existingInfBadge.Position = InfinityBadgePosition;
+        existingInfBadge.Texture = ResourceLoader.Load<Texture2D>(InfinityIconPath);
+        existingInfBadge.CustomMinimumSize = InfinityBadgeSize;
+        existingInfBadge.Size = InfinityBadgeSize;
     }
 }

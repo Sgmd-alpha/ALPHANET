@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using ALPHANET.States;
 using HarmonyLib;
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -39,18 +34,18 @@ public sealed class TCSPandemoniumPower : ModPowerTemplate
     private static readonly ConditionalWeakTable<CardModel, CurseOriginalRecord> _curseRecords = new();
 
     // 静态构造函数：确保无论主程序如何加载，本类的 Harmony 补丁 100% 被强制注册！
-    static TCSPandemoniumPower()
-    {
-        try
-        {
-            var harmony = new Harmony("alphanet.tcspandemonium.system.patch");
-            harmony.PatchAll();
-        }
-        catch (Exception ex)
-        {
-            Godot.GD.PrintErr($"[ALPHANET] Failed to patch TCSPandemoniumPower: {ex}");
-        }
-    }
+    // static TCSPandemoniumPower()
+    // {
+    //     try
+    //     {
+    //         var harmony = new Harmony("alphanet.tcspandemonium.system.patch");
+    //         harmony.PatchAll();
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Godot.GD.PrintErr($"[ALPHANET] Failed to patch TCSPandemoniumPower: {ex}");
+    //     }
+    // }
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png",

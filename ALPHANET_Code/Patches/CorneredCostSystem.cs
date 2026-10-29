@@ -15,7 +15,8 @@ public static class CorneredCostSystem
 
     public static void RefreshPlayerCorneredCards(Player? player)
     {
-        if (player == null || _isRefreshing) return;
+        // 核心修复：增加 player.PlayerCombatState == null 的判断，拦截所有非战斗状态的调用
+        if (player == null || player.PlayerCombatState == null || _isRefreshing) return;
 
         try
         {

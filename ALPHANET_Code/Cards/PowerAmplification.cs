@@ -61,13 +61,13 @@ public sealed class PowerAmplification : ModCardTemplate
             source: this
         )).FirstOrDefault();
 
-        // 4. 将其自动打出 2 次（第二次打出通过克隆实例或额外结算触发，确保能力效果叠加两次）
+        // 4. 将其自动打出 2 次（先打出通过克隆实例或额外结算触发，确保能力效果叠加两次）
         if (selectedPower != null)
         {
-            await CardCmd.AutoPlay(choiceContext, selectedPower, null);
-
             CardModel secondCopy = selectedPower.CreateClone();
             await CardCmd.AutoPlay(choiceContext, secondCopy, null);
+            
+            await CardCmd.AutoPlay(choiceContext, selectedPower, null);
         }
     }
 

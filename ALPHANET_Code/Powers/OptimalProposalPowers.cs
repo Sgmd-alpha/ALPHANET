@@ -191,6 +191,14 @@ public sealed class OptimalCoveredPower : ModPowerTemplate
     }
 
     // 当任何生物格挡变化、能力变化或出牌后，实时刷新队友头顶的代承伤害意图数字
+    // 补全格挡减少/清空时的刷新钩子，确保格挡变动100%实时更新括号外的数字与刀剑档位
+    [HarmonyPatch(typeof(Creature), nameof(Creature.LoseBlockInternal))]
+    [HarmonyPostfix]
+    public static void OnAnyBlockLost(Creature __instance) => RefreshAllTeammateIntents(__instance?.CombatState);
+
+    [HarmonyPatch(typeof(Creature), nameof(Creature.ClearBlock))]
+    [HarmonyPostfix]
+    public static void OnAnyBlockCleared(Creature __instance) => RefreshAllTeammateIntents(__instance?.CombatState);
     [HarmonyPatch(typeof(Hook), nameof(Hook.AfterBlockGained))]
     [HarmonyPostfix]
     public static void OnAnyBlockGained(ICombatState combatState) => RefreshAllTeammateIntents(combatState);
@@ -319,7 +327,7 @@ public sealed class OptimalCoveredPower : ModPowerTemplate
     }
 
     /// <summary>
-    /// 在队友头顶挂载/更新与怪物完全一致的五档攻击意图贴图 (intent_attack_1 ~ 5) 与伤害数字
+    /// 在队友头顶挂载/更新与怪物完全一致的五档攻击意图贴图 (intent_attack_1 ~ 5) 、伤害数字与上下浮动动画
     /// </summary>
     private static void UpdateOverheadIntentVisual(Creature ally, int totalIncomingAttackDamage)
     {
@@ -332,11 +340,27 @@ public sealed class OptimalCoveredPower : ModPowerTemplate
         var container = creatureNode.GetNodeOrNull<Control>(OverheadIntentNodeName);
         if (container == null)
         {
+            // 尝试读取原版 NCreature 自带的头顶意图定位点，找不到则使用默认头顶偏移
+            Vector2 basePos = new Vector2(-32f, -270f);
+            Vector2? originalIntentPosition = creatureNode.GetNodeOrNull<Node2D>("IntentPosition")?.Position
+                                           ?? creatureNode.GetNodeOrNull<Control>("IntentContainer")?.Position;
+            if (originalIntentPosition.HasValue)
+            {
+                basePos = originalIntentPosition.Value - new Vector2(32f, 82f);
+            }
+
             container = new Control
             {
                 Name = OverheadIntentNodeName,
-                Position = new Vector2(-32f, -230f), // 位于队友角色头顶正上方
-                ZIndex = 20,
+                Position = basePos,
+                ZIndex = 1,
+                MouseFilter = Control.MouseFilterEnum.Ignore
+            };
+
+            // 内部套一层 BobbingWrapper 专门用于做上下正弦浮动，避免影响外层坐标定位
+            var bobbingWrapper = new Control
+            {
+                Name = "BobbingWrapper",
                 MouseFilter = Control.MouseFilterEnum.Ignore
             };
 
@@ -353,7 +377,7 @@ public sealed class OptimalCoveredPower : ModPowerTemplate
             var dmgLabel = new Label
             {
                 Name = "IntentDamageLabel",
-                Position = new Vector2(28f, 26f),
+                Position = new Vector2(-10f, 40f), //小：左/上；大：右/下
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 MouseFilter = Control.MouseFilterEnum.Ignore
@@ -363,22 +387,33 @@ public sealed class OptimalCoveredPower : ModPowerTemplate
             dmgLabel.AddThemeColorOverride("font_outline_color", Colors.Black);
             dmgLabel.AddThemeConstantOverride("outline_size", 8);
 
-            container.AddChild(iconRect);
-            container.AddChild(dmgLabel);
+            bobbingWrapper.AddChild(iconRect);
+            bobbingWrapper.AddChild(dmgLabel);
+            container.AddChild(bobbingWrapper);
             creatureNode.AddChild(container);
+
+            // 启动与原版敌人意图一致的无限正弦上下浮动动画 (振幅 ±6px，单程 1.1 秒)
+            Tween bobTween = bobbingWrapper.CreateTween().SetLoops();
+            bobTween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+            bobTween.TweenProperty(bobbingWrapper, "position:y", -6f, 1.1f);
+            bobTween.TweenProperty(bobbingWrapper, "position:y", 6f, 1.1f);
         }
 
         container.Visible = true;
 
-        // 按照官方 AttackIntent.GetTexture 的五档阈值加载原版攻击意图刀剑贴图
-        string tier = totalIncomingAttackDamage < 5 ? "1"
-                    : totalIncomingAttackDamage < 10 ? "2"
-                    : totalIncomingAttackDamage < 20 ? "3"
-                    : totalIncomingAttackDamage >= 40 ? "5" : "4";
+        // 1. 先计算扣除队友当前格挡后，实际溢出的未格挡伤害（即括号外的数字）
+        int unblockedPreview = Math.Max(0, totalIncomingAttackDamage - ally.Block);
+
+        // 2. 按照括号外的数字（unblockedPreview）决定攻击意图的五档刀剑贴图！
+        // 这样当显示 4 (24) 时，会按照 4 点伤害切换为第 1 档小刀图标
+        string tier = unblockedPreview < 5 ? "1"
+                    : unblockedPreview < 10 ? "2"
+                    : unblockedPreview < 20 ? "3"
+                    : unblockedPreview >= 40 ? "5" : "4";
 
         string imagePath = ImageHelper.GetImagePath($"atlases/intent_atlas.sprites/attack/intent_attack_{tier}.tres");
-        var iconNode = container.GetNode<TextureRect>("IntentIcon");
-        var labelNode = container.GetNode<Label>("IntentDamageLabel");
+        var iconNode = container.GetNode<TextureRect>("BobbingWrapper/IntentIcon");
+        var labelNode = container.GetNode<Label>("BobbingWrapper/IntentDamageLabel");
 
         try
         {
@@ -386,21 +421,22 @@ public sealed class OptimalCoveredPower : ModPowerTemplate
         }
         catch
         {
-            // 若缓存未命中则直接通过 ResourceLoader 加载
             if (ResourceLoader.Exists(imagePath))
             {
                 iconNode.Texture = ResourceLoader.Load<Texture2D>(imagePath);
             }
         }
 
-        // 计算扣除队友当前格挡后，实际还将溢出转移给你的未格挡伤害：
-        // 显示格式：直接显示队友即将受到的攻击伤害（若有格挡，括号内或高亮展示未格挡部分）
-        int unblockedPreview = Math.Max(0, totalIncomingAttackDamage - ally.Block);
+        // 如果未格挡伤害为 0（完全防住），还可以将图标稍微半透明化增强视觉反馈（可选，这里保持满不透明度但切为1档）
+        iconNode.Modulate = unblockedPreview == 0 && totalIncomingAttackDamage > 0
+            ? new Color(1f, 1f, 1f, 0.75f)
+            : Colors.White;
+
         labelNode.Text = ally.Block > 0
             ? $"{unblockedPreview} ({totalIncomingAttackDamage})"
             : $"{totalIncomingAttackDamage}";
     }
-
+    
     private static void RemoveOverheadIntent(Creature ally)
     {
         var combatRoom = NCombatRoom.Instance;

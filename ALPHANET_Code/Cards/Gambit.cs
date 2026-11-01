@@ -17,6 +17,7 @@ namespace ALPHANET.Cards;
 public sealed class Gambit : ModCardTemplate, ICriticalIndicatorCard
 {
     public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Exit;
+    public override bool GainsBlock => true;
 
     // 耗能 2，技能牌，普通稀有度，目标为单体敌人
     public Gambit() : base(2, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy, true)

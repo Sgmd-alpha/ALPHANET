@@ -1,7 +1,7 @@
 {
   "ALPHANET_POWER_CRITICAL_STATE.title": "临界状态",
-  "ALPHANET_POWER_CRITICAL_STATE.description":"在敌人的下个回合结束后，你将在你的出牌阶段开始时[red]死亡[/red]。\n[purple]临界状态[/purple]期间有敌人死亡则退出[purple]临界状态[/purple]。\n如果在[purple]临界状态[/purple]下再次触发进入[purple]临界状态[/purple]的效果，则[red]失去1点最大生命值[/red]。",
-  "ALPHANET_POWER_CRITICAL_STATE.smartDescription":"在敌人的下个回合结束后，你将在你的出牌阶段开始时[red]死亡[/red]。\n[purple]临界状态[/purple]期间有敌人死亡则退出[purple]临界状态[/purple]。\n如果在[purple]临界状态[/purple]下再次触发进入[purple]临界状态[/purple]的效果，则[red]失去1点最大生命值[/red]。",
+  "ALPHANET_POWER_CRITICAL_STATE.description":"在敌人的下个回合结束后，你将在你的出牌阶段开始时{OtherCharFlag:cond:>0?[red]失去10点生命[/red]并退出该状态|[red]死亡[/red]}。\n[purple]临界状态[/purple]期间有敌人死亡则退出[purple]临界状态[/purple]。\n如果在[purple]临界状态[/purple]下再次触发进入[purple]临界状态[/purple]的效果，则[red]失去1点最大生命值[/red]。",
+  "ALPHANET_POWER_CRITICAL_STATE.smartDescription":"在敌人的下个回合结束后，你将在你的出牌阶段开始时{OtherCharFlag:cond:>0?[red]失去10点生命[/red]并退出该状态|[red]死亡[/red]}。\n[purple]临界状态[/purple]期间有敌人死亡则退出[purple]临界状态[/purple]。\n如果在[purple]临界状态[/purple]下再次触发进入[purple]临界状态[/purple]的效果，则[red]失去1点最大生命值[/red]。",
 
   "ALPHANET_POWER_ABSENT_MINDED_POWER.title": "失神",
   "ALPHANET_POWER_ABSENT_MINDED_POWER.description": "角色无法抽牌，无法获得能量。不会触发佩尔之眼。出牌阶段开始时强制结束回合。",

@@ -3,8 +3,7 @@
   "ALPHANET_RELIC_ALPHANET_STARTER_RELIC.description": "每回合开始时，额外抽 {Cards:diff()} 张牌。",
   "ALPHANET_RELIC_ALPHANET_STARTER_RELIC.flavor": "测试用的遗物。",
 
-  "SEA_GLASS.ALPHANET_CHARACTER_ALPHANET.title": "戈多玻璃",
-  
+  "SEA_GLASS.ALPHANET_CHARACTER_ALPHANET_CHARACTER.title": "混沌玻璃",
 
   "ALPHANET_RELIC_MIRACLE_RESIDUE.title": "奇迹残渣",
   "ALPHANET_RELIC_MIRACLE_RESIDUE.description": "战斗开始时，将一张[gold]未来[/gold]加入你的手牌。战斗胜利时，回复生命值到10点。\n每场战斗中仅一次，受到致命伤害时保留1生命值并进入[purple]临界状态[/purple]。触发此效果后你[gold]无敌[/gold]直至你的下一个出牌阶段正式开始。",

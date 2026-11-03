@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Combat;
@@ -32,6 +33,54 @@ public sealed class CriticalState : ModPowerTemplate
         IconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png",
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
+
+    protected override IEnumerable<DynamicVar> CanonicalVars
+    {
+        get
+        {
+            decimal isOther = (Owner?.Player?.Character is not null and not Characters.ALPHANETCharacter) ? 1m : 0m;
+            return
+            [
+                new DynamicVar("OtherCharFlag", isOther)
+            ];
+        }
+    }
+
+    // =========================================================
+    // 联动遗物【锦囊 (SilkPouch)】：有借有还的属性增减锁
+    // =========================================================
+    private bool _hasSilkPouchBonus = false;
+
+    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
+    {
+        if (Owner?.Player?.Character is not null and not Characters.ALPHANETCharacter)
+        {
+            DynamicVars["OtherCharFlag"].BaseValue = 1m;
+        }
+        else
+        {
+            DynamicVars["OtherCharFlag"].BaseValue = 0m;
+        }
+
+        UpdateOverheadMarker(Owner, show: true);
+        Systems.CardCriticalBadgeSystem.RefreshAllVisibleCardBadges();
+
+        if (!_hasSilkPouchBonus && Owner!.IsPlayer && Owner.Player?.Relics != null)
+        {
+            var silkPouch = Owner.Player.Relics.OfType<SilkPouch>().FirstOrDefault();
+            if (silkPouch != null)
+            {
+                _hasSilkPouchBonus = true;
+                silkPouch.TriggerFlash();
+
+                var ctx = new ThrowingPlayerChoiceContext();
+                await PowerCmd.Apply<StrengthPower>(ctx, Owner, SilkPouch.BonusAmount, Owner, null);
+                await PowerCmd.Apply<DexterityPower>(ctx, Owner, SilkPouch.BonusAmount, Owner, null);
+            }
+        }
+        await Cards.DecreeNonexistenceIdeal.TryTriggerEasterEggTransformation(Owner);
+    }
+
 
     public static async Task Enter(PlayerChoiceContext? choiceContext, Creature creature, Creature? applier = null, CardModel? cardSource = null, bool fromStarterRelic = false)
     {
@@ -335,33 +384,6 @@ public sealed class CriticalState : ModPowerTemplate
 
 
 
-
-    // =========================================================
-    // 联动遗物【锦囊 (SilkPouch)】：有借有还的属性增减锁
-    // =========================================================
-    private bool _hasSilkPouchBonus = false;
-    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
-    {
-        UpdateOverheadMarker(Owner, show: true);
-        Systems.CardCriticalBadgeSystem.RefreshAllVisibleCardBadges();
-
-        // 当真正进入临界状态（状态实例首次挂载到身上）时检查玩家是否有《锦囊》
-        if (!_hasSilkPouchBonus && Owner.IsPlayer && Owner.Player?.Relics != null)
-        {
-            var silkPouch = Owner.Player.Relics.OfType<SilkPouch>().FirstOrDefault();
-            if (silkPouch != null)
-            {
-                _hasSilkPouchBonus = true;
-                silkPouch.TriggerFlash();
-
-                var ctx = new ThrowingPlayerChoiceContext();
-                await PowerCmd.Apply<StrengthPower>(ctx, Owner, SilkPouch.BonusAmount, Owner, null);
-                await PowerCmd.Apply<DexterityPower>(ctx, Owner, SilkPouch.BonusAmount, Owner, null);
-            }
-        }
-        await Cards.DecreeNonexistenceIdeal.TryTriggerEasterEggTransformation(Owner);
-    }
-
     public override async Task AfterRemoved(Creature oldOwner)
     {
         if (oldOwner == null || !oldOwner.IsAlive || !CombatManager.Instance.IsInProgress)
@@ -489,18 +511,38 @@ public sealed class CriticalState : ModPowerTemplate
         return Task.CompletedTask;
     }
 
-    public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)
+public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)
     {
         if (player != Owner.Player) return;
 
+        // 其他角色在临界状态致死判定前，扣除 10 点生命值并强行退出状态，豁免致死！
+        if (player.Character is not Characters.ALPHANETCharacter)
+        {
+            Flash();
+            
+            // 造成 10 点生命值流失
+            await CreatureCmd.Damage(
+                choiceContext, 
+                Owner, 
+                10m, 
+                ValueProp.Unblockable | ValueProp.Unpowered, 
+                null, 
+                null
+            );
+            
+            // 移除临界状态，中止后续致死逻辑
+            await PowerCmd.Remove(this);
+            return; 
+        }
+
+        // --- 以下是诺奥瑟的原始结算逻辑 ---
         RelicImmunityActive = false; 
 
         if (_hasEnemyTurnStarted && HasEnjoyedPlayableTurn)
         {
             Flash();
 
-            // 【核心修复】：检查身上是否有未使用的《奇迹残渣》
-            // 如果有，直接走免死续命逻辑并传入当前合法的 choiceContext，不在回合初调用 Kill 破坏联机状态机！
+            // 检查身上是否有未使用的《奇迹残渣》
             var miracle = player.Relics?.OfType<MiracleResidue>().FirstOrDefault();
             if (miracle != null && miracle.CanPreventDeath)
             {
@@ -527,7 +569,7 @@ public sealed class CriticalState : ModPowerTemplate
             HasEnjoyedPlayableTurn = true;
         }
     }
-
+    
     public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature target, bool wasRemovalPrevented, float deathAnimLength)
     {
         if (target.Side == CombatSide.Enemy)

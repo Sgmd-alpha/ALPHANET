@@ -1,4 +1,5 @@
 using ALPHANET.Cards;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -21,7 +22,7 @@ public sealed class TacticalReversalPower : ModPowerTemplate
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
     {
         if (player != Owner.Player) return;
 
@@ -30,7 +31,7 @@ public sealed class TacticalReversalPower : ModPowerTemplate
         var cards = new List<CardModel>(count);
         for (int i = 0; i < count; i++)
         {
-            cards.Add(Owner.CombatState!.CreateCard<TokenParadox>(player));
+            cards.Add(combatState.CreateCard<TokenParadox>(player));
         }
 
         await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, player);
@@ -45,11 +46,11 @@ public sealed class TacticalReversalUpgradedPower : ModPowerTemplate
     public override PowerStackType StackType => PowerStackType.Counter;
 
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: $"{Entry.ResPath}/images/powers/TacticalReversalPower.png",
-        BigIconPath: $"{Entry.ResPath}/images/powers/TacticalReversalPower.png"
+        IconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png",
+        BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
     {
         if (player != Owner.Player) return;
 
@@ -58,7 +59,7 @@ public sealed class TacticalReversalUpgradedPower : ModPowerTemplate
         var cards = new List<CardModel>(count);
         for (int i = 0; i < count; i++)
         {
-            CardModel card = Owner.CombatState!.CreateCard<TokenParadox>(player);
+            CardModel card = combatState.CreateCard<TokenParadox>(player);
             CardCmd.Upgrade(card);
             cards.Add(card);
         }

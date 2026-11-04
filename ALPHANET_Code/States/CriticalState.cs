@@ -22,7 +22,7 @@ namespace ALPHANET.States;
 [RegisterPower]
 public sealed class CriticalState : ModPowerTemplate
 {
-    public override PowerType Type => PowerType.Buff;
+    public override PowerType Type => PowerType.None;
     public override PowerStackType StackType => PowerStackType.Single; 
     private const string OverheadMarkerNodeName = "ALPHANET_CriticalOverheadMarker";
     public bool RelicImmunityActive = false;

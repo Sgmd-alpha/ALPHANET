@@ -25,6 +25,7 @@ public partial class Entry
 
         RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
         ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
+        ALPHANETTimelineUnlocks.Register();
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
         ModUnlockRegistry.For(ModId).UnlockEpochAfterRunAs<Ironclad, ALPHANETCharacterEpoch>();

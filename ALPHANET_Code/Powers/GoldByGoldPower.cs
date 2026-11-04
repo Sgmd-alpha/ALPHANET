@@ -34,15 +34,31 @@ public sealed class GoldByGoldPower : ModPowerTemplate
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
-    // 悬停描述中的 {Gold} 绑定到此变量，初始为 15
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new GoldVar(DefaultGoldAmount)
-    ];
+    // 【修复】：将 CanonicalVars 改为动态属性，为图鉴假人提供默认的 Amount
+    protected override IEnumerable<DynamicVar> CanonicalVars
+    {
+        get
+        {
+            // Owner == null 说明是在图鉴看牌；Amount <= 0 说明还没叠加上去。此时默认显示 3 回合。
+            decimal displayTurns = (Owner == null || Amount <= 0m) ? 3m : Amount;
+            return
+            [
+                new DynamicVar("Amount", displayTurns),
+                new GoldVar(DefaultGoldAmount)
+            ];
+        }
+    }
 
     public void SetInitialGold(int gold)
     {
         DynamicVars.Gold.BaseValue = gold;
+    }
+
+    // 【修复】：在状态刚挂到敌人身上时，同步真实的 Amount 到文本变量中
+    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
+    {
+        await base.AfterApplied(applier, cardSource);
+        DynamicVars["Amount"].BaseValue = Amount;
     }
 
     // 当再次对该敌人打出《金金计较》时：累加悬停显示的金币数，并将右下角的剩余回合数刷新回 3 回合
@@ -61,6 +77,9 @@ public sealed class GoldByGoldPower : ModPowerTemplate
         {
             await PowerCmd.ModifyAmount(choiceContext, this, diff, applier, cardSource);
         }
+        
+        // 【修复3】：层数刷新后，同步更新文本里的回合数
+        DynamicVars["Amount"].BaseValue = Amount; 
     }
 
     // 敌方回合结束时，右下角剩余回合数 -1（减到 0 时 PowerCmd.Decrement 会自动移除该状态）
@@ -74,6 +93,8 @@ public sealed class GoldByGoldPower : ModPowerTemplate
         if (side == Owner.Side)
         {
             await PowerCmd.Decrement(this);
+            // 【核心修复4】：回合递减后，同步更新文本里剩余的回合数
+            DynamicVars["Amount"].BaseValue = Amount; 
         }
     }
 

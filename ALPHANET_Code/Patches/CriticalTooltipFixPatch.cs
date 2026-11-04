@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;

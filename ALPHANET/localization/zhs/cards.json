@@ -112,7 +112,7 @@
   "ALPHANET_CARD_CHAOS_CONVERSION.description": "获得{Block:diff()}点[gold]格挡[/gold]。\n将[gold]手牌[/gold]中所有[gold]混沌[/gold]变化为随机{IfUpgraded:show:[gold]升级过的[/gold]|}[gold]普通牌[/gold]。这些牌获得[gold]虚无[/gold]。",
 
   "ALPHANET_CARD_BLIND_SWAP.title": "胡乱替换",
-  "ALPHANET_CARD_BLIND_SWAP.description": "丢弃[gold]手牌[/gold]中的1张牌，抽{Cards:diff()}张牌。\n将一张[gold]混沌[/gold]加入你的[gold]手牌[/gold]。",
+  "ALPHANET_CARD_BLIND_SWAP.description": "丢弃1张牌，抽{Cards:diff()}张牌。\n将一张[gold]混沌[/gold]加入[gold]手牌[/gold]。",
 
   "ALPHANET_CARD_SECONDARY_FUSE.title": "第二熔断",
   "ALPHANET_CARD_SECONDARY_FUSE.description": "下回合开始时，你[red]失神[/red]并在一回合内免疫一切伤害。",

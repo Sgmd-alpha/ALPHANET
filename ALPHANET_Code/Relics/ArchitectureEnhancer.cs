@@ -3,6 +3,7 @@ using ALPHANET.States;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -45,17 +46,35 @@ public sealed class ArchitectureEnhancer : ModRelicTemplate
     // ==========================================
     public async Task TriggerIntangible(Creature creature)
     {
-        // 如果本场战斗已经触发过，则直接跳过
+        // 本场战斗已经触发过
         if (_usedThisCombat)
-        {
             return;
-        }
 
-        // 标记为已使用并闪烁遗物
+        // 标记为已使用，避免重复触发
         _usedThisCombat = true;
+
+        // 遗物闪光
         Flash();
-        
-        await PowerCmd.Apply<IntangiblePower>(null!, creature, 1m, creature, null);
-        await PowerCmd.Apply<BufferPower>(null!, creature, 1m, creature, null);
+
+        // 使用安全的选择上下文
+        var ctx = new ThrowingPlayerChoiceContext();
+
+        // 获得 1 层无实体
+        await PowerCmd.Apply<IntangiblePower>(
+            ctx,
+            creature,
+            1m,
+            creature,
+            null
+        );
+
+        // 获得 1 层缓冲
+        await PowerCmd.Apply<BufferPower>(
+            ctx,
+            creature,
+            1m,
+            creature,
+            null
+        );
     }
 }

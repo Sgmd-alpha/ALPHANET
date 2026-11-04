@@ -405,7 +405,20 @@ public sealed class CriticalState : ModPowerTemplate
             await PowerCmd.Apply<DexterityPower>(ctx, oldOwner, -SilkPouch.BonusAmount, oldOwner, null);
         }
 
-        // 2. 结算【逻辑器A1 (LogicGateA1)】：退出临界状态时获得 6 点格挡
+        // 2. 结算【架构增幅器】：首次退出临界状态时获得无实体与缓冲
+        if (oldOwner.IsPlayer && oldOwner.Player?.Relics != null)
+        {
+            var architectureEnhancer = oldOwner.Player.Relics
+                .OfType<ArchitectureEnhancer>()
+                .FirstOrDefault();
+
+            if (architectureEnhancer != null)
+            {
+                await architectureEnhancer.TriggerIntangible(oldOwner);
+            }
+        }
+
+        // 3. 结算【逻辑器A1】：退出临界状态时获得 6 点格挡
         if (oldOwner.IsPlayer && oldOwner.Player?.Relics != null)
         {
             foreach (var logicGate in oldOwner.Player.Relics.OfType<LogicGateA1>())
@@ -413,8 +426,10 @@ public sealed class CriticalState : ModPowerTemplate
                 await logicGate.TriggerOnExitCritical(oldOwner);
             }
         }
-        // 3. 结算【无限认知 (InfiniteCognitionPower)】：每回合一次，退出临界状态后下一张牌额外打出一次
+
+        // 4. 结算【无限认知】：退出临界状态后下一张牌额外打出一次
         var infiniteCog = oldOwner.GetPower<Powers.InfiniteCognitionPower>();
+
         if (infiniteCog != null)
         {
             await infiniteCog.OnExitCritical(oldOwner);

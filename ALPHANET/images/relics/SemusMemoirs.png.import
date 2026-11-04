@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkktvgby3noxg"
-path="res://.godot/imported/ArchitectureAmplifier.png-a6bddc8e4451f4f833a86b4db5787efb.ctex"
+uid="uid://dixfklirbpup5"
+path="res://.godot/imported/SemusMemoirs.png-faa0b5efc57c064827361796f9a6e3f3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ALPHANET/images/relics/ArchitectureAmplifier.png"
-dest_files=["res://.godot/imported/ArchitectureAmplifier.png-a6bddc8e4451f4f833a86b4db5787efb.ctex"]
+source_file="res://ALPHANET/images/relics/SemusMemoirs.png"
+dest_files=["res://.godot/imported/SemusMemoirs.png-faa0b5efc57c064827361796f9a6e3f3.ctex"]
 
 [params]
 

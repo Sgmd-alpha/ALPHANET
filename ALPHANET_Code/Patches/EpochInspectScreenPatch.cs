@@ -8,6 +8,10 @@ namespace ALPHANET.Patches;
 [HarmonyPatch(typeof(NEpochInspectScreen))]
 public static class EpochInspectScreenPatch
 {
+    // 记录已经绑定过拖拽事件的文本框，避免重复绑定
+    private static readonly HashSet<ulong> DragBoundControlIds = new();
+    private static bool _isDragging = false;
+
     // 如果你想仅针对特定的几个时间线生效，可以把它们的类名填在这里；
     // 留空则自动对你模组（ALPHANET）注册的所有时间线生效！
     private static readonly HashSet<string> TargetEpochClassNames = new()
@@ -25,8 +29,6 @@ public static class EpochInspectScreenPatch
                         m.GetParameters().Any(p => p.ParameterType.Name.Contains("Epoch")));
     }
 
-    // ____fancyText：利用 Harmony 四个下划线语法，直接注入私有字段 _fancyText
-    // __args：获取原方法传入的所有参数，用来精准判断当前打开的是不是你模组的时间线
     // 用来备份原版文本框的初始位置和尺寸，防止切换到原版时间线时错位
     private static Vector2? _originalPos;
     private static Vector2? _originalSize;
@@ -58,19 +60,25 @@ public static class EpochInspectScreenPatch
             rtl.ScrollActive = true;
             rtl.FitContent = false;
             rtl.ClipContents = true;
+            rtl.SelectionEnabled = false; // 关闭默认划词选中，防止与拖拽冲突
 
-            // 2. 【核心修复】：激活鼠标滚轮支持！
-            // 原版默认是 MouseFilterEnum.Ignore，会导致滚轮事件直接穿透失效
+            // 2. 【核心修复】：激活鼠标滚轮支持与左键拖拽阅读！
             rtl.MouseFilter = Control.MouseFilterEnum.Stop;
             ____fancyText.MouseFilter = Control.MouseFilterEnum.Pass;
+
+            // 绑定鼠标左键按住拖拽事件（每个节点实例仅绑定一次）
+            ulong id = rtl.GetInstanceId();
+            if (DragBoundControlIds.Add(id))
+            {
+                rtl.GuiInput += (@event) => OnRichTextGuiInput(rtl, @event);
+            }
 
             // 3. 【核心修复】：调整文本框大小与位置，避免压住底部的“关闭”按钮
             // 默认控制在下半部分红框内（高度 250 像素刚好在关闭按钮上方停住）
             float targetHeight = 250f; 
             float offsetY = 0f;
 
-            // 如果你希望像截图上方大红框那样，当没有插图（或你想强行占用上方空间）时把文本框往上提：
-            // 只要把下面这行 if 条件改成 true，文本框就会往上移动 260 像素并拉长到 510 像素！
+            // 如果你希望像截图上方大红框那样，当没有插图时把文本框往上提：
             bool expandIntoPortraitArea = false; 
             if (expandIntoPortraitArea)
             {
@@ -110,6 +118,7 @@ public static class EpochInspectScreenPatch
 
             rtl.FitContent = true;
             rtl.MouseFilter = Control.MouseFilterEnum.Ignore;
+            rtl.SelectionEnabled = true;
 
             if (!string.IsNullOrEmpty(rtl.Text) && rtl.Text.StartsWith("[left]"))
             {
@@ -118,6 +127,31 @@ public static class EpochInspectScreenPatch
             }
         }
     }
+
+    /// <summary>
+    /// 处理鼠标左键按住上下拖拽文本（抓手模式）
+    /// </summary>
+    private static void OnRichTextGuiInput(RichTextLabel rtl, InputEvent @event)
+    {
+        if (!rtl.ScrollActive) return;
+
+        if (@event is InputEventMouseButton mb && mb.ButtonIndex == MouseButton.Left)
+        {
+            _isDragging = mb.Pressed;
+            rtl.AcceptEvent();
+        }
+        else if (@event is InputEventMouseMotion mm && _isDragging && (mm.ButtonMask & MouseButtonMask.Left) != 0)
+        {
+            VScrollBar? vScroll = rtl.GetVScrollBar();
+            if (vScroll != null)
+            {
+                // 鼠标往上拖 (Relative.Y < 0) 时，滚动条数值增加（往下看）
+                vScroll.Value -= mm.Relative.Y;
+                rtl.AcceptEvent();
+            }
+        }
+    }
+
     /// <summary>
     /// 通过方法参数和实例字段，判断当前展示的时间线是否属于 ALPHANET 模组
     /// </summary>

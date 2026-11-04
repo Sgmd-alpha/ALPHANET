@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -55,6 +56,20 @@ public sealed class HyperCriticalPower : ModPowerTemplate
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
+    // 描述用：记录 HyperCriticalEnterPower 的实际层数
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new IntVar("EntryAmount", 0m)
+    ];
+
+    private void SyncEntryAmountForDescription()
+    {
+        if (Owner == null) return;
+
+        int entryAmount = Owner.GetPower<HyperCriticalEnterPower>()?.Amount ?? 0;
+        DynamicVars["EntryAmount"].BaseValue = entryAmount;
+    }
+
     private async Task SyncCriticalBonusAsync()
     {
         if (Owner == null || !Owner.IsAlive) return;
@@ -76,11 +91,21 @@ public sealed class HyperCriticalPower : ModPowerTemplate
     public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         await SyncCriticalBonusAsync();
+        SyncEntryAmountForDescription();
     }
 
     public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
-        if (power.Owner == Owner && (power is CriticalState || power == this))
+        if (power.Owner != Owner) return;
+
+        // 入场效果层数发生变化时，同步描述数值
+        if (power is HyperCriticalEnterPower)
+        {
+            SyncEntryAmountForDescription();
+            return;
+        }
+
+        if (power is CriticalState || power == this)
         {
             await SyncCriticalBonusAsync();
         }

@@ -33,7 +33,7 @@ public sealed class RepulsionField : ModCardTemplate, ICriticalIndicatorCard
     protected override IEnumerable<DynamicVar> CanonicalVars => 
     [
         ModCardVars.Int("Draw", 2),
-        ModCardVars.Int("Vulnerable", 1)
+        ModCardVars.Int("Vulnerable", 2)
     ];
 
     // 悬浮提示，临界状态和易伤
@@ -41,7 +41,7 @@ public sealed class RepulsionField : ModCardTemplate, ICriticalIndicatorCard
     {
         get
         {
-            int vulnerable = DynamicVars.GetIntOrDefault("Vulnerable", 1);
+            int vulnerable = DynamicVars.GetIntOrDefault("Vulnerable", 2);
             return new List<IHoverTip>
             {
                 HoverTipFactory.FromPower<CriticalState>(),
@@ -65,7 +65,7 @@ public sealed class RepulsionField : ModCardTemplate, ICriticalIndicatorCard
         await CardPileCmd.Draw(choiceContext, drawAmt, Owner);
 
         // 4. 群体易伤
-        int vulnAmt = DynamicVars.GetIntOrDefault("Vulnerable", 1);
+        int vulnAmt = DynamicVars.GetIntOrDefault("Vulnerable", 2);
         foreach (Creature enemy in CombatState!.HittableEnemies)
         {
             await PowerCmd.Apply<VulnerablePower>(choiceContext, enemy, vulnAmt, player.Creature, this);
@@ -74,7 +74,7 @@ public sealed class RepulsionField : ModCardTemplate, ICriticalIndicatorCard
 
     protected override void OnUpgrade()
     {
-        DynamicVars["Vulnerable"].UpgradeValueBy(1m);
+        DynamicVars["Draw"].UpgradeValueBy(1m);
         AddKeyword(CardKeyword.Retain);
     }
 }

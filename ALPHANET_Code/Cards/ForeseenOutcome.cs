@@ -1,5 +1,5 @@
 using ALPHANET.Characters;
-using ALPHANET.States;
+//using ALPHANET.States;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -37,7 +37,7 @@ public sealed class ForeseenOutcome : ModCardTemplate, ICriticalIndicatorCard
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<CriticalState>(),
+        //HoverTipFactory.FromPower<CriticalState>(),
         HoverTipFactory.FromCard<TokenFuture>(upgrade: IsUpgraded)
     ];
 
@@ -46,7 +46,7 @@ public sealed class ForeseenOutcome : ModCardTemplate, ICriticalIndicatorCard
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
         var player = Owner!;
-        var creature = player.Creature;
+        // var creature = player.Creature;
 
         // 1. 造成 10 点伤害
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
@@ -56,7 +56,7 @@ public sealed class ForeseenOutcome : ModCardTemplate, ICriticalIndicatorCard
             .Execute(choiceContext);
 
         // 2. 进入临界状态
-        await CriticalState.Enter(choiceContext, creature, creature, this, false);
+        //await CriticalState.Enter(choiceContext, creature, creature, this, false);
 
         // 3. 将一张“未来”添加到手牌（若本牌升级，则生成“未来+”）
         CardModel futureCard = CombatState!.CreateCard<TokenFuture>(player);

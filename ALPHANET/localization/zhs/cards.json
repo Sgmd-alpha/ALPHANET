@@ -6,6 +6,8 @@
   "ALPHANET_CARD_TEMPLATE_DEFEND.description": "获得{Block:diff()}点[gold]格挡[/gold]。",
 
 
+  
+
   "ALPHANET_CARD_ALPHA_STRIKE.title": "打击",
   "ALPHANET_CARD_ALPHA_STRIKE.description": "造成{Damage:diff()}点伤害。",
 
@@ -23,6 +25,9 @@
 
   "ALPHANET_CARD_DAWN_OF_COMMUNION.title": "共同的黎明",
   "ALPHANET_CARD_DAWN_OF_COMMUNION.description": "每回合开始时，抽{Cards:diff()}张牌，获得{Energy:diff()}{energyPrefix:energyIcons(1)}，如果你不处于[purple]临界状态[/purple]则进入[purple]临界状态[/purple]。",
+
+
+
 
 
   "ALPHANET_CARD_COUNTER.title": "反制",
@@ -89,8 +94,10 @@
 
 
 
+
+
   "ALPHANET_CARD_MIRACLE_SURGE.title": "奇迹涌现",
-  "ALPHANET_CARD_MIRACLE_SURGE.description": "抽{Cards:diff()}张牌。\n每次抽到带有[gold]奇迹[/gold]的牌时，额外抽一张牌。",
+  "ALPHANET_CARD_MIRACLE_SURGE.description": "抽{Cards:diff()}张牌。\n每抽到带有[gold]奇迹[/gold]的牌时，额外抽一张牌。",
 
   "ALPHANET_CARD_PHASE_INVERSION.title": "阴阳逆转",
   "ALPHANET_CARD_PHASE_INVERSION.description": "在手牌中加入一张[gold]混沌[/gold]。抽{Cards:diff()}张牌。\n如果自身处于[purple]临界状态[/purple]则退出，反之亦然。",
@@ -156,7 +163,7 @@
   "ALPHANET_CARD_GUARD_CRUSH.description": "造成{Damage:diff()}点伤害。\n如果目标拥有[gold]格挡[/gold]，则造成{HeavyDamage:diff()}点伤害。{InCombat:\n（造成{CalculatedDamage:diff()}点伤害。）|}",
 
   "ALPHANET_CARD_COMFORT_ZONE.title": "习常惯行",
-  "ALPHANET_CARD_COMFORT_ZONE.description": "造成{Damage:diff()}点伤害{Repeat:diff()}次，获得{Block:diff()}点[gold]格挡[/gold]。\n每次使用这张攻击牌时使伤害+{DamageScale:diff()}且[gold]格挡[/gold]+{BlockScale:diff()}，使用其他攻击牌时重置。",
+  "ALPHANET_CARD_COMFORT_ZONE.description": "造成{Damage:diff()}点伤害{Repeat:diff()}次，获得{Block:diff()}点[gold]格挡[/gold]。\n每次打出这张攻击牌时伤害+{DamageScale:diff()}且[gold]格挡[/gold]+{BlockScale:diff()}，打出其他攻击牌时重置。",
 
   "ALPHANET_CARD_DAD_SLAP.title": "父爱一击",
   "ALPHANET_CARD_DAD_SLAP.description": "如果你的[gold]手牌[/gold]中不存在其他攻击或技能牌，则对所有敌人造成{Damage:diff()}点伤害。\n你的回合开始时，将这张牌从[gold]消耗牌堆[/gold]放入你的手牌。",
@@ -171,7 +178,7 @@
   "ALPHANET_CARD_ZAKO_SLAYER.description": "尝试对敌人造成{Damage:diff()}点伤害。\n如果高于该敌人意图伤害，则正常造成伤害且获得{Block:diff()}点[gold]格挡[/gold]。否则无任何效果。{InCombat:\n（目标当前意图伤害：{EnemyIntentDmg:diff()}）|}",
 
   "ALPHANET_CARD_BURNOUT.title": "弹射起步",
-  "ALPHANET_CARD_BURNOUT.description": "对敌人造成{Damage:diff()}点伤害。获得{Energy:diff()}能量。抽{Cards:diff()}张牌。",
+  "ALPHANET_CARD_BURNOUT.description": "造成{Damage:diff()}点伤害。获得{Energy:diff()}{energyPrefix:energyIcons(1)}。抽{Cards:diff()}张牌。",
 
   "ALPHANET_CARD_MIND_SCOOP.title": "削心如泥",
   "ALPHANET_CARD_MIND_SCOOP.description": "造成{Damage:diff()}点伤害。\n在[gold]抽牌堆[/gold]中加入一张[gold]{IfUpgraded:show:理之矛，心之盾+|理之矛，心之盾}[/gold]。",
@@ -221,9 +228,6 @@
   "ALPHANET_CARD_DISTILL_THE_TRUTH.description": "抽{Cards:diff()}张牌，丢弃1张牌，随后[gold]消耗[/gold]所有[gold]手牌[/gold]。",
   "ALPHANET_CARD_DISTILL_THE_TRUTH.selectionScreenPrompt": "选择1张牌丢弃",
 
-
-
-
   "ALPHANET_CARD_EXPLOIT_CHAOS.title": "混沌利用",
   "ALPHANET_CARD_EXPLOIT_CHAOS.description": "[gold]消耗[/gold][gold]手牌[/gold]中所有状态牌，获得{StrengthPower:diff()}[gold]力量[/gold]和{DexterityPower:diff()}[gold]敏捷[/gold]。\n你的每回合内，每有{Cards:diff()}张状态牌出现在你的[gold]手牌[/gold]中时，尝试将这张牌放入你的[gold]手牌[/gold]。{InCombat:\n（还需要[blue]{Remaining:diff()}[/blue]张状态牌）|}",
 
@@ -241,18 +245,11 @@
 
 
 
-
-
-
-
-
-
-
   "ALPHANET_CARD_GLOOM_AND_GLOW.title": "晦明轮转",
   "ALPHANET_CARD_GLOOM_AND_GLOW.description": "每次被打出后切换效果。\n{ModeBFlag:cond:>0?|[green]本次触发此效果 → [/green]}[purple]A[/purple]：进入[purple]临界状态[/purple]，对所有敌人造成{DamageA:diff()}点伤害。\n{ModeBFlag:cond:>0?[green]本次触发此效果 → [/green]|}[gold]B[/gold]：退出[purple]临界状态[/purple]，获得{BlockB:diff()}点[gold]格挡[/gold]，对所有敌人造成{DamageB:diff()}点伤害，给予{VulnB:diff()}层[gold]易伤[/gold]。",
 
   "ALPHANET_CARD_FORESEEN_OUTCOME.title": "生死已定",
-  "ALPHANET_CARD_FORESEEN_OUTCOME.description": "对一名敌人造成{Damage:diff()}点伤害。进入[purple]临界状态[/purple]，将一张[gold]{IfUpgraded:show:未来+|未来}[/gold]添加到你的[gold]手牌[/gold]。",
+  "ALPHANET_CARD_FORESEEN_OUTCOME.description": "造成{Damage:diff()}点伤害。\n将一张[gold]{IfUpgraded:show:未来+|未来}[/gold]加入[gold]手牌[/gold]。",
 
   "ALPHANET_CARD_MIRACLE_STRIKE.title": "奇迹打击",
   "ALPHANET_CARD_MIRACLE_STRIKE.description": "对所有敌人造成{Damage:diff()}点伤害2次，抽{Cards:diff()}张牌并使其获得[gold]保留[/gold]。",
@@ -319,6 +316,8 @@
 
   "ALPHANET_CARD_KARMIC_CATACLYSM.title": "业障爆发",
   "ALPHANET_CARD_KARMIC_CATACLYSM.description": "造成{Damage:diff()}点伤害。\n所有人每抽到、生成或被添加过一张[gold]状态[/gold]牌，伤害增加2点；\n对于[gold]诅咒[/gold]牌则改为增加6点。",
+
+
 
 
   "ALPHANET_CARD_TOKEN_MEMORIES.title": "记忆",

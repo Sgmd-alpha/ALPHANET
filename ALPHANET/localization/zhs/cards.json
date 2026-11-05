@@ -209,8 +209,8 @@
   "ALPHANET_CARD_PRICEY_IS_RIGHT.title": "贵就是对",
   "ALPHANET_CARD_PRICEY_IS_RIGHT.description": "你的回合结束时，自动打出[gold]手牌[/gold]中一张耗能最高的牌，除非其耗能不高于1。",
 
-  "ALPHANET_CARD_PACK_RAT.title": "惜物成癖",
-  "ALPHANET_CARD_PACK_RAT.description": "你的回合结束时，[gold]保留[/gold]你[gold]手牌[/gold]中的所有能力牌，并使它们的耗能-1。",
+  "ALPHANET_CARD_BRK_THROUGH.title": "开动脑筋",
+  "ALPHANET_CARD_BRK_THROUGH.description": "将2张此牌的复制品加入[gold]你的弃牌堆[/gold]。\n回合开始时，你获得{Block:diff()}点[gold]格挡[/gold]。",
 
   "ALPHANET_CARD_STRUCTURAL_FATIGUE.title": "结构疲劳",
   "ALPHANET_CARD_STRUCTURAL_FATIGUE.description": "如果敌人在某回合攻击了你，回合结束时其失去{StructuralFatiguePower:diff()}[gold]力量[/gold]。",

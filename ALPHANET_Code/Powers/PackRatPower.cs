@@ -4,12 +4,16 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
-using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace ALPHANET.Powers;
 
-[RegisterPower]
+//  这是一个已被移除的能力
+//  "ALPHANET_POWER_PACK_RAT_POWER.title": "惜物成癖",
+//  "ALPHANET_POWER_PACK_RAT_POWER.description": "你的回合结束时，[gold]保留[/gold]你[gold]手牌[/gold]中的所有能力牌，并使它们的耗能-[blue]{Amount}[/blue]。",
+//  "ALPHANET_POWER_PACK_RAT_POWER.smartDescription": "你的回合结束时，[gold]保留[/gold]你[gold]手牌[/gold]中的所有能力牌，并使它们的耗能-[blue]{Amount}[/blue]。",
+
+// [RegisterPower]
 public sealed class PackRatPower : ModPowerTemplate
 {
     public override PowerType Type => PowerType.Buff;

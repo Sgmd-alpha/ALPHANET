@@ -79,9 +79,9 @@
   "ALPHANET_POWER_PRICEY_IS_RIGHT_POWER.description": "你的回合结束时，自动打出[gold]手牌[/gold]中[blue]{Amount}[/blue]张耗能最高的牌，除非其耗能不高于1。",
   "ALPHANET_POWER_PRICEY_IS_RIGHT_POWER.smartDescription": "你的回合结束时，自动打出[gold]手牌[/gold]中[blue]{Amount}[/blue]张耗能最高的牌，除非其耗能不高于1。",
 
-  "ALPHANET_POWER_PACK_RAT_POWER.title": "惜物成癖",
-  "ALPHANET_POWER_PACK_RAT_POWER.description": "你的回合结束时，[gold]保留[/gold]你[gold]手牌[/gold]中的所有能力牌，并使它们的耗能-[blue]{Amount}[/blue]。",
-  "ALPHANET_POWER_PACK_RAT_POWER.smartDescription": "你的回合结束时，[gold]保留[/gold]你[gold]手牌[/gold]中的所有能力牌，并使它们的耗能-[blue]{Amount}[/blue]。",
+  "ALPHANET_POWER_BRK_THROUGH_POWER.title": "开动脑筋",
+  "ALPHANET_POWER_BRK_THROUGH_POWER.description": "你的回合开始时，获得[blue]{Block}[/blue]点[gold]格挡[/gold]。",
+  "ALPHANET_POWER_BRK_THROUGH_POWER.smartDescription": "你的回合开始时，获得[blue]{Block}[/blue]点[gold]格挡[/gold]。",
 
   "ALPHANET_POWER_STRUCTURAL_FATIGUE_POWER.title": "结构疲劳",
   "ALPHANET_POWER_STRUCTURAL_FATIGUE_POWER.description": "如果敌人在某回合攻击了你，回合结束时其失去[blue]{Amount}[/blue]点[gold]力量[/gold]。",

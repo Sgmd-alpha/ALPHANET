@@ -42,8 +42,8 @@ public sealed class Foot : ModCardTemplate
         // 1. 基础基准值 (8)，绝不直接显示在卡面文本上
         new CalculationBaseVar(8m),
         
-        // 2. 每次保留的增幅系数 (10)，专门用于本地化文本和绿色高亮
-        new ExtraDamageVar(10m),
+        // 2. 每次保留的增幅系数 (12)，专门用于本地化文本和绿色高亮
+        new ExtraDamageVar(12m),
         
         // 3. 最终变色龙变量：将乘数动态绑定为“被保留的次数”
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? target) => 
@@ -81,7 +81,7 @@ public sealed class Foot : ModCardTemplate
     protected override void OnUpgrade()
     {
         // 升级时：基础伤害 +2，保留增幅 +4
-        // 如果 C# 编译器提示找不到 CalculationBase 属性，可替换为 DynamicVars["CalculationBase"].UpgradeValueBy(2m);
+        // DynamicVars["CalculationBase"].UpgradeValueBy(2m);
         DynamicVars.CalculationBase.UpgradeValueBy(2m);
         DynamicVars.ExtraDamage.UpgradeValueBy(4m);
     }

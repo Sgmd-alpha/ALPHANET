@@ -26,6 +26,7 @@ public sealed class BrkThrough : ModCardTemplate
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
+        CardKeyword.Ethereal,
         ALPHANETKeywords.Miracle
     ];
 
@@ -36,7 +37,7 @@ public sealed class BrkThrough : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(2m, ValueProp.Move)
+        new BlockVar(2m, ValueProp.Unpowered)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

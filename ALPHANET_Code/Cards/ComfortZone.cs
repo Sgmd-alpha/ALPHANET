@@ -70,11 +70,17 @@ public sealed class ComfortZone : ModCardTemplate
         ResetOtherComfortZonesInPiles(this);
     }
 
-    // 当场上有任何卡牌打出时触发（处理本卡在手牌中监听到其他攻击牌的情况）
+    // 当场上有任何卡牌打出时触发
     public override Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // 必须是卡牌拥有者自己打出的攻击牌，且不是这张牌本身
-        if (cardPlay.Card.Owner == Owner && cardPlay.Card.Type == CardType.Attack && cardPlay.Card != this)
+        // 1. 必须是卡牌拥有者自己打出的牌
+        // 2. 不能是这张牌本身
+        // 3. 必须是攻击牌
+        // 4. 【核心修改】卡牌的稀有度不能是初始牌（Basic）
+        if (cardPlay.Card.Owner == Owner && 
+            cardPlay.Card != this && 
+            cardPlay.Card.Type == CardType.Attack && 
+            cardPlay.Card.Rarity != CardRarity.Basic)
         {
             ResetGrowth();
         }

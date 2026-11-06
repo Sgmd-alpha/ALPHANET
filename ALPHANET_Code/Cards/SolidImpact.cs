@@ -1,11 +1,12 @@
 using ALPHANET.Characters;
+using ALPHANET.Keywords;
 using ALPHANET.Powers;
+using ALPHANET.Tags;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -26,21 +27,27 @@ public sealed class SolidImpact : ModCardTemplate
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => 
     [ 
-        CardKeyword.Retain 
+        CardKeyword.Retain,
+        ALPHANETKeywords.Miracle
+    ];
+
+    protected override HashSet<CardTag> CanonicalTags =>
+    [
+        ALPHANETTags.Miracle
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => 
     [
         // 预设一个基础伤害用于引擎的正规流转（它会正常吃到力量加成）
-        new DamageVar(14m, ValueProp.Move),
+        new DamageVar(18m, ValueProp.Move),
         // 显式声明保底伤害变量
-        ModCardVars.Int("MinDamage", 14),
-        ModCardVars.Int("Weak", 1)
+        ModCardVars.Int("MinDamage", 18),
+        // ModCardVars.Int("Weak", 1)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
     [
-        HoverTipFactory.FromPower<WeakPower>()
+        // HoverTipFactory.FromPower<WeakPower>()
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -53,7 +60,7 @@ public sealed class SolidImpact : ModCardTemplate
         await CreatureCmd.TriggerAnim(player.Creature, "Cast", player.Character.CastAnimDelay);
 
         // 1. 获取保底伤害数值
-        decimal minDmg = DynamicVars.GetIntOrDefault("MinDamage", 14);
+        decimal minDmg = DynamicVars.GetIntOrDefault("MinDamage", 18);
 
         // 2. 【核心修改】：寻找是否已经挂载过幽灵拦截器
         var interceptor = player.Creature.GetPower<SolidImpactPower>();
@@ -90,14 +97,14 @@ public sealed class SolidImpact : ModCardTemplate
         }
 
         // 7. 给予虚弱
-        int weakAmt = DynamicVars.GetIntOrDefault("Weak", 1);
-        await PowerCmd.Apply<WeakPower>(choiceContext, target, weakAmt, player.Creature, this);
+        // int weakAmt = DynamicVars.GetIntOrDefault("Weak", 1);
+        // await PowerCmd.Apply<WeakPower>(choiceContext, target, weakAmt, player.Creature, this);
     }
     protected override void OnUpgrade()
     {
         // 升级时：基础与保底伤害同步增加，虚弱层数增加
-        DynamicVars.Damage.UpgradeValueBy(4m);
-        DynamicVars["MinDamage"].UpgradeValueBy(4m);
-        DynamicVars["Weak"].UpgradeValueBy(1m);
+        DynamicVars.Damage.UpgradeValueBy(6m);
+        DynamicVars["MinDamage"].UpgradeValueBy(6m);
+        // DynamicVars["Weak"].UpgradeValueBy(1m);
     }
 }

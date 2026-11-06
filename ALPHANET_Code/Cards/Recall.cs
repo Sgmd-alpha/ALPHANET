@@ -56,10 +56,22 @@ public sealed class Recall : ModCardTemplate
             baseValue: 10m)
     ];
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromCard<TokenMemories>()
-    ];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips
+    {
+        get
+        {
+            CardModel previewCard = ModelDb.Card<TokenMemories>();
+            if (IsUpgraded)
+            {
+                previewCard = previewCard.ToMutable();
+                CardCmd.Upgrade(previewCard);
+            }
+            return 
+            [
+                HoverTipFactory.FromCard(previewCard)
+            ];
+        }
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

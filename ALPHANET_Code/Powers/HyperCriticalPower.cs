@@ -42,13 +42,15 @@ public sealed class HyperCriticalEnterPower : ModPowerTemplate
 /// <summary>
 /// 超级临界（组件 2）：临界状态下额外具有 Amount 点力量和敏捷（有借有还账本，支持多层叠加与中途打出）
 /// </summary>
+/// <summary>
+/// 超级临界（组件 2）：临界状态下额外具有 Amount 点力量和敏捷
+/// </summary>
 [RegisterPower]
 public sealed class HyperCriticalPower : ModPowerTemplate
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    // 记录当前已经实际借给玩家的临时力量/敏捷层数，做到精准“多退少补”
     private decimal _grantedBonus = 0m;
 
     public override PowerAssetProfile AssetProfile => new(
@@ -56,18 +58,31 @@ public sealed class HyperCriticalPower : ModPowerTemplate
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
-    // 描述用：记录 HyperCriticalEnterPower 的实际层数
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new IntVar("EntryAmount", 0m)
-    ];
+    // 【核心修改 1】：改为动态获取，为图鉴假人兜底默认值
+    protected override IEnumerable<DynamicVar> CanonicalVars
+    {
+        get
+        {
+            // Owner == null 说明是在图鉴看牌；Amount <= 0 说明还没正式生效
+            decimal displayEntry = (Owner == null) ? 1m : (Owner.GetPower<HyperCriticalEnterPower>()?.Amount ?? 0m);
+            decimal displayAmount = (Owner == null || Amount <= 0m) ? 1m : Amount;
 
-    private void SyncEntryAmountForDescription()
+            return
+            [
+                new IntVar("EntryAmount", displayEntry),
+                new IntVar("Amount", displayAmount) // 强制声明 Amount，防止底层报乱码
+            ];
+        }
+    }
+
+    // 【核心修改 2】：统一的文本变量同步方法
+    private void SyncVarsForDescription()
     {
         if (Owner == null) return;
 
         int entryAmount = Owner.GetPower<HyperCriticalEnterPower>()?.Amount ?? 0;
         DynamicVars["EntryAmount"].BaseValue = entryAmount;
+        DynamicVars["Amount"].BaseValue = Amount; // 同步当前真实层数
     }
 
     private async Task SyncCriticalBonusAsync()
@@ -91,27 +106,30 @@ public sealed class HyperCriticalPower : ModPowerTemplate
     public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         await SyncCriticalBonusAsync();
-        SyncEntryAmountForDescription();
+        SyncVarsForDescription(); // 附加时同步文本
     }
 
     public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         if (power.Owner != Owner) return;
 
-        // 入场效果层数发生变化时，同步描述数值
         if (power is HyperCriticalEnterPower)
         {
-            SyncEntryAmountForDescription();
+            SyncVarsForDescription(); // 组件1层数变化，同步文本
             return;
         }
 
         if (power is CriticalState || power == this)
         {
             await SyncCriticalBonusAsync();
+            
+            if (power == this)
+            {
+                SyncVarsForDescription(); // 自身层数变化，同步文本
+            }
         }
     }
 
-    // 当退出临界状态时，CriticalState 被移除，触发手牌/状态栏同步归还力量与敏捷
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await SyncCriticalBonusAsync();
@@ -129,4 +147,3 @@ public sealed class HyperCriticalPower : ModPowerTemplate
         }
     }
 }
-

@@ -41,6 +41,22 @@ public sealed class BrkThroughPower : ModPowerTemplate
         DynamicVars.Block.BaseValue = Amount;
     }
 
+    public override async Task AfterPowerAmountChanged(
+    PlayerChoiceContext choiceContext,
+    PowerModel power,
+    decimal amount,
+    Creature? applier,
+    CardModel? cardSource)
+    {
+        await base.AfterPowerAmountChanged(
+            choiceContext, power, amount, applier, cardSource);
+
+        if (power == this)
+        {
+            DynamicVars.Block.BaseValue = Amount;
+        }
+    }
+
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         if (player == Owner?.Player)

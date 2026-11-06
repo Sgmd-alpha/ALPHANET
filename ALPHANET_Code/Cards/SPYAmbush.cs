@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using ALPHANET.Characters;
 using ALPHANET.Powers;
 using MegaCrit.Sts2.Core.Commands;
@@ -34,12 +36,11 @@ public sealed class SPYAmbush : ModCardTemplate
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var player = Owner!;
-        var creature = player.Creature;
-        decimal basePercent = IsUpgraded ? 50m : 25m;
+        var creature = Owner!.Creature;
+        decimal basePercent = DynamicVars["SPYAmbushPower"].BaseValue; // 未升级 25，升级后 50
 
-        // 给予可叠加的核心能力
-        await PowerCmd.Apply<SPYAmbushPower>(choiceContext, creature, 1m, creature, this);
+        // 给予核心能力（层数即为 25 或 50）
+        await PowerCmd.Apply<SPYAmbushPower>(choiceContext, creature, basePercent, creature, this);
     }
 
     protected override void OnUpgrade()

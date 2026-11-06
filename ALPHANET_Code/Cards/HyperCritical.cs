@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Cards.DynamicVars;
@@ -30,13 +31,31 @@ public sealed class HyperCritical : ModCardTemplate
         ModCardVars.Int("CritStat", 1)
     ];
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromPower<CriticalState>(),
-        HoverTipFactory.FromPower<StrengthPower>(),
-        HoverTipFactory.FromPower<DexterityPower>(),
-        HoverTipFactory.FromPower<HyperCriticalPower>()
-    ];
+    // 将原本的静态数组改为动态 get 属性
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips
+    {
+        get
+        {
+            var tips = new List<IHoverTip>
+            {
+                HoverTipFactory.FromPower<CriticalState>(),
+                HoverTipFactory.FromPower<StrengthPower>(),
+                HoverTipFactory.FromPower<DexterityPower>()
+            };
+
+            // 【修改】：直接读取 JSON 文本
+            LocString title = new("powers", "ALPHANET_POWER_HYPER_CRITICAL_POWER.title");
+            LocString desc = new("powers", "ALPHANET_POWER_HYPER_CRITICAL_POWER.description");
+            
+            // 强行把当前卡牌的数值（包含升级后的增量）注入到文本描述中
+            desc.Add("EntryAmount", DynamicVars["EnterStr"].BaseValue.ToString());
+            desc.Add("Amount", DynamicVars["CritStat"].BaseValue.ToString());
+
+            tips.Add(new HoverTip(title, desc));
+            
+            return tips;
+        }
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

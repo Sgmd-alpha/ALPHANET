@@ -23,7 +23,8 @@ public sealed class Recall : ModCardTemplate
     }
 
     public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
+        PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png",
+        PortraitMaterialPath: $"{Entry.ResPath}/images/Portrait/{GetType().Name}PortraitMat.tres"
     );
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

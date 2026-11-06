@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://86utw2bfg06g"]
+
+[ext_resource type="Shader" uid="uid://bkdg14bbt2ech" path="res://ALPHANET/images/Portrait/RecallPortrait.gdshader" id="1_xb86e"]
+[ext_resource type="Texture2D" uid="uid://b7atxfp2rfcfu" path="res://ALPHANET/images/Portrait/RecallPortrait.png" id="2_bbiun"]
+
+[resource]
+shader = ExtResource("1_xb86e")
+shader_parameter/small_texture = ExtResource("2_bbiun")
+shader_parameter/has_custom_small_tex = true
+shader_parameter/barrage_cutoff_y = 0.62
+shader_parameter/threshold = 0.0025

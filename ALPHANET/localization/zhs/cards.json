@@ -162,7 +162,7 @@
   "ALPHANET_CARD_GUARD_CRUSH.description": "造成{Damage:diff()}点伤害。\n如果目标拥有[gold]格挡[/gold]，则造成{HeavyDamage:diff()}点伤害。{InCombat:\n（造成{CalculatedDamage:diff()}点伤害。）|}",
 
   "ALPHANET_CARD_COMFORT_ZONE.title": "习常惯行",
-  "ALPHANET_CARD_COMFORT_ZONE.description": "造成{Damage:diff()}点伤害{Repeat:diff()}次，获得{Block:diff()}点[gold]格挡[/gold]。\n每次打出这张攻击牌时伤害+{DamageScale:diff()}且[gold]格挡[/gold]+{BlockScale:diff()}，打出[gold]非初始[/gold]攻击牌时重置。",
+  "ALPHANET_CARD_COMFORT_ZONE.description": "造成{Damage:diff()}点伤害{Repeat:diff()}次，获得{Block:diff()}点[gold]格挡[/gold]。\n每次打出，伤害+{DamageScale:diff()}、[gold]格挡[/gold]+{BlockScale:diff()}。\n打出时消耗[gold]手牌[/gold]中稀有度最高的攻击牌，成功则额外成长。\n打出[gold]非初始[/gold]攻击牌时重置。",
   
   "ALPHANET_CARD_DAD_SLAP.title": "父爱一击",
   "ALPHANET_CARD_DAD_SLAP.description": "如果你的[gold]手牌[/gold]中不存在其他攻击或技能牌，则对所有敌人造成{Damage:diff()}点伤害。\n每回合开始时，将这张牌从[gold]消耗牌堆[/gold]放入你的手牌。",

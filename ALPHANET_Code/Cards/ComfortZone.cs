@@ -1,6 +1,8 @@
+using System.Reflection;
 using ALPHANET.Characters;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
@@ -14,31 +16,24 @@ namespace ALPHANET.Cards;
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class ComfortZone : ModCardTemplate
 {
-    // 记录这张牌当前已经累计叠加了多少点伤害与格挡，方便重置时精准扣回（完美兼容升级前后的混合叠加）
-    private decimal _accumulatedDamageBonus;
-    private decimal _accumulatedBlockBonus;
+    private int _growthCount;
 
     public ComfortZone() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
     }
+
     public override bool GainsBlock => true;
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
     );
 
-    // 声明默认具有格挡属性
     protected override IEnumerable<DynamicVar> CanonicalVars => 
     [
-        // 基础伤害 3，受力量等加成
         new DamageVar(3m, ValueProp.Move),
-        // 攻击次数 2 次
         new RepeatVar(2),
-        // 基础格挡 2，受敏捷等加成
         new BlockVar(2m, ValueProp.Move),
-        // 每次使用的伤害增量 (3 -> 升级后 4)
         ModCardVars.Int("DamageScale", 3),
-        // 每次使用的格挡增量 (2 -> 升级后 3)
         ModCardVars.Int("BlockScale", 2)
     ];
 
@@ -46,74 +41,91 @@ public sealed class ComfortZone : ModCardTemplate
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-        // 1. 造成 2 次伤害
+        SyncGrowthToVars();
+
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(DynamicVars.Repeat.IntValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        // 2. 获得格挡
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+        await CreatureCmd.GainBlock(Owner!.Creature, DynamicVars.Block, cardPlay);
 
-        // 3. 每次使用这张牌后，使本卡的伤害和格挡增加
-        decimal dmgIncrease = DynamicVars["DamageScale"].BaseValue;
-        decimal blkIncrease = DynamicVars["BlockScale"].BaseValue;
+        // 在打出时尝试寻找并消耗手牌中符合条件且稀有度最高的一张攻击牌
+        var targetCard = PileType.Hand.GetPile(Owner)?.Cards
+            .Where(c => c.Type == CardType.Attack && c != this)
+            .OrderByDescending(c => c.Rarity switch
+            {
+                CardRarity.Ancient => 5,
+                CardRarity.Rare => 4,
+                CardRarity.Uncommon => 3,
+                CardRarity.Common => 2,
+                CardRarity.Basic => 1,
+                _ => 0
+            })
+            .FirstOrDefault();
 
-        DynamicVars.Damage.BaseValue += dmgIncrease;
-        DynamicVars.Block.BaseValue += blkIncrease;
+        // 基础成长 1 次
+        int growthToAdd = 1;
 
-        _accumulatedDamageBonus += dmgIncrease;
-        _accumulatedBlockBonus += blkIncrease;
+        if (targetCard != null)
+        {
+            // 成功消耗手牌中的该卡牌，额外成长 1 次
+            await CardCmd.Exhaust(choiceContext, targetCard);
+            growthToAdd++; 
+        }
 
-        // 4. 遍历自己的所有牌堆：如果牌库里还有【另一张】《习常惯行》，对它而言你刚打出了“其他攻击牌”，需要将另一张重置！
+        // 一次性加上所有成长并同步
+        _growthCount += growthToAdd;
+        SyncGrowthToVars();
+
+        // 重置牌堆里【其他】的《习常惯行》
         ResetOtherComfortZonesInPiles(this);
     }
 
-    // 当场上有任何卡牌打出时触发
-    public override Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    // 静态判断方法，供全局 Harmony 补丁调用
+    public static bool IsBasicCard(CardModel card)
     {
-        // 1. 必须是卡牌拥有者自己打出的牌
-        // 2. 不能是这张牌本身
-        // 3. 必须是攻击牌
-        // 4. 【核心修改】卡牌的稀有度不能是初始牌（Basic）
-        if (cardPlay.Card.Owner == Owner && 
-            cardPlay.Card != this && 
-            cardPlay.Card.Type == CardType.Attack && 
-            cardPlay.Card.Rarity != CardRarity.Basic)
-        {
-            ResetGrowth();
-        }
-        return Task.CompletedTask;
+        if (card.Rarity == CardRarity.Basic)
+            return true;
+
+        var cardType = card.GetType();
+        if (cardType.GetCustomAttribute<RegisterCharacterStarterCardAttribute>() != null)
+            return true;
+
+        string typeName = cardType.Name;
+        if (typeName is "AlphaStrike" or "Salvage" or "Strike")
+            return true;
+
+        return false;
     }
 
-    // 精准重置本卡叠加过的数值（即使叠加中途被武装升级过，也能精准退回升级后的初始白值！）
+    public void SyncGrowthToVars()
+    {
+        decimal baseDmg = IsUpgraded ? 4m : 3m;
+        decimal baseBlk = IsUpgraded ? 3m : 2m;
+        decimal scaleDmg = IsUpgraded ? 4m : 3m;
+        decimal scaleBlk = IsUpgraded ? 3m : 2m;
+
+        DynamicVars.Damage.BaseValue = baseDmg + (_growthCount * scaleDmg);
+        DynamicVars.Block.BaseValue = baseBlk + (_growthCount * scaleBlk);
+    }
+
     public void ResetGrowth()
     {
-        if (_accumulatedDamageBonus != 0m)
+        if (_growthCount > 0)
         {
-            DynamicVars.Damage.BaseValue -= _accumulatedDamageBonus;
-            _accumulatedDamageBonus = 0m;
-        }
-
-        if (_accumulatedBlockBonus != 0m)
-        {
-            DynamicVars.Block.BaseValue -= _accumulatedBlockBonus;
-            _accumulatedBlockBonus = 0m;
+            _growthCount = 0;
+            SyncGrowthToVars();
         }
     }
 
-    // 克隆卡牌时，同步复制累计账本，确保被复制出来的牌也能正常重置回初始值
     protected override void AfterCloned()
     {
         base.AfterCloned();
-        if (CanonicalInstance is ComfortZone)
-        {
-            // 注意：MutableClone 会通过字段浅拷贝自动把 _accumulatedDamageBonus 和 _accumulatedBlockBonus 复制过来，无需清零
-        }
+        SyncGrowthToVars();
     }
 
-    // 辅助方法：重置该玩家所有牌堆中的其他《习常惯行》
     public static void ResetOtherComfortZonesInPiles(CardModel playedAttackCard)
     {
         var player = playedAttackCard.Owner;
@@ -127,7 +139,7 @@ public sealed class ComfortZone : ModCardTemplate
 
             foreach (var card in pile.Cards)
             {
-                if (card is ComfortZone cz && cz != playedAttackCard)
+                if (card is ComfortZone cz && !ReferenceEquals(cz, playedAttackCard))
                 {
                     cz.ResetGrowth();
                 }
@@ -143,7 +155,7 @@ public sealed class ComfortZone : ModCardTemplate
         DynamicVars.Block.UpgradeValueBy(1m);
         // 每次成长的伤害幅度 +1 (3 -> 4)
         DynamicVars["DamageScale"].UpgradeValueBy(1m);
-        // 每次成长的格挡幅度 +1 (2 -> 3)
         DynamicVars["BlockScale"].UpgradeValueBy(1m);
+        SyncGrowthToVars();
     }
 }

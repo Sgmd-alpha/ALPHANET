@@ -40,22 +40,20 @@ public sealed class TCSPandemonium : ModCardTemplate
     ];
 
     /// <summary>
-    /// 统计当前玩家在【抽牌堆 + 弃牌堆 + 手牌】中的诅咒牌总数
+    /// 统计当前玩家在战斗中所有牌堆里的诅咒牌总数
     /// </summary>
     public static int CountCursesInActivePiles(Player? player)
     {
-        if (player == null) return 0;
+        if (player == null || !CombatManager.Instance.IsInProgress)
+            return 0;
 
-        if (CombatManager.Instance.IsInProgress && player.Creature?.CombatState != null)
-        {
-            int count = 0;
-            count += PileType.Draw.GetPile(player).Cards.Count(c => c != null && c.Type == CardType.Curse);
-            count += PileType.Discard.GetPile(player).Cards.Count(c => c != null && c.Type == CardType.Curse);
-            count += PileType.Hand.GetPile(player).Cards.Count(c => c != null && c.Type == CardType.Curse);
-            return count;
-        }
+        var combatState = player.PlayerCombatState;
+        if (combatState == null)
+            return 0;
 
-        return 0;
+        return combatState.AllPiles
+            .SelectMany(pile => pile.Cards)
+            .Count(card => card.Type == CardType.Curse);
     }
 
     // =========================================================================

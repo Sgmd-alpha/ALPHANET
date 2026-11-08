@@ -18,6 +18,8 @@ public sealed class GoldByGold : ModCardTemplate
     {
     }
 
+    public override bool CanBeGeneratedInCombat => false;
+
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png"
     );

@@ -13,9 +13,9 @@ using STS2RitsuLib.Scaffolding.Content;
 namespace ALPHANET.Cards;
 
 [RegisterCard(typeof(ALPHANETCardPool))]
-public sealed class ForeseenOutcome : ModCardTemplate, ICriticalIndicatorCard
+public sealed class ForeseenOutcome : ModCardTemplate
 {
-    public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Enter;
+    //public CriticalIndicatorType GetCriticalIndicator() => CriticalIndicatorType.Enter;
 
     public ForeseenOutcome() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy, true)
     {

@@ -75,43 +75,58 @@ public static event Func<PlayerChoiceContext, CardModel, CardPlay, int, Task>? O
 // =========================================================  
 // 1. 允许能量不足时打出奇迹卡  
 // =========================================================  
-[HarmonyPatch(typeof(CardModel), nameof(CardModel.CanPlay),  
-    new Type[] { typeof(UnplayableReason), typeof(AbstractModel) },  
-    new ArgumentType[] { ArgumentType.Out, ArgumentType.Out })]  
-[HarmonyPostfix]  
-public static void RepulsionPlayableWithArgs(CardModel __instance, ref bool __result, ref UnplayableReason reason)  
-{  
-    if (__instance?.Tags != null && __instance.Tags.Contains(ALPHANETTags.Miracle))  
+// =========================================================  
+    // 1. 允许能量不足时打出奇迹卡（严格遵守凡庸等 BlockedByHook 限制）  
+    // =========================================================  
+    [HarmonyPatch(typeof(CardModel), nameof(CardModel.CanPlay),  
+        [typeof(UnplayableReason), typeof(AbstractModel)],  
+        [ArgumentType.Out, ArgumentType.Out])]  
+    [HarmonyPostfix]  
+    public static void RepulsionPlayableWithArgs(
+        CardModel __instance, 
+        ref bool __result, 
+        ref UnplayableReason reason, 
+        ref AbstractModel? preventer)  
     {  
-        if (!__result && reason == UnplayableReason.EnergyCostTooHigh)  
+        if (__instance?.Tags == null || !__instance.Tags.Contains(ALPHANETTags.Miracle)) 
+            return;
+
+        if (!__result && (reason & UnplayableReason.EnergyCostTooHigh) != 0)  
         {  
-            reason = UnplayableReason.None;  
-            __result = true;  
+            // 1. 剥离“能量不足”这一项原因
+            UnplayableReason remainingReasons = reason & ~UnplayableReason.EnergyCostTooHigh;
+
+            // 2. 如果官方的 CanPlay 在检测到能量不足时提前 return 了（还没来得及跑后面的凡庸 Hook 检查），
+            //    我们在这里主动补跑一次 Hook.ShouldPlay 检查，绝不让奇迹卡绕过凡庸！
+            if (remainingReasons == UnplayableReason.None && __instance.CombatState != null)
+            {
+                if (!Hook.ShouldPlay(__instance.CombatState, __instance, out AbstractModel? hookPreventer, AutoPlayType.None))
+                {
+                    remainingReasons |= UnplayableReason.BlockedByHook;
+                    preventer = hookPreventer;
+                }
+            }
+
+            // 3. 只有当剥离能量不足、且通过了凡庸等所有 Hook 检查后，才真正允许打出！
+            reason = remainingReasons;
+            if (reason == UnplayableReason.None)
+            {
+                __result = true;
+            }
         }  
     }  
-}  
 
-[HarmonyPatch(typeof(CardModel), nameof(CardModel.CanPlay), new Type[0])]  
-[HarmonyPostfix]  
-public static void RepulsionPlayableNoArgs(CardModel __instance, ref bool __result)  
-{  
-    if (__instance?.Tags != null && __instance.Tags.Contains(ALPHANETTags.Miracle))  
+    [HarmonyPatch(typeof(CardModel), nameof(CardModel.CanPlay), [])]  
+    [HarmonyPostfix]  
+    public static void RepulsionPlayableNoArgs(CardModel __instance, ref bool __result)  
     {  
-        if (!__result && __instance.Owner?.PlayerCombatState != null)  
+        // 直接复用带参的 CanPlay 逻辑，彻底消灭两边判定不一致导致的越狱打出 Bug！
+        if (!__result && __instance?.Tags != null && __instance.Tags.Contains(ALPHANETTags.Miracle))  
         {  
-            int currentEnergy = __instance.Owner.PlayerCombatState.Energy;  
-            int actualCost = Math.Max(0, __instance.EnergyCost.GetWithModifiers(CostModifiers.All));  
-
-            bool internalPlayable = Traverse.Create(__instance).Property("IsPlayable").GetValue<bool>();  
-
-            if (actualCost > currentEnergy && internalPlayable)  
-            {  
-                __result = true;  
-            }  
+            __result = __instance.CanPlay(out _, out _);
         }  
-    }  
-}  
-
+    }
+    
 // =========================================================  
 // 2. 拦截扣费瞬间：记录能量差额（红光触发）或 0 费打出（金光触发）  
 // =========================================================  
@@ -159,8 +174,12 @@ public static void HandleMiracleGlowGold(CardModel __instance, ref bool __result
     if (__instance?.Tags == null || !__instance.Tags.Contains(ALPHANETTags.Miracle) || __result) return;  
     if (__instance.EnergyCost == null) return;  
 
+    // 只有在当前确实能打出（未被凡庸等阻挡）时，0费才亮金框
     int actualCost = Math.Max(0, __instance.EnergyCost.GetWithModifiers(CostModifiers.All));  
-    if (actualCost == 0) __result = true;  
+    if (actualCost == 0 && __instance.CanPlay(out _, out _)) 
+    {
+        __result = true;  
+    }
 }  
 
 [HarmonyPatch(typeof(CardModel), "get_ShouldGlowRed")]  
@@ -173,11 +192,12 @@ public static void HandleMiracleGlowRed(CardModel __instance, ref bool __result)
     int currentEnergy = __instance.Owner.PlayerCombatState.Energy;  
     int actualCost = Math.Max(0, __instance.EnergyCost.GetWithModifiers(CostModifiers.All));  
 
-    bool internalPlayable = Traverse.Create(__instance).Property("IsPlayable").GetValue<bool>();  
-
-    if (actualCost > currentEnergy && internalPlayable) __result = true;  
-}  
-
+    // 能量不足，但通过了 CanPlay（说明没有被凡庸等其他原因阻挡）时，才亮红框
+    if (actualCost > currentEnergy && __instance.CanPlay(out _, out _)) 
+    {
+        __result = true;  
+    }
+}
 // =========================================================  
 // 4. 【核心修复】：精准拦截官方 OnPlayWrapper 内部的 Hook.BeforeCardPlayed(combatState, cardPlay)  
 //    在卡牌 OnPlay 真正执行前，全自动完成奇迹扣血与事件广播！  

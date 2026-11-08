@@ -49,6 +49,17 @@ public class ALPHANETCharacter : ModCharacterTemplate<ALPHANETCardPool, ALPHANET
             MerchantAnimPath: MerchantScenePath,
             // 篝火休息场景。
             RestSiteAnimPath: RestSiteScenePath),
+            Vfx: new CharacterVfxAssetSet(            
+            // 核心 2：纯代码染色，运行时直接覆盖颜色
+            TrailStyle: new CharacterTrailStyle(
+                OuterTrailModulate: Color.FromHtml("652bd9c0"),      // 外侧轨迹带：深紫
+                InnerTrailModulate: Color.FromHtml("9882fcc0"),      // 内侧轨迹带：亮紫
+                BigSparksColor: Color.FromHtml("652bd9c0"),          // 大火花：深紫
+                LittleSparksColor: Color.FromHtml("9882fcc0"),       // 小火花微光：亮紫
+                PrimarySpriteModulate: Color.FromHtml("652bd9c0"),   // 微缩卡牌外剪影：深紫
+                SecondarySpriteModulate: Color.FromHtml("9882fcc0")  // 微缩卡牌内剪影：亮紫
+            )
+        ),
         Ui: new CharacterUiAssetSet(
             // 人物头像路径。
             IconTexturePath: $"{ImageRoot}/ALPHANET_character_icon.png",
@@ -65,7 +76,7 @@ public class ALPHANETCharacter : ModCharacterTemplate<ALPHANETCardPool, ALPHANET
 
     // 某个字段没写时，RitsuLib 会从占位角色配置里补齐。
     public override string? PlaceholderCharacterId => "ironclad";
-    // 如果你的人物不需要时间线小故事，加上这句。
+    // 如果你的人物不需要时间线小故事，加上false。
     public override bool RequiresEpochAndTimeline => true;
     // 攻击和施法动画延迟，以对齐动画。静态占位资源不需要延迟。
     public override float AttackAnimDelay => 0f;

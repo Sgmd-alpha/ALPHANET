@@ -45,15 +45,37 @@ public sealed class BrkThrough : ModCardTemplate
         var player = Owner!;
         var creature = player.Creature;
 
-        // 将2张此牌的复制品加入弃牌堆
-        for (int i = 0; i < 2; i++)
-        {
-            CardModel card = CreateClone();
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, Owner), 1.2f);
-        }
-        
-        //给自己叠加能力
-        await PowerCmd.Apply<BrkThroughPower>(choiceContext, creature, DynamicVars.Block.BaseValue, creature, this);
+        // 复制品 A：在附魔触发之前生成
+        CardModel card = CreateClone();
+        CardCmd.PreviewCardPileAdd(
+            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, player),
+            1f
+        );
+
+        // 给自己叠加能力
+        await PowerCmd.Apply<BrkThroughPower>(
+            choiceContext,
+            creature,
+            DynamicVars.Block.BaseValue,
+            creature,
+            this
+        );
+    }
+
+    public override async Task AfterCardPlayed(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay)
+    {
+        // 确保是这张牌自己的出牌事件
+        if (cardPlay.Card != this)
+            return;
+
+        // 复制品 B：在附魔触发之后生成
+        CardModel card = CreateClone();
+        CardCmd.PreviewCardPileAdd(
+            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, Owner!),
+            1f
+        );
     }
 
     protected override void OnUpgrade()

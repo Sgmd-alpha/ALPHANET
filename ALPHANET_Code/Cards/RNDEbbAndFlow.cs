@@ -16,7 +16,7 @@ public sealed class RNDEbbAndFlow : ModCardTemplate
 {
     private const string BlockGainKey = "BlockGain";
 
-    public RNDEbbAndFlow() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self, true)
+    public RNDEbbAndFlow() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self, true)
     {
     }
 

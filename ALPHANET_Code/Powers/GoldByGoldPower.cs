@@ -6,6 +6,8 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rewards;
@@ -59,6 +61,35 @@ public sealed class GoldByGoldPower : ModPowerTemplate
     {
         await base.AfterApplied(applier, cardSource);
         DynamicVars["Amount"].BaseValue = Amount;
+    }
+
+    public static IHoverTip CreateHoverTip(Creature? owner, decimal cardGoldValue = DefaultGoldAmount)
+    {
+        // 1. 获取主能力的图鉴模型，提供图标和基础本地化文本
+        var sourceModel = ModelDb.Power<GoldByGoldPower>();
+
+        // 2. 尝试获取敌人身上实际存在的能力实例
+        var mainPower = owner?.GetPower<GoldByGoldPower>();
+
+        // 3. 决定显示的数值（身上没有则显示默认 3 回合，金币显示卡牌上的当前值）
+        decimal displayTurns = (mainPower == null || mainPower.Amount <= 0m) 
+            ? 3m 
+            : mainPower.Amount;
+
+        decimal displayGold = mainPower == null 
+            ? cardGoldValue 
+            : mainPower.DynamicVars["Gold"].BaseValue;
+
+        // 4. 手动注入变量并渲染文本
+        LocString description = sourceModel.Description;
+        description.Add("Amount", displayTurns);
+        description.Add("Gold", displayGold);
+
+        return new HoverTip(
+            sourceModel,
+            description.GetFormattedText(),
+            isSmart: false
+        );
     }
 
     // 当再次对该敌人打出《金金计较》时：累加悬停显示的金币数，并将右下角的剩余回合数刷新回 3 回合

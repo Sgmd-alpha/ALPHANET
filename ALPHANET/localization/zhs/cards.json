@@ -237,7 +237,7 @@
   "ALPHANET_CARD_OUTSIDERS_SLUMBER.description": "立刻连续进行{Turns:diff()}个额外回合。\n在这些回合内你保留[gold]格挡[/gold]，获得[gold]无实体[/gold]并[red]失神[/red]。\n结束你的回合。",
 
   "ALPHANET_CARD_BEYOND_MISERY.title": "病入膏肓",
-  "ALPHANET_CARD_BEYOND_MISERY.description": "在[gold]手牌[/gold]中加入一张[gold]混沌[/gold]。\n一名敌人的负面状态翻倍。",
+  "ALPHANET_CARD_BEYOND_MISERY.description": "一名敌人失去{CalculationBase:diff()}点生命，并额外失去等同于其[gold]虚弱[/gold]与[gold]易伤[/gold]层数总和的生命。\n将该敌人的负面状态翻倍。{InCombat:\n（敌人失去{TotalHpLoss:diff()}点生命）}",
 
   "ALPHANET_CARD_LIFE_DRAIN.title": "生命吸收",
   "ALPHANET_CARD_LIFE_DRAIN.description": "使一名敌人失去{HpLoss:diff()}点生命，溢出量用于[gold]治疗[/gold]自身。\n在[gold]手牌[/gold]中加入一张[gold]混沌[/gold]。{InCombat:\n（回复{Heal}点生命）|}",

@@ -15,6 +15,18 @@ namespace ALPHANET.Cards;
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class ConditionedReflex : ModCardTemplate
 {
+    // 1. 仿照官方 Thrash，使用带有 AssertMutable() 的属性来追踪额外伤害
+    private decimal _extraDamage;
+    private decimal ExtraDamage
+    {
+        get => _extraDamage;
+        set
+        {
+            AssertMutable(); // 通知底层引擎：卡牌状态已发生变化！
+            _extraDamage = value;
+        }
+    }
+
     public ConditionedReflex() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AllEnemies)
     {
     }
@@ -33,43 +45,25 @@ public sealed class ConditionedReflex : ModCardTemplate
         new DamageVar(7m, ValueProp.Move)
     ];
 
-    // ==========================================
-    // 核心机制 1：抽到时自动打出（修正为正确的官方生命周期钩子）
-    // ==========================================
     public override async Task AfterCardDrawn(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
     {
-        // 过滤掉其他牌被抽到的情况，只有自己被抽到时才执行
-        if (card != this)
-        {
-            return;
-        }
-
-        // 调用底层的 AutoPlay 指令。全体攻击不需单体 Target，传 null 即可
+        if (card != this) return;
         await CardCmd.AutoPlay(choiceContext, this, null);
     }
 
-    // ==========================================
-    // 核心机制 2：打出效果与打出后成长
-    // ==========================================
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // 1. 对所有敌人造成伤害
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .TargetingAllOpponents(CombatState!)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
 
-        // 2. 打出后结算成长
         GrowDamageFromStrength();
     }
 
-    // ==========================================
-    // 核心机制 3：保留后成长
-    // ==========================================
     public override Task AfterFlush(PlayerChoiceContext choiceContext, Player player, IReadOnlyCollection<CardModel> flushedCards, IReadOnlyCollection<CardModel> retainedCards)
     {
-        // 判定自己是否在本回合被成功保留
         if (retainedCards.Contains(this))
         {
             GrowDamageFromStrength();
@@ -77,27 +71,38 @@ public sealed class ConditionedReflex : ModCardTemplate
         return Task.CompletedTask;
     }
 
-    // ==========================================
-    // 辅助方法：统一的成长算法
-    // ==========================================
     private void GrowDamageFromStrength()
     {
         if (Owner?.Creature == null) return;
 
         var strength = Owner.Creature.GetPower<StrengthPower>();
 
-        // 只有当力量大于 0 时才增加伤害
         if (strength != null && strength.Amount > 0)
         {
+            // 2. 像 Thrash 一样，直接给 BaseValue 加上伤害，并同步给 ExtraDamage 记录
             DynamicVars.Damage.BaseValue += strength.Amount;
+            ExtraDamage += strength.Amount;
         }
     }
 
-    // ==========================================
-    // 升级逻辑
-    // ==========================================
+    // 3. 必须重写 AfterCloned，防止卡牌在手牌、弃牌堆间移动或被复制时，丢失原本的额外伤害
+    protected override void AfterCloned()
+    {
+        base.AfterCloned();
+        if (ExtraDamage > 0)
+        {
+            DynamicVars.Damage.BaseValue += ExtraDamage;
+        }
+    }
+
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(3m); // 7 -> 10
+    }
+
+    protected override void AfterDowngraded()
+    {
+        base.AfterDowngraded();
+        DynamicVars.Damage.BaseValue += ExtraDamage;
     }
 }

@@ -36,10 +36,21 @@ public sealed class GoldByGold : ModCardTemplate
         new PowerVar<GoldByGoldPower>(3m)
     ];
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromPower<GoldByGoldPower>()
-    ];
+    // 将原本的字段数组改为动态获取的属性 (get)
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips
+    {
+        get
+        {
+            // 获取当前卡牌上的金币数值（如果是用 DynamicVars["Gold"] 存的）
+            decimal currentCardGold = DynamicVars.ContainsKey("Gold") ? DynamicVars["Gold"].BaseValue : 15m;
+
+            return 
+            [
+                // 调用动态生成方法，传入敌人(如果是单体)或 null，以及卡牌的当前金币数
+                GoldByGoldPower.CreateHoverTip(null, currentCardGold) 
+            ];
+        }
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

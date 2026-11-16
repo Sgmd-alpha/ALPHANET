@@ -27,7 +27,7 @@ public sealed class OutsidersSlumberPower : ModPowerTemplate
         var paelsEyeType = typeof(PaelsEye);
         harmony.Patch(paelsEyeType.GetMethod(nameof(PaelsEye.AfterTakingExtraTurn)), prefix: new HarmonyMethod(typeof(OutsidersSlumberPower), nameof(SuppressPaelsEyeTask)));
         harmony.Patch(paelsEyeType.GetMethod(nameof(PaelsEye.BeforeSideTurnEndEarly)), prefix: new HarmonyMethod(typeof(OutsidersSlumberPower), nameof(SuppressPaelsEyeTask)));
-        harmony.Patch(paelsEyeType.GetMethod(nameof(PaelsEye.ShouldTakeExtraTurn)), prefix: new HarmonyMethod(typeof(OutsidersSlumberPower), nameof(SuppressPaelsEyeBool)));
+        harmony.Patch(paelsEyeType.GetMethod(nameof(PaelsEye.ShouldTakeExtraTurnEarly)), prefix: new HarmonyMethod(typeof(OutsidersSlumberPower), nameof(SuppressPaelsEyeBool)));
 
         // 2. 焊死能量入口
         var combatStateType = typeof(PlayerCombatState);

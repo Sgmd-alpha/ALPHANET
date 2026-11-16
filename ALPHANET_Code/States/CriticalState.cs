@@ -94,7 +94,7 @@ public sealed class CriticalState : ModPowerTemplate
         // 机制触发：如果已经处于临界状态，扣除 1 点最大生命值
         if (wasAlreadyInCritical)
         {
-            await CreatureCmd.LoseMaxHp(choiceContext, creature, 1m, false);
+            await CreatureCmd.LoseMaxHp(choiceContext, creature, 1m, null);
         }
 
         // 施加状态本身（此时 choiceContext 绝对非空，绝处逢生抽牌再也不会报错！）
@@ -585,7 +585,7 @@ public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceCo
         }
     }
     
-    public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature target, bool wasRemovalPrevented, float deathAnimLength)
+    public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature target, CardModel? source, bool wasRemovalPrevented, float deathAnimLength)
     {
         if (target.Side == CombatSide.Enemy)
         {

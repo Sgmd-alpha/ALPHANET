@@ -1,4 +1,6 @@
 using ALPHANET.Characters;
+using ALPHANET.Keywords;
+using ALPHANET.Tags;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -24,7 +26,13 @@ public sealed class DistillTheTruth : ModCardTemplate
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
+        ALPHANETKeywords.Miracle,
         CardKeyword.Exhaust
+    ];
+
+    protected override HashSet<CardTag> CanonicalTags => 
+    [
+        ALPHANETTags.Miracle
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

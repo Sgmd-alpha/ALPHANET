@@ -15,7 +15,7 @@ namespace ALPHANET.Cards;
 [RegisterCard(typeof(ALPHANETCardPool))]
 public sealed class GateOfAllWonders : ModCardTemplate
 {
-    public GateOfAllWonders() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self, true)
+    public GateOfAllWonders() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self, true)
     {
     }
 

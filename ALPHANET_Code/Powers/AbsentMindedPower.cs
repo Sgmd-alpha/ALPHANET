@@ -26,7 +26,7 @@ public sealed class AbsentMindedPower : ModPowerTemplate
         var paelsEyeType = typeof(PaelsEye);
         harmony.Patch(paelsEyeType.GetMethod(nameof(PaelsEye.AfterTakingExtraTurn)), prefix: new HarmonyMethod(typeof(AbsentMindedPower), nameof(SuppressPaelsEyeTask)));
         harmony.Patch(paelsEyeType.GetMethod(nameof(PaelsEye.BeforeSideTurnEndEarly)), prefix: new HarmonyMethod(typeof(AbsentMindedPower), nameof(SuppressPaelsEyeTask)));
-        harmony.Patch(paelsEyeType.GetMethod(nameof(PaelsEye.ShouldTakeExtraTurn)), prefix: new HarmonyMethod(typeof(AbsentMindedPower), nameof(SuppressPaelsEyeBool)));
+        harmony.Patch(paelsEyeType.GetMethod(nameof(PaelsEye.ShouldTakeExtraTurnEarly)), prefix: new HarmonyMethod(typeof(AbsentMindedPower), nameof(SuppressPaelsEyeBool)));
 
         var combatStateType = typeof(PlayerCombatState);
         foreach (var method in combatStateType.GetMethods().Where(m => m.Name == "GainEnergy"))

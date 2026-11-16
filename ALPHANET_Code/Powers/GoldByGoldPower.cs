@@ -133,6 +133,7 @@ public sealed class GoldByGoldPower : ModPowerTemplate
     public override Task AfterDeath(
         PlayerChoiceContext choiceContext,
         Creature target,
+        CardModel? source,
         bool wasRemovalPrevented,
         float deathAnimLength)
     {

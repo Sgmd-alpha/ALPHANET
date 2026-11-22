@@ -1,13 +1,12 @@
 using ALPHANET.Characters;
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
-using STS2RitsuLib.Cards.DynamicVars;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -18,8 +17,8 @@ public sealed class Recall : ModCardTemplate
 {
     public override bool GainsBlock => true;
 
-    public Recall() : base(2, CardType.Skill, CardRarity.Common, TargetType.Self) 
-    { 
+    public Recall() : base(2, CardType.Skill, CardRarity.Common, TargetType.Self)
+    {
     }
 
     public override CardAssetProfile AssetProfile => new(
@@ -27,34 +26,14 @@ public sealed class Recall : ModCardTemplate
         PortraitMaterialPath: $"{Entry.ResPath}/images/Portrait/{GetType().Name}PortraitMat.tres"
     );
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+    [
+        CardKeyword.Exhaust
+    ];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        ModCardVars.Int("LossPerUse", 2),
-
-        ModCardVars.ComputedBlock(
-            "ComputedBlock",
-            ctx =>
-            {
-                decimal baseBlock = ctx.BaseValue;
-
-                if (!ctx.IsInCombat || ctx.CombatState is null || ctx.Player is null || ctx.Card is null)
-                {
-                    return baseBlock;
-                }
-
-                decimal lossPerUse = ctx.Card.DynamicVars.GetIntOrDefault("LossPerUse", 2);
-
-                // 统计本回合中这张卡已经开始结算过的次数
-                int playCountThisTurn = 0;
-                if (CombatManager.Instance?.History != null)
-                {
-                    playCountThisTurn = CombatManager.Instance.History.CardPlaysStarted
-                        .Count(e => e.CardPlay?.Card == ctx.Card && e.HappenedThisTurn(ctx.CombatState));
-                }
-
-                return Math.Max(0m, baseBlock - playCountThisTurn * lossPerUse);
-            },
-            baseValue: 10m)
+        new BlockVar(10m, ValueProp.Move)
     ];
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips
@@ -67,7 +46,7 @@ public sealed class Recall : ModCardTemplate
                 previewCard = previewCard.ToMutable();
                 CardCmd.Upgrade(previewCard);
             }
-            return 
+            return
             [
                 HoverTipFactory.FromCard(previewCard)
             ];
@@ -79,12 +58,7 @@ public sealed class Recall : ModCardTemplate
         var player = Owner!;
 
         await CreatureCmd.TriggerAnim(player.Creature, "Cast", player.Character.CastAnimDelay);
-
-        int finalBlock = (int)DynamicVars.EvaluateValueOrDefault("ComputedBlock");
-        if (finalBlock > 0)
-        {
-            await CreatureCmd.GainBlock(player.Creature, finalBlock, ValueProp.Move, cardPlay);
-        }
+        await CreatureCmd.GainBlock(player.Creature, DynamicVars.Block, cardPlay);
 
         CardModel generatedCard = CombatState!.CreateCard<TokenMemories>(player);
         if (IsUpgraded)
@@ -92,13 +66,21 @@ public sealed class Recall : ModCardTemplate
             CardCmd.Upgrade(generatedCard);
         }
 
-        await CardPileCmd.AddGeneratedCardToCombat(generatedCard, PileType.Hand, Owner);
+        await CardPileCmd.AddGeneratedCardToCombat(generatedCard, PileType.Hand, player);
+    }
 
-        // 移除了手动升级 TimesPlayed 的逻辑，历史记录会自动处理且下回合自动清零！
+    // 参考官方 HowlFromBeyond：回合开始（抽牌后的自动结算阶段）时，若此牌位于消耗堆则移回弃牌堆
+    public override async Task AfterAutoPostPlayPhaseEntered(PlayerChoiceContext choiceContext, Player player)
+    {
+        CardPile? pile = Pile;
+        if (pile != null && pile.Type == PileType.Exhaust && player == Owner)
+        {
+            await CardPileCmd.Add(this, PileType.Discard);
+        }
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars["ComputedBlock"].UpgradeValueBy(2m); // 10 -> 12
+        DynamicVars.Block.UpgradeValueBy(2m); // 10 -> 12
     }
 }

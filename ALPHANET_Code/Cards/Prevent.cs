@@ -43,6 +43,7 @@ public sealed class Prevent : ModCardTemplate, ICriticalIndicatorCard
         HoverTipFactory.FromPower<CriticalState>(),
         HoverTipFactory.FromPower<BlockNextTurnPower>()
     ];
+    protected override bool ShouldGlowGoldInternal => Owner?.Creature?.HasPower<CriticalState>() ?? false;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

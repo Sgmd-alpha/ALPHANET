@@ -25,7 +25,7 @@
     <CopyModOnBuild Condition="'$(CopyModOnBuild)' == ''">true</CopyModOnBuild>
     
     <RunPckExport Condition="'$(RunPckExport)' == '' and '$(DesignTimeBuild)' != 'true'">false</RunPckExport>
-    <RunPckExport Condition="'$(RunPckExport)' == ''">false</RunPckExport>
+    <RunPckExport Condition="'$(RunPckExport)' == ''">true</RunPckExport>
 </PropertyGroup>
 
 <!-- 新增 -->

@@ -1,3 +1,11 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+# Build outputs
+bin/
+obj/
+release_temp/
+ALPHANET.zip
+
+# Local configuration
+local.props

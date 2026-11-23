@@ -4,11 +4,11 @@
   "pck_name": "ALPHANET",
   "author": "NOC",
   "description": "H-ARCHITECTURE, BY NOC@ALPHANET.",
-  "version": "0.0.0",
+  "version": "v0.1.0-beta.1",
   "has_pck": true,
   "has_dll": true,
   "affects_gameplay": true,
-  "min_game_version": "0.106.0",
+  "min_game_version": "0.113.0",
   "dependencies": [
     {
       "id": "STS2-RitsuLib",

@@ -122,22 +122,27 @@ public sealed class OptimalCoveredPower : ModPowerTemplate
     private static bool _isRedirectingDamage = false;
     [HarmonyPatch(typeof(Creature), nameof(Creature.LoseHpInternal))]
     [HarmonyPrefix]
-    public static void InterceptTeammateUnblockedHpLoss(Creature __instance, ref decimal amount, ValueProp props)
+    public static void InterceptTeammateUnblockedHpLoss(Creature __instance, ref decimal amount, bool dryRun)
     {
-        if (__instance == null || amount <= 0m)
+        // 预演伤害：不能产生任何实际的伤害转移
+        if (dryRun)
             return;
-
-        // 如果当前正在处理一笔转移伤害，绝对不要二次拦截！
-        // 这确保了：A 替 B 承受伤害时，即使 A 自己也开了最优提案，这笔伤害也会结结实实扣在 A 身上，而不会被 A 再次甩回去给 B！
+        if (amount <= 0m)
+            return;
+        // 防止转移伤害再次被转移
         if (_isRedirectingDamage)
             return;
-
         var coveredPower = __instance.GetPower<OptimalCoveredPower>();
-        if (coveredPower == null || coveredPower.Protector == null || !coveredPower.Protector.IsAlive)
+
+        if (coveredPower == null ||
+            coveredPower.Protector == null ||
+            !coveredPower.Protector.IsAlive)
             return;
 
-        // 仅拦截敌人攻击穿透格挡造成的未格挡伤害
+        // 记录即将转移的生命损失
         coveredPower._interceptedUnblockedDamages.Enqueue(amount);
+
+        // 原目标不再受到这笔生命损失
         amount = 0m;
     }
 
